@@ -1,9 +1,16 @@
 @import "font";
+@import "components/overrides/overrides.scss";
+
 @import "vuetify/lib/styles/main.sass";
+
+// ================================== //
+// Vuetify overrides
+// ================================== //
+
 // ================================== //
 // Icons
 // ================================== //
-@import "@mdi/font/scss/materialdesignicons.scss";
+
 .spacer {
-  padding: 75px 0;
+  padding: 50px 0;
 }
