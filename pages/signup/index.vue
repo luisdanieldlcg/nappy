@@ -114,7 +114,7 @@ const emailRules = [
 const passwordRules = [
   (text: string) => !!text || "Password is required",
   (text: string) =>
-    text.length > 8 || "Your password must be at least 8 characters long.",
+    text.length >= 8 || "Your password must be at least 8 characters long.",
 ];
 
 const passwordConfirmRules = [
@@ -122,6 +122,7 @@ const passwordConfirmRules = [
   (text: string) => text === password.value || "Passwords do not match.",
 ];
 const signupForm = ref<HTMLFormElement | null>(null);
+
 const onSubmit = () => {
   if (signupForm.value) {
     signupForm.value.validate();
