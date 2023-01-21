@@ -16,6 +16,9 @@ const lightTheme: ThemeDefinition = {
     "card-aqua-icon-bg": "#b0cbeb",
     "card-aqua-icon": "#103996",
     "card-aqua-accent": "#04297a",
+    "card-green-icon-bg": "#D7E9B9",
+    "card-green-icon": "#5F8D4E",
+    "card-green-accent": "#61876E",
   },
 };
 export default defineNuxtPlugin((nuxtApp) => {
