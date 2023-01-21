@@ -32,7 +32,9 @@
       </v-list>
     </v-app-bar>
     <v-main>
-      <slot></slot>
+      <v-container class="my-8 mx-3" fluid>
+        <slot></slot>
+      </v-container>
     </v-main>
   </div>
 </template>
