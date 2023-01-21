@@ -19,7 +19,7 @@
     <!-----------------Start Content------------>
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" sm="8" md="6" lg="5" xl="5">
+        <v-col cols="12" sm="7" md="6" lg="5" xl="4">
           <v-card class="card-shadow">
             <v-card-text>
               <TextField
@@ -36,16 +36,12 @@
               <v-btn color="primary" elevation="0" variant="flat" width="100%">
                 submit</v-btn
               >
-              <v-container>
-                <p>
-                  Not a member yet?
-                  <span class="text-primary highlight-link">
-                    <nuxt-link to="/signup"> Signup instead. </nuxt-link>
-                  </span>
-                </p>
-              </v-container>
-
-              <nuxt-link to="/"> </nuxt-link>
+              <p class="text-center mt-8">
+                Not a member yet?
+                <span class="text-primary highlight-link">
+                  <nuxt-link to="/signup"> Signup instead. </nuxt-link>
+                </span>
+              </p>
             </v-card-text>
           </v-card>
         </v-col>

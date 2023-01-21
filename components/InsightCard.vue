@@ -33,7 +33,6 @@ const props = defineProps({
     default: "aqua",
   },
 });
-console.log(`text-card-${props.theme}-icon`);
 </script>
 
 <style scoped></style>

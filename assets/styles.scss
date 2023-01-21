@@ -17,9 +17,12 @@
 
 a {
   text-decoration: none !important;
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
   &:visited {
     text-decoration: inherit;
     color: inherit;
-    cursor: auto;
+    cursor: pointer;
   }
 }

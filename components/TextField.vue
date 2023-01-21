@@ -16,7 +16,8 @@ const props = defineProps({
     default: false,
   },
 });
-const showText = ref(false);
+// By default show text if there is no eye property
+const showText = ref(!props.withEye);
 const getInnerIcon = computed(() => {
   if (!props.withEye) {
     return undefined;
