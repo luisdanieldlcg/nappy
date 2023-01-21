@@ -4,7 +4,7 @@
     <div class="spacer">
       <v-container class="spacer">
         <v-row justify="center">
-          <v-col cols="12" sm="10" md="9" lg="4">
+          <v-col cols="12" sm="10" md="9" lg="5">
             <div class="text-center">
               <h2 class="ui-title font-weight-bold">Login</h2>
               <p class="text-muted">
