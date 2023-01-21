@@ -1,9 +1,26 @@
 <template>
   <div>
-    <v-navigation-drawer>
-      <v-list :items="items"> </v-list>
+    <v-navigation-drawer color="background">
+      <v-list-item>
+        <v-list-item-title
+          class="text-center"
+          style="font-size: 24px; padding: 20px"
+        >
+          Nap<span class="text-primary">py</span>
+        </v-list-item-title>
+      </v-list-item>
+      <v-divider></v-divider>
+      <div class="spacer">
+        <v-container>
+          <v-row>
+            <v-col>
+              <v-list :items="items" active-color="primary" />
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
     </v-navigation-drawer>
-    <v-app-bar elevation="1.0">
+    <v-app-bar flat color="background">
       <v-app-bar-title> Dashboard </v-app-bar-title>
       <v-list>
         <v-list-item
@@ -14,8 +31,9 @@
         </v-list-item>
       </v-list>
     </v-app-bar>
-    <v-main> main </v-main>
-    <slot></slot>
+    <v-main>
+      <slot></slot>
+    </v-main>
   </div>
 </template>
 

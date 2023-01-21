@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtLayout name="app">
-      <h1>Hi, Welcome back</h1>
+      <h1>Cards</h1>
     </NuxtLayout>
   </div>
 </template>

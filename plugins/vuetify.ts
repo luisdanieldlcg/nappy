@@ -3,8 +3,11 @@ import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import { aliases, mdi } from "vuetify/iconsets/mdi";
-const lightTheme = {
+import { ThemeDefinition } from "vuetify/lib/index";
+
+const lightTheme: ThemeDefinition = {
   colors: {
+    background: "#f9fafb",
     muted: "#8d97ad",
     primary: "#EB455F",
   },
