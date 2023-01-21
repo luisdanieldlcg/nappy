@@ -14,3 +14,12 @@
 .spacer {
   padding: 50px 0;
 }
+
+a {
+  text-decoration: none !important;
+  &:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+}
