@@ -117,7 +117,7 @@ import { useSignupStore } from "~~/stores/signup_store";
 const signupForm = ref<HTMLFormElement | null>(null);
 const signupController = useSignupStore();
 const onSubmit = async () => {
-  // Fast Return if for some reason the html element is not attacheds
+  // Fast Return if for some reason the html element is not attached
   if (!signupForm.value) {
     return;
   }

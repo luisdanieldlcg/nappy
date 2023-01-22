@@ -86,7 +86,7 @@ import { useLoginStore } from "~/stores/login_store";
 const loginController = useLoginStore();
 const loginForm = ref<HTMLFormElement | null>(null);
 const onSubmit = async () => {
-  // Fast Return if for some reason the html element is not attacheds
+  // Fast Return if for some reason the html element is not attached
   if (!loginForm.value) {
     return;
   }
