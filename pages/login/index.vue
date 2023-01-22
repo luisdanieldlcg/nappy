@@ -17,18 +17,23 @@
     </div>
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" lg="5">
-          <v-alert
-            v-model="loginController.viewState.showAlert"
-            type="error"
-            border="start"
-            variant="tonal"
-            color="#cf6679"
-            closable
-            class="card-shadow"
-          >
-            {{ loginController.viewState.errorMessage }}
-          </v-alert>
+        <v-col cols="12" sm="7" md="6" lg="4" xs="5">
+          <v-expand-transition>
+            <div v-if="loginController.viewState.showAlert">
+              <v-alert
+                v-model="loginController.viewState.showAlert"
+                type="error"
+                border="start"
+                variant="tonal"
+                color="#cf6679"
+                class="card-shadow"
+                prominent
+                closable
+              >
+                {{ loginController.viewState.errorMessage }}
+              </v-alert>
+            </div>
+          </v-expand-transition>
         </v-col>
       </v-row>
     </v-container>
