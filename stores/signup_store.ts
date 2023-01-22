@@ -1,6 +1,6 @@
 import ViewState from "~/state/view";
 import * as AuthAPI from "~/api/AuthAPI";
-import { AppResponse, AuthResponse } from "~/api/interfaces/auth_interface";
+import { AppResponse } from "~/api/interfaces/auth_interface";
 export const useSignupStore = defineStore("signup", () => {
   const form = reactive({
     email: "",
@@ -8,13 +8,16 @@ export const useSignupStore = defineStore("signup", () => {
     checkbox: false,
   });
   const viewState = reactive(new ViewState());
-  const signup = async () => {
+  const signup = async (onReady: () => void) => {
     viewState.setLoading(true);
     await AuthAPI.signup({
       email: form.email,
       password: form.password,
       onError: displayError,
-      onSuccess: redirect,
+      onSuccess: (response) => {
+        setIdle();
+        onReady();
+      },
     });
     viewState.setLoading(false);
   };
@@ -22,9 +25,12 @@ export const useSignupStore = defineStore("signup", () => {
     viewState.showAlert = true;
     viewState.setErrorMsg(error.message);
   };
-  const redirect = (response: AuthResponse) => {
+
+  const setIdle = () => {
     viewState.showAlert = false;
-    console.log(JSON.stringify(response));
+    form.checkbox = false;
+    form.email = "";
+    form.password = "";
   };
 
   const checkboxRules = [

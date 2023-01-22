@@ -7,13 +7,16 @@ export const useLoginStore = defineStore("login", () => {
     password: "",
   });
   const viewState = reactive(new ViewState());
-  const logIn = async () => {
+  const logIn = async (onReady: () => void) => {
     viewState.setLoading(true);
     await AuthAPI.login({
       email: form.email,
       password: form.password,
       onError: displayError,
-      onSuccess: redirect,
+      onSuccess: (response) => {
+        setIdle();
+        onReady();
+      },
     });
     viewState.setLoading(false);
   };
@@ -21,9 +24,10 @@ export const useLoginStore = defineStore("login", () => {
     viewState.showAlert = true;
     viewState.setErrorMsg(error.message);
   };
-  const redirect = (response: AuthResponse) => {
+  const setIdle = () => {
     viewState.showAlert = false;
-    console.log(JSON.stringify(response));
+    form.email = "";
+    form.password = "";
   };
   const emailRules = [
     (text: string) => !!text || "Email is required",

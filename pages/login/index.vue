@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import { useLoginStore } from "~/stores/login_store";
 const loginController = useLoginStore();
+const router = useRouter();
 const loginForm = ref<HTMLFormElement | null>(null);
 const onSubmit = async () => {
   // Fast Return if for some reason the html element is not attached
@@ -95,7 +96,9 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  await loginController.logIn();
+  await loginController.logIn(() => {
+    router.push("/app/");
+  });
 };
 </script>
 

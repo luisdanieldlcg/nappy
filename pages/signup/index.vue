@@ -30,7 +30,10 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
-            <v-card class="card-shadow">
+            <v-card
+              class="card-shadow"
+              :loading="signupController.viewState.loading ? 'red' : undefined"
+            >
               <v-card-text>
                 <TextField
                   v-model="signupController.form.email"
@@ -115,6 +118,7 @@
 import { useSignupStore } from "~~/stores/signup_store";
 
 const signupForm = ref<HTMLFormElement | null>(null);
+const router = useRouter();
 const signupController = useSignupStore();
 const onSubmit = async () => {
   // Fast Return if for some reason the html element is not attached
@@ -126,7 +130,9 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  await signupController.signup();
+  await signupController.signup(() => {
+    router.push("/login");
+  });
 };
 </script>
 
