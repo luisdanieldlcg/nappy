@@ -15,6 +15,23 @@
     </div>
     <!---------------End Header--------------->
     <!-----------------Start Content------------>
+    <v-container>
+      <v-row justify="center">
+        <v-col cols="12" lg="5">
+          <v-alert
+            v-model="signupController.viewState.showAlert"
+            type="error"
+            border="start"
+            variant="tonal"
+            color="#cf6679"
+            closable
+            class="card-shadow"
+          >
+            {{ signupController.viewState.errorMessage }}
+          </v-alert>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-form ref="signupForm" @submit.prevent="onSubmit">
       <v-container>
         <v-row justify="center">
@@ -22,17 +39,18 @@
             <v-card class="card-shadow">
               <v-card-text>
                 <TextField
+                  v-model="signupController.form.email"
                   hint="Enter your email address."
                   label="Email"
                   clearable
-                  :rules="emailRules"
+                  :rules="signupController.emailRules"
                   required
                 />
                 <TextField
-                  v-model="password"
+                  v-model="signupController.form.password"
                   label="Password"
                   hint="Your password must be at least 8 characters long."
-                  :rules="passwordRules"
+                  :rules="signupController.passwordRules"
                   required
                   withEye
                 />
@@ -42,14 +60,14 @@
                   hint="Confirm your password."
                   required
                   withEye
-                  :rules="passwordConfirmRules"
+                  :rules="signupController.passwordConfirmRules"
                 />
 
                 <v-checkbox
-                  v-model="checkbox"
+                  v-model="signupController.form.checkbox"
                   class="custom-checkbox"
                   color="primary"
-                  :rules="checkboxRules"
+                  :rules="signupController.checkboxRules"
                 >
                   <template v-slot:label>
                     <div>
@@ -81,6 +99,7 @@
                   variant="flat"
                   width="100%"
                   type="submit"
+                  class="mt-5"
                 >
                   submit</v-btn
                 >
@@ -100,33 +119,21 @@
 </template>
 
 <script setup lang="ts">
-const password = ref("");
-const checkbox = ref(false);
-const checkboxRules = [
-  (check: Boolean) =>
-    !!check ||
-    "You must agree the Terms of Service if you want to create an account.",
-];
-const emailRules = [
-  (text: string) => !!text || "Email is required",
-  (text: string) => /.+@.+/.test(text) || "Email must be valid",
-];
-const passwordRules = [
-  (text: string) => !!text || "Password is required",
-  (text: string) =>
-    text.length >= 8 || "Your password must be at least 8 characters long.",
-];
+import { useSignupStore } from "~~/stores/signup_store";
 
-const passwordConfirmRules = [
-  (text: string) => !!text || "Password Confirm is required",
-  (text: string) => text === password.value || "Passwords do not match.",
-];
 const signupForm = ref<HTMLFormElement | null>(null);
-
-const onSubmit = () => {
-  if (signupForm.value) {
-    signupForm.value.validate();
+const signupController = useSignupStore();
+const onSubmit = async () => {
+  // Fast Return if for some reason the html element is not attacheds
+  if (!signupForm.value) {
+    return;
   }
+  const { valid } = await signupForm.value.validate();
+  // Return if this is not a valid form
+  if (!valid) {
+    return;
+  }
+  await signupController.signup();
 };
 </script>
 
@@ -134,9 +141,5 @@ const onSubmit = () => {
 .checkbox-highlight {
   color: #f82a2a;
   opacity: 1;
-}
-.v-input__details {
-  margin-left: 20px !important;
-  color: rebeccapurple;
 }
 </style>

@@ -18,15 +18,26 @@ export const useLoginStore = defineStore("login", () => {
     viewState.setLoading(false);
   };
   const displayError = (error: AppResponse) => {
+    viewState.showAlert = true;
     viewState.setErrorMsg(error.message);
-    console.log(JSON.stringify(error));
   };
   const redirect = (response: AuthResponse) => {
+    viewState.showAlert = false;
     console.log(JSON.stringify(response));
   };
+  const emailRules = [
+    (text: string) => !!text || "Email is required",
+    (text: string) => /.+@.+/.test(text) || "This is not a valid email",
+  ];
+  const passwordRules = [
+    (text: string) => !!text || "Password is required",
+    (text: string) => text.length >= 8 || "This is not a valid password",
+  ];
   return {
     viewState,
     form,
     logIn,
+    emailRules,
+    passwordRules,
   };
 });

@@ -1,14 +1,13 @@
 export default class ViewState {
   loading: boolean;
   errorMessage: string;
+  showAlert: boolean;
   constructor() {
     this.loading = false;
     this.errorMessage = "";
+    this.showAlert = false;
   }
 
-  hasError() {
-    return this.errorMessage.length > 0;
-  }
   isLoading() {
     return this.loading;
   }
