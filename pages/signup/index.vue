@@ -15,23 +15,17 @@
     </div>
     <!---------------End Header--------------->
     <!-----------------Start Content------------>
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="12" lg="5">
-          <v-alert
-            v-model="signupController.viewState.showAlert"
-            type="error"
-            border="start"
-            variant="tonal"
-            color="#cf6679"
-            closable
-            class="card-shadow"
-          >
-            {{ signupController.viewState.errorMessage }}
-          </v-alert>
-        </v-col>
-      </v-row>
-    </v-container>
+
+    <!-------------Start Animation Alert---------->
+    <AnimatedAlert
+      :show="signupController.viewState.showAlert"
+      v-model="signupController.viewState.showAlert"
+    >
+      <template #default>
+        {{ signupController.viewState.errorMessage }}
+      </template>
+    </AnimatedAlert>
+    <!-------------End Animation Alert---------->
     <v-form ref="signupForm" @submit.prevent="onSubmit">
       <v-container>
         <v-row justify="center">
@@ -69,22 +63,21 @@
                   color="primary"
                   :rules="signupController.checkboxRules"
                 >
-                  <template v-slot:label>
+                  <template #label>
                     <div>
                       I agree the
                       <client-only>
                         <v-tooltip location="bottom">
                           <template v-slot:activator="{ props }">
-                            <a
+                            <nuxt-link
+                              class="checkbox-highlight"
                               target="_blank"
                               href="https://vuetifyjs.com"
                               v-bind="props"
                               @click.stop
                             >
-                              <strong class="checkbox-highlight"
-                                >Terms of Service</strong
-                              >
-                            </a>
+                              Terms of Service
+                            </nuxt-link>
                           </template>
                           Opens the Terms of Service in a new window.
                         </v-tooltip>
@@ -139,7 +132,6 @@ const onSubmit = async () => {
 
 <style scoped>
 .checkbox-highlight {
-  color: #f82a2a;
-  opacity: 1;
+  color: #e60000;
 }
 </style>

@@ -10,6 +10,7 @@ const lightTheme: ThemeDefinition = {
     background: "#f9fafb",
     muted: "#8d97ad",
     primary: "#EB455F",
+    
     "card-red-icon-bg": "#FAD4D4",
     "card-red-icon": "#F94C66",
     "card-red-accent": "#F55050",
