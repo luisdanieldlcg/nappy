@@ -1,23 +1,16 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import {
-  AppResponse,
-  AuthRequest,
-  AuthResponse,
-  Status,
-} from "./interfaces/auth_interface";
+import { AuthRequest, AuthResponse, Status } from "./interfaces/auth_interface";
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:3001/api/v1/auth",
+  baseURL: "http://localhost:3001/api/v1/auth",
+  withCredentials: true,
 });
-
-const handleAuthSuccess = (response: AxiosResponse, request: AuthRequest) => {
+const handleAuthSuccess = (
+  response: AxiosResponse<AuthResponse>,
+  request: AuthRequest
+) => {
   const json = response.data;
-  const authResponse: AuthResponse = {
-    message: json.message as string,
-    status: json.status as Status,
-    token: json.token as string,
-  };
-  return request.onSuccess(authResponse);
+  return request.onSuccess(json);
 };
 const handleAuthError = (error: any, request: AuthRequest) => {
   if (error instanceof AxiosError) {
@@ -47,7 +40,7 @@ const handleAuthError = (error: any, request: AuthRequest) => {
 
 export const signup = async (request: AuthRequest) => {
   try {
-    const response = await API.post(
+    const response = await API.post<AuthResponse>(
       "/signup",
       {
         email: request.email,
@@ -66,7 +59,7 @@ export const signup = async (request: AuthRequest) => {
 };
 export const login = async (request: AuthRequest) => {
   try {
-    const response = await API.post(
+    const response = await API.post<AuthResponse>(
       "/login",
       {
         email: request.email,

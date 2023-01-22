@@ -97,6 +97,10 @@ const onSubmit = async () => {
     return;
   }
   await loginController.logIn(() => {
+    const jwt = useCookie("jwt", {
+      httpOnly: true,
+    });
+    console.log(jwt);
     router.push("/app/");
   });
 };
