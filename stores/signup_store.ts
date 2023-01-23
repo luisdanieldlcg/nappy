@@ -1,6 +1,6 @@
 import ViewState from "~/state/view";
-import * as AuthAPI from "~/api/AuthAPI";
-import { AppResponse } from "~/api/interfaces/auth_interface";
+import { RawResponse } from "~/api/interfaces";
+import { useAuthStore } from "./auth_store";
 export const useSignupStore = defineStore("signup", () => {
   const form = reactive({
     email: "",
@@ -10,7 +10,8 @@ export const useSignupStore = defineStore("signup", () => {
   const viewState = reactive(new ViewState());
   const signup = async (onReady: () => void) => {
     viewState.setLoading(true);
-    await AuthAPI.signup({
+    const authController = useAuthStore();
+    await authController.signup({
       email: form.email,
       password: form.password,
       onError: displayError,
@@ -21,7 +22,7 @@ export const useSignupStore = defineStore("signup", () => {
     });
     viewState.setLoading(false);
   };
-  const displayError = (error: AppResponse) => {
+  const displayError = (error: RawResponse) => {
     viewState.showAlert = true;
     viewState.setErrorMsg(error.message);
   };

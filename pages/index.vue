@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: "redirect",
+  middleware: "init",
 });
 </script>
 
