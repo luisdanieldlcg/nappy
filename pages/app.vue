@@ -1,38 +1,40 @@
 <template>
   <div>
-    <v-navigation-drawer class="rounded" style="border: none">
-      <v-list-item>
+    <v-navigation-drawer
+      style="border: none"
+      :rail="rail"
+      permanent
+      tz
+      @click="rail = false"
+    >
+      <v-list-item
+        nav
+        prepend-avatar="https://apprecs.org/ios/images/app-icons/256/24/851990820.jpg"
+      >
         <v-list-item-title
           class="text-center"
           style="font-size: 24px; padding: 20px"
         >
           Nap<span class="text-grey">py</span>
         </v-list-item-title>
+        <template #append>
+          <v-btn
+            variant="text"
+            icon="mdi-chevron-left"
+            @click.stop="rail = !rail"
+          ></v-btn>
+        </template>
       </v-list-item>
+
       <v-divider></v-divider>
+
       <div class="spacer">
-        <v-container>
-          <v-row>
-            <v-col>
-              <v-list :items="items" color="primary" />
-            </v-col>
-          </v-row>
-        </v-container>
+        <v-list :items="items" color="primary" density="comfortable" nav />
       </div>
     </v-navigation-drawer>
     <v-app-bar flat color="background">
       <v-app-bar-title> Dashboard </v-app-bar-title>
-
-      <v-switch
-        v-model="dark"
-        @click="onToggle"
-        inset
-        :ripple="false"
-        false-icon="mdi-white-balance-sunny"
-        true-icon="mdi-weather-night"
-        label="Theme switcher"
-      >
-      </v-switch>
+      <ThemeSwitcher />
       <v-list>
         <v-list-item
           prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
@@ -44,23 +46,17 @@
     </v-app-bar>
     <v-main>
       <v-container class="my-8 mx-10" fluid>
-        <slot></slot>
+        <NuxtPage />
       </v-container>
     </v-main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useTheme } from "vuetify/lib/framework.mjs";
-const themeController = useTheme();
-const togglerIconColor = computed(() => {
-  return "white";
+definePageMeta({
+  middleware: "auth",
 });
-const dark = ref(false);
-const onToggle = (dark: unknown) => {
-  themeController.global.name.value =
-    themeController.global.name.value === "dark" ? "light" : "dark";
-};
+const rail = ref(true);
 
 const items = [
   {
@@ -86,10 +82,3 @@ const items = [
   },
 ];
 </script>
-
-<style lang="scss">
-$color: v-bind(togglerIconColor);
-.mdi-white-balance-sunny {
-  color: $color;
-}
-</style>

@@ -55,6 +55,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const verifyAuth = async (request: RawRequest) => {
     try {
+      console.log("verify");
       const response = await AuthAPI.get<RawResponse>("/verify");
       const json = response.data;
       return request.onSuccess(json);

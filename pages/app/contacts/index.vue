@@ -1,8 +1,6 @@
 <template>
   <div>
-    <NuxtLayout name="app">
-      <h1>Contacts</h1>
-    </NuxtLayout>
+    <h1>Contacts</h1>
   </div>
 </template>
 
