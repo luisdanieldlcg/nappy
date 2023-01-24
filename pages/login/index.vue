@@ -34,7 +34,7 @@
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
             <v-card
-              class="card-shadow"
+              class="elevation-0"
               :loading="loginController.viewState.loading ? 'red' : undefined"
             >
               <v-card-text>
@@ -57,7 +57,7 @@
 
                 <v-btn
                   class="mt-5"
-                  color="primary"
+                  color="black"
                   elevation="0"
                   variant="flat"
                   width="100%"
@@ -68,7 +68,9 @@
                 <p class="text-center mt-8">
                   Not a member yet?
                   <span class="text-primary highlight-link">
-                    <nuxt-link to="/signup"> Signup instead. </nuxt-link>
+                    <nuxt-link to="/signup" class="text-black text-font-bold">
+                      Signup instead.
+                    </nuxt-link>
                   </span>
                 </p>
               </v-card-text>
@@ -97,10 +99,6 @@ const onSubmit = async () => {
     return;
   }
   await loginController.logIn(() => {
-    const jwt = useCookie("jwt", {
-      httpOnly: true,
-    });
-    console.log(jwt);
     router.push("/app/");
   });
 };

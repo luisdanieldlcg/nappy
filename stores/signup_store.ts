@@ -5,6 +5,7 @@ export const useSignupStore = defineStore("signup", () => {
   const form = reactive({
     email: "",
     password: "",
+    passwordConfirm: "",
     checkbox: false,
   });
   const viewState = reactive(new ViewState());
@@ -14,6 +15,7 @@ export const useSignupStore = defineStore("signup", () => {
     await authController.signup({
       email: form.email,
       password: form.password,
+      passwordConfirm: form.passwordConfirm,
       onError: displayError,
       onSuccess: (response) => {
         setIdle();

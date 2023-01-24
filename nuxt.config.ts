@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vuetify"],
   },
-  router: {},
+  ssr: false,
   modules: [
     [
       "@pinia/nuxt",

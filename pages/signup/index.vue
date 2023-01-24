@@ -31,7 +31,7 @@
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
             <v-card
-              class="card-shadow"
+              class="elevation-0"
               :loading="signupController.viewState.loading ? 'red' : undefined"
             >
               <v-card-text>
@@ -53,6 +53,7 @@
                 />
 
                 <TextField
+                  v-model="signupController.form.passwordConfirm"
                   label="Password Confirm"
                   hint="Confirm your password."
                   required

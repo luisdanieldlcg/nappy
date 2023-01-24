@@ -8,9 +8,12 @@ export interface RawRequest {
   onError: (error: RawResponse) => void;
 }
 
-export interface AuthRequest extends RawRequest {
+export interface LoginRequest extends RawRequest {
   email: string;
   password: string;
+}
+export interface SignupRequest extends LoginRequest {
+  passwordConfirm: string;
 }
 
 export interface AuthResponse extends RawResponse {

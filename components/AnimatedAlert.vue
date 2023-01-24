@@ -11,8 +11,7 @@
                 border="start"
                 type="error"
                 variant="tonal"
-                color="#cf6679"
-                class="light-shadow"
+                color="#000000"
                 closable
               >
                 <template #close="{ toggle }">

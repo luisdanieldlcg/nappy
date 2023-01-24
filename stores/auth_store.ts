@@ -1,15 +1,16 @@
 import { AuthAPI } from "~/api/API";
 import { AxiosError } from "axios";
 import {
-  AuthRequest,
+  LoginRequest,
   AuthResponse,
   RawRequest,
   RawResponse,
   serverError,
+  SignupRequest,
 } from "~/api/interfaces";
 
 export const useAuthStore = defineStore("auth", () => {
-  const login = async (request: AuthRequest) => {
+  const login = async (request: LoginRequest) => {
     try {
       const response = await AuthAPI.post<AuthResponse>(
         "/login",
@@ -30,13 +31,14 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
-  const signup = async (request: AuthRequest) => {
+  const signup = async (request: SignupRequest) => {
     try {
       const response = await AuthAPI.post<AuthResponse>(
         "/signup",
         {
           email: request.email,
           password: request.password,
+          passwordConfirm: request.passwordConfirm,
         },
         {
           headers: {

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-card class="text-center my-6 insight-card">
+    <v-card class="text-center my-6 insight-card elevation-0">
       <v-card-text>
         <v-btn
-          :class="`text-card-${props.theme}-icon mb-6`"
-          :color="`card-${props.theme}-icon-bg`"
+          variant="tonal"
+          color="primary"
           :icon="icon"
           size="64"
           :ripple="false"
           elevation="0"
         ></v-btn>
-        <p :class="`text-h3 font-weight-bold text-card-${props.theme}-accent`">
+        <p :class="`text-h3 font-weight-bold`">
           {{ quantity }}
         </p>
         <p class="text-h6 font-weight-bold">{{ title }}</p>

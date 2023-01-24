@@ -7,10 +7,25 @@ import { ThemeDefinition } from "vuetify/lib/index";
 
 const lightTheme: ThemeDefinition = {
   colors: {
-    background: "#f9fafb",
+    background: "#f5f7fa",
     muted: "#8d97ad",
-    primary: "#EB455F",
-    
+    primary: "#000000",
+    "card-red-icon-bg": "#FAD4D4",
+    "card-red-icon": "#F94C66",
+    "card-red-accent": "#F55050",
+    "card-aqua-icon-bg": "#b0cbeb",
+    "card-aqua-icon": "#103996",
+    "card-aqua-accent": "#04297a",
+    "card-green-icon-bg": "#D7E9B9",
+    "card-green-icon": "#5F8D4E",
+    "card-green-accent": "#61876E",
+  },
+};
+
+const darkTheme: ThemeDefinition = {
+  colors: {
+    muted: "#8d97ad",
+    primary: "white",
     "card-red-icon-bg": "#FAD4D4",
     "card-red-icon": "#F94C66",
     "card-red-accent": "#F55050",
@@ -29,6 +44,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     theme: {
       themes: {
         light: lightTheme,
+        dark: darkTheme,
       },
     },
     icons: {

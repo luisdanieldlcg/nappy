@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-navigation-drawer color="background">
+    <v-navigation-drawer class="rounded" style="border: none">
       <v-list-item>
         <v-list-item-title
           class="text-center"
           style="font-size: 24px; padding: 20px"
         >
-          Nap<span class="text-primary">py</span>
+          Nap<span class="text-grey">py</span>
         </v-list-item-title>
       </v-list-item>
       <v-divider></v-divider>
@@ -14,7 +14,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <v-list :items="items" active-color="primary" />
+              <v-list :items="items" color="primary" />
             </v-col>
           </v-row>
         </v-container>
@@ -22,6 +22,17 @@
     </v-navigation-drawer>
     <v-app-bar flat color="background">
       <v-app-bar-title> Dashboard </v-app-bar-title>
+
+      <v-switch
+        v-model="dark"
+        @click="onToggle"
+        inset
+        :ripple="false"
+        false-icon="mdi-white-balance-sunny"
+        true-icon="mdi-weather-night"
+        label="Theme switcher"
+      >
+      </v-switch>
       <v-list>
         <v-list-item
           prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
@@ -32,7 +43,7 @@
       </v-list>
     </v-app-bar>
     <v-main>
-      <v-container class="my-8 mx-3" fluid>
+      <v-container class="my-8 mx-10" fluid>
         <slot></slot>
       </v-container>
     </v-main>
@@ -40,6 +51,17 @@
 </template>
 
 <script setup lang="ts">
+import { useTheme } from "vuetify/lib/framework.mjs";
+const themeController = useTheme();
+const togglerIconColor = computed(() => {
+  return "white";
+});
+const dark = ref(false);
+const onToggle = (dark: unknown) => {
+  themeController.global.name.value =
+    themeController.global.name.value === "dark" ? "light" : "dark";
+};
+
 const items = [
   {
     title: "Overview",
@@ -65,4 +87,9 @@ const items = [
 ];
 </script>
 
-<style scoped></style>
+<style lang="scss">
+$color: v-bind(togglerIconColor);
+.mdi-white-balance-sunny {
+  color: $color;
+}
+</style>
