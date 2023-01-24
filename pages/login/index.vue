@@ -45,6 +45,7 @@
                   clearable
                   :rules="loginController.emailRules"
                   required
+                  autocomplete="off"
                 />
                 <TextField
                   v-model="loginController.form.password"
@@ -53,6 +54,7 @@
                   withEye
                   :rules="loginController.passwordRules"
                   required
+                  autocomplete="new-password"
                 />
 
                 <v-btn
