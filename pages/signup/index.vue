@@ -26,7 +26,7 @@
       </template>
     </AnimatedAlert>
     <!-------------End Animation Alert---------->
-    <v-form ref="signupForm" @submit.prevent="onSubmit">
+    <v-form ref="signupForm" @submit.prevent="onSubmit" autocomplete="off">
       <v-container>
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
@@ -42,6 +42,7 @@
                   clearable
                   :rules="signupController.emailRules"
                   required
+                  autocomplete="off"
                 />
                 <TextField
                   v-model="signupController.form.password"
@@ -50,6 +51,7 @@
                   :rules="signupController.passwordRules"
                   required
                   withEye
+                  autocomplete="new-password"
                 />
 
                 <TextField
@@ -59,6 +61,7 @@
                   required
                   withEye
                   :rules="signupController.passwordConfirmRules"
+                  autocomplete="new-password"
                 />
 
                 <v-checkbox

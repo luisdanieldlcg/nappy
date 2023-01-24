@@ -29,7 +29,7 @@
     <!-------------End Animation Alert---------->
 
     <!-----------------Start Content------------>
-    <v-form ref="loginForm" @submit.prevent="onSubmit">
+    <v-form ref="loginForm" @submit.prevent="onSubmit" autocomplete="off">
       <v-container>
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
