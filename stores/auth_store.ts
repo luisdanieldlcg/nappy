@@ -59,7 +59,16 @@ export const useAuthStore = defineStore("auth", () => {
       const json = response.data;
       return request.onSuccess(json);
     } catch (error) {
-      return handleAuthError(error, request); 
+      return handleAuthError(error, request);
+    }
+  };
+  const signOut = async (request: RawRequest) => {
+    try {
+      const response = await AuthAPI.get<RawResponse>("/sign-out");
+      const json = response.data;
+      return request.onSuccess(json);
+    } catch (error) {
+      return handleAuthError(error, request);
     }
   };
 
@@ -81,5 +90,6 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     signup,
     verifyAuth,
+    signOut,
   };
 });
