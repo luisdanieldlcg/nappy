@@ -55,12 +55,11 @@ export const useAuthStore = defineStore("auth", () => {
 
   const verifyAuth = async (request: RawRequest) => {
     try {
-      console.log("verify");
-      const response = await AuthAPI.get<RawResponse>("/verify");
+      const response = await AuthAPI.get<RawResponse>("/verifyIdToken");
       const json = response.data;
       return request.onSuccess(json);
     } catch (error) {
-      return handleAuthError(error, request);
+      return handleAuthError(error, request); 
     }
   };
 

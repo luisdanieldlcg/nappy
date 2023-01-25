@@ -4,7 +4,6 @@
       style="border: none"
       :rail="rail"
       permanent
-      tz
       @click="rail = false"
     >
       <v-list-item
@@ -27,6 +26,17 @@
       </v-list-item>
 
       <v-divider></v-divider>
+      <v-list color="">
+        <v-list-item
+          prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
+          title="Luis de la Cruz"
+          subtitle="SuperAdmin"
+        >
+          <template #append>
+            <ProfileMenu />
+          </template>
+        </v-list-item>
+      </v-list>
 
       <div class="spacer">
         <v-list :items="items" color="primary" density="comfortable" nav />
@@ -35,14 +45,6 @@
     <v-app-bar flat color="background">
       <v-app-bar-title> Dashboard </v-app-bar-title>
       <ThemeSwitcher />
-      <v-list>
-        <v-list-item
-          prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
-          title="Luis de la Cruz"
-          subtitle="danikingrd@gmail.com"
-        >
-        </v-list-item>
-      </v-list>
     </v-app-bar>
     <v-main>
       <v-container class="my-8 mx-10" fluid>

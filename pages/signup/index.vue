@@ -73,22 +73,20 @@
                   <template #label>
                     <div>
                       I agree the
-                      <client-only>
-                        <v-tooltip location="bottom">
-                          <template v-slot:activator="{ props }">
-                            <nuxt-link
-                              class="checkbox-highlight"
-                              target="_blank"
-                              href="https://vuetifyjs.com"
-                              v-bind="props"
-                              @click.stop
-                            >
-                              Terms of Service
-                            </nuxt-link>
-                          </template>
-                          Opens the Terms of Service in a new window.
-                        </v-tooltip>
-                      </client-only>
+                      <v-tooltip location="bottom">
+                        <template v-slot:activator="{ props }">
+                          <nuxt-link
+                            class="checkbox-highlight"
+                            target="_blank"
+                            href="https://vuetifyjs.com"
+                            v-bind="props"
+                            @click.stop
+                          >
+                            Terms of Service
+                          </nuxt-link>
+                        </template>
+                        Opens the Terms of Service in a new window.
+                      </v-tooltip>
                     </div>
                   </template>
                 </v-checkbox>
