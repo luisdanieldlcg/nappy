@@ -7,7 +7,7 @@ import { ThemeDefinition } from "vuetify/lib/index";
 
 const lightTheme: ThemeDefinition = {
   colors: {
-    background: "#f5f7fa",
+    background: "#eff1f7",
     muted: "#8d97ad",
     primary: "#000000",
     "card-red-icon-bg": "#FAD4D4",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer style="border: none" :rail="rail">
+    <v-navigation-drawer style="border: none" :rail="rail" permanent>
       <v-list-item
         nav
         prepend-avatar="https://apprecs.org/ios/images/app-icons/256/24/851990820.jpg"

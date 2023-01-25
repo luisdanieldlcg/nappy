@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h1>Hi, Welcome back</h1>
-    <v-row justify="start">
-      <v-col xs="12" sm="6" md="6" lg="3" v-for="entry in overview">
-        <InsightCard
-          :title="entry.title"
-          :quantity="entry.quantity"
-          :icon="entry.icon"
-          :theme="entry.theme"
-        />
-      </v-col>
-    </v-row>
     <v-container>
+      <h1>Hi, Welcome back</h1>
+      <v-row>
+        <v-col cols="10" sm="8" md="5" lg="3" v-for="entry in overview">
+          <InsightCard
+            :title="entry.title"
+            :quantity="entry.quantity"
+            :icon="entry.icon"
+            :theme="entry.theme"
+          />
+        </v-col>
+      </v-row>
       <h1>Members</h1>
-      <v-row justify="start">
+      <v-row>
         <v-col cols="9">
           <v-table class="insight-card">
             <thead>

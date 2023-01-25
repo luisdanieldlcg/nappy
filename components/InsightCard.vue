@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="text-center my-6 insight-card elevation-0">
+    <v-card class="text-center my-6 insight-card elevation-0 pa-5">
       <v-card-text>
         <v-btn
           variant="tonal"
