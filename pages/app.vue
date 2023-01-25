@@ -1,28 +1,13 @@
 <template>
   <div>
-    <v-navigation-drawer
-      style="border: none"
-      :rail="rail"
-      permanent
-      @click="rail = false"
-    >
+    <v-navigation-drawer style="border: none" v-model="drawer">
       <v-list-item
         nav
         prepend-avatar="https://apprecs.org/ios/images/app-icons/256/24/851990820.jpg"
       >
-        <v-list-item-title
-          class="text-center"
-          style="font-size: 24px; padding: 20px"
-        >
+        <v-list-item-title style="font-size: 24px; padding: 20px">
           Nap<span class="text-grey">py</span>
         </v-list-item-title>
-        <template #append>
-          <v-btn
-            variant="text"
-            icon="mdi-chevron-left"
-            @click.stop="rail = !rail"
-          ></v-btn>
-        </template>
       </v-list-item>
 
       <v-divider></v-divider>
@@ -43,6 +28,7 @@
       </div>
     </v-navigation-drawer>
     <v-app-bar flat color="background">
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-app-bar-title> Dashboard </v-app-bar-title>
       <ThemeSwitcher />
     </v-app-bar>
@@ -58,8 +44,7 @@
 definePageMeta({
   middleware: "auth",
 });
-const rail = ref(true);
-
+const drawer = ref(false);
 const items = [
   {
     title: "Overview",
