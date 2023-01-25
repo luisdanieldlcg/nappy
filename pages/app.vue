@@ -88,17 +88,14 @@ const items = [
   {
     title: "Logout",
     icon: "mdi-logout",
-    loading: false,
-    click: async function () {
+    click: async () => {
       const authController = useAuthStore();
-      this.loading = true;
       await authController.signOut({
         onError(err) {},
         onSuccess(response) {
           return navigateTo("/");
         },
       });
-      this.loading = false;
     },
   },
 ];
