@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer style="border: none" v-model="drawer">
+    <v-navigation-drawer style="border: none" :rail="rail">
       <v-list-item
         nav
         prepend-avatar="https://apprecs.org/ios/images/app-icons/256/24/851990820.jpg"
@@ -11,7 +11,7 @@
       </v-list-item>
 
       <v-divider></v-divider>
-      <v-list color="">
+      <v-list>
         <v-list-item
           prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
           title="Luis de la Cruz"
@@ -28,7 +28,7 @@
       </div>
     </v-navigation-drawer>
     <v-app-bar flat color="background">
-      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-app-bar-nav-icon @click="rail = !rail" />
       <v-app-bar-title> Dashboard </v-app-bar-title>
       <ThemeSwitcher />
     </v-app-bar>
@@ -44,7 +44,8 @@
 definePageMeta({
   middleware: "auth",
 });
-const drawer = ref(false);
+const rail = ref(false);
+
 const items = [
   {
     title: "Overview",

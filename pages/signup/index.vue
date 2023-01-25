@@ -1,20 +1,6 @@
 <template>
   <div>
-    <!---------------Start Header--------------->
-    <div class="spacer">
-      <v-container class="spacer">
-        <v-row justify="center">
-          <v-col cols="12" sm="10" md="9" lg="4">
-            <div class="text-center">
-              <h2 class="ui-title font-weight-bold">Signup</h2>
-              <p class="text-muted">Create an account to get started!</p>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-    <!---------------End Header--------------->
-    <!-----------------Start Content------------>
+    <RootHeader title="Signup" subtitle="Create an account to get started!" />
 
     <!-------------Start Animation Alert---------->
     <AnimatedAlert

@@ -1,22 +1,9 @@
 <template>
   <div>
-    <!---------------Start Header--------------->
-    <div class="spacer">
-      <v-container class="spacer">
-        <v-row justify="center">
-          <v-col cols="12" sm="10" md="9" lg="5">
-            <div class="text-center">
-              <h2 class="ui-title font-weight-bold">Login</h2>
-              <p class="text-muted">
-                Welcome back! Enter your credentials to log in.
-              </p>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-    <!---------------End Header--------------->
-
+    <RootHeader
+      title="Login"
+      subtitle=" Welcome back! Enter your credentials to log in."
+    />
     <!-------------Start Animation Alert---------->
     <AnimatedAlert
       :show="loginController.viewState.showAlert"
