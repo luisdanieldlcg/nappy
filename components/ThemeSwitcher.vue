@@ -6,7 +6,6 @@
     :ripple="false"
     false-icon="mdi-white-balance-sunny"
     true-icon="mdi-weather-night"
-    label="Theme switcher"
   >
   </v-switch>
 </template>

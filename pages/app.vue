@@ -8,11 +8,11 @@
         <v-list-item-title style="font-size: 24px; padding: 20px">
           Nap<span class="text-grey">py</span>
         </v-list-item-title>
+        <template #prepend> </template>
       </v-list-item>
-
-      <v-divider></v-divider>
-      <v-list>
+      <v-row>
         <v-list-item
+          class="ml-1"
           prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
           title="Luis de la Cruz"
           subtitle="SuperAdmin"
@@ -21,19 +21,33 @@
             <ProfileMenu />
           </template>
         </v-list-item>
-      </v-list>
+      </v-row>
 
       <div class="spacer">
-        <v-list :items="items" color="primary" density="comfortable" nav />
+        <v-list color="primary" density="comfortable" nav>
+          <v-list-item
+            class="rounded-lg"
+            v-for="entry in items"
+            :prepend-icon="entry.icon"
+            :to="entry.targetRoute"
+            @click="entry.click"
+          >
+            <template #title>
+              {{ entry.title }}
+            </template>
+          </v-list-item>
+        </v-list>
       </div>
     </v-navigation-drawer>
     <v-app-bar flat color="background">
       <v-app-bar-nav-icon @click="rail = !rail" />
-      <v-app-bar-title> Dashboard </v-app-bar-title>
-      <ThemeSwitcher />
+      <v-spacer></v-spacer>
+      <div class="mt-5 mr-7">
+        <ThemeSwitcher />
+      </div>
     </v-app-bar>
     <v-main>
-      <v-container class="my-8 mx-10" fluid>
+      <v-container class="my-8 mx-10">
         <NuxtPage />
       </v-container>
     </v-main>
@@ -41,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth_store";
 definePageMeta({
   middleware: "auth",
 });
@@ -49,24 +64,44 @@ const rail = ref(false);
 const items = [
   {
     title: "Overview",
+    icon: "mdi-view-dashboard-outline",
+    targetRoute: "/app/overview",
     props: {
-      prependIcon: "mdi-view-dashboard-outline",
-      to: "/app/overview",
+      class: "rounded-lg",
     },
   },
   {
     title: "Cards",
-    props: {
-      prependIcon: "mdi-card-account-details",
-      to: "/app/cards",
-    },
+    icon: "mdi-card-account-details",
+    targetRoute: "/app/cards",
   },
   {
     title: "Contacts",
-    props: {
-      prependIcon: "mdi-account-box",
-      to: "/app/contacts",
+    icon: "mdi-account-group-outline",
+    targetRoute: "/app/contacts",
+  },
+  {
+    title: "Settings",
+    icon: "mdi-cog-outline",
+    targetRoute: "/app/settings",
+  },
+  {
+    title: "Logout",
+    icon: "mdi-logout",
+    loading: false,
+    click: async function () {
+      const authController = useAuthStore();
+      this.loading = true;
+      await authController.signOut({
+        onError(err) {},
+        onSuccess(response) {
+          return navigateTo("/");
+        },
+      });
+      this.loading = false;
     },
   },
 ];
 </script>
+
+<style></style>

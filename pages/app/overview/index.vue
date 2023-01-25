@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-container>
-      <h1>Hi, Welcome back</h1>
+      <h1 class="title">Hi, Welcome back</h1>
       <v-row>
-        <v-col cols="10" sm="8" md="5" lg="3" v-for="entry in overview">
+        <v-col cols="12" sm="8" md="5" lg="3" v-for="entry in overview">
           <InsightCard
             :title="entry.title"
             :quantity="entry.quantity"
