@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-row justify="center" class="mb-2">
-      <v-col cols="5">
+      <v-col cols="3">
         <v-icon class="profile-icon" icon="mdi-account-circle"></v-icon>
       </v-col>
     </v-row>
