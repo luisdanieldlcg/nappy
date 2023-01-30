@@ -44,7 +44,7 @@
     </v-app-bar>
     <v-main>
       <v-card class="bg-surface rounded-xl">
-        <v-container class="ml-15">
+        <v-container>
           <NuxtPage></NuxtPage>
         </v-container>
       </v-card>
