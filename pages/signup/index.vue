@@ -4,11 +4,11 @@
 
     <!-------------Start Animation Alert---------->
     <AnimatedAlert
-      :show="signupController.viewState.showAlert"
-      v-model="signupController.viewState.showAlert"
+      :show="controller.viewState.showAlert"
+      v-model="controller.viewState.showAlert"
     >
       <template #default>
-        {{ signupController.viewState.errorMessage }}
+        {{ controller.viewState.errorMessage }}
       </template>
     </AnimatedAlert>
     <!-------------End Animation Alert---------->
@@ -18,67 +18,55 @@
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
             <v-card
               class="elevation-0"
-              :loading="signupController.viewState.loading ? 'red' : undefined"
+              :loading="controller.viewState.loading ? 'red' : undefined"
             >
               <v-card-text>
                 <TextField
-                  v-model="signupController.form.email"
+                  v-model="controller.email"
                   hint="Enter your email address."
                   label="Email"
                   clearable
-                  :rules="signupController.emailRules"
+                  :rules="controller.emailRules"
                   required
                   autocomplete="off"
                 />
                 <TextField
-                  v-model="signupController.form.password"
+                  v-model="controller.password"
                   label="Password"
                   hint="Your password must be at least 8 characters long."
-                  :rules="signupController.passwordRules"
+                  :rules="controller.passwordRules"
                   required
                   withEye
                   autocomplete="new-password"
                 />
 
                 <TextField
-                  v-model="signupController.form.passwordConfirm"
+                  v-model="controller.passwordConfirm"
                   label="Password Confirm"
                   hint="Confirm your password."
                   required
                   withEye
-                  :rules="signupController.passwordConfirmRules"
+                  :rules="controller.passwordConfirmRules"
                   autocomplete="new-password"
                 />
 
                 <v-checkbox
-                  v-model="signupController.form.checkbox"
+                  v-model="controller.checkbox"
                   class="custom-checkbox"
                   color="primary"
-                  :rules="signupController.checkboxRules"
+                  label="I agree the Terms of Service"
+                  :rules="controller.checkboxRules"
                 >
                   <template #label>
                     <div>
                       I agree the
-                      <v-tooltip location="bottom">
-                        <template v-slot:activator="{ props }">
-                          <nuxt-link
-                            class="checkbox-highlight"
-                            target="_blank"
-                            href="https://vuetifyjs.com"
-                            v-bind="props"
-                            @click.stop
-                          >
-                            Terms of Service
-                          </nuxt-link>
-                        </template>
-                        Opens the Terms of Service in a new window.
-                      </v-tooltip>
+                      <span class="font-weight-bold">Terms of Service</span>
                     </div>
                   </template>
                 </v-checkbox>
 
                 <v-btn
-                  color="primary"
+                  color="dark"
                   elevation="0"
                   variant="flat"
                   width="100%"
@@ -89,7 +77,7 @@
                 >
                 <p class="text-center mt-8">
                   Already have an account?
-                  <span class="text-primary highlight-link">
+                  <span class="text-dark font-weight-bold highlight-link">
                     <nuxt-link to="/login"> Login instead. </nuxt-link>
                   </span>
                 </p>
@@ -106,8 +94,7 @@
 import { useSignupStore } from "~~/stores/signup_store";
 
 const signupForm = ref<HTMLFormElement | null>(null);
-const router = useRouter();
-const signupController = useSignupStore();
+const controller = useSignupStore();
 const onSubmit = async () => {
   // Fast Return if for some reason the html element is not attached
   if (!signupForm.value) {
@@ -118,9 +105,8 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  await signupController.signup(() => {
-    router.push("/login");
-  });
+  // router.push("/login");
+  await controller.signUp();
 };
 </script>
 

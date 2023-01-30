@@ -1,40 +1,35 @@
 import ViewState from "~/state/view";
-import { RawResponse } from "~/api/interfaces";
+import { SignupDTO } from "~~/api/dtos/signup_dto";
 import { useAuthStore } from "./auth_store";
 export const useSignupStore = defineStore("signup", () => {
-  const form = reactive({
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    checkbox: false,
-  });
+  // State objects
+  const email = ref("");
+  const password = ref("");
+  const passwordConfirm = ref("");
+  const checkbox = ref(false);
   const viewState = reactive(new ViewState());
-  const signup = async (onReady: () => void) => {
-    viewState.setLoading(true);
+  const snackbar = ref(false);
+  async function signUp() {
+    const dto: SignupDTO = {
+      email: email.value,
+      password: password.value,
+      passwordConfirm: passwordConfirm.value,
+    };
     const authController = useAuthStore();
-    await authController.signup({
-      email: form.email,
-      password: form.password,
-      passwordConfirm: form.passwordConfirm,
-      onError: displayError,
-      onSuccess: (response) => {
-        setIdle();
-        onReady();
+    viewState.setLoading(true);
+    const result = await authController.signUp(dto);
+    result.match({
+      Ok(response) {
+        snackbar.value = true;
+        navigateTo("/login");
+      },
+      Err(error) {
+        viewState.setErrorMsg(error.message);
+        viewState.showAlert = true;
       },
     });
     viewState.setLoading(false);
-  };
-  const displayError = (error: RawResponse) => {
-    viewState.showAlert = true;
-    viewState.setErrorMsg(error.message);
-  };
-
-  const setIdle = () => {
-    viewState.showAlert = false;
-    form.checkbox = false;
-    form.email = "";
-    form.password = "";
-  };
+  }
 
   const checkboxRules = [
     (check: Boolean) =>
@@ -53,15 +48,19 @@ export const useSignupStore = defineStore("signup", () => {
 
   const passwordConfirmRules = [
     (text: string) => !!text || "Password Confirm is required",
-    (text: string) => text === form.password || "Passwords do not match.",
+    (text: string) => text === password.value || "Passwords do not match.",
   ];
   return {
     viewState,
-    form,
-    signup,
+    email,
+    password,
+    passwordConfirm,
+    checkbox,
+    signUp,
     checkboxRules,
     emailRules,
     passwordRules,
     passwordConfirmRules,
+    snackbar,
   };
 });

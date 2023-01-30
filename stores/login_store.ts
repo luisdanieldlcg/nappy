@@ -1,37 +1,32 @@
 import ViewState from "~/state/view";
-import { RawResponse } from "~/api/interfaces";
 import { useAuthStore } from "./auth_store";
+import { LoginDTO } from "~~/api/dtos/login_dto";
 
 export const useLoginStore = defineStore("login", () => {
-  const form = reactive({
-    email: "",
-    password: "",
-  });
+  const email = ref("");
+  const password = ref("");
   const viewState = reactive(new ViewState());
-  const authController = useAuthStore();
+  const auth = useAuthStore();
 
-  const logIn = async (onReady: () => void) => {
+  async function signIn() {
+    const dto: LoginDTO = {
+      email: email.value,
+      password: password.value,
+    };
     viewState.setLoading(true);
-    await authController.login({
-      email: form.email,
-      password: form.password,
-      onError: displayError,
-      onSuccess: (response) => {
-        setIdle();
-        onReady();
+    const result = await auth.signIn(dto);
+    result.match({
+      Ok(response) {
+        navigateTo("/app");
+      },
+      Err(error) {
+        viewState.setErrorMsg(error.message);
+        viewState.showAlert = true;
       },
     });
     viewState.setLoading(false);
-  };
-  const displayError = (error: RawResponse) => {
-    viewState.showAlert = true;
-    viewState.setErrorMsg(error.message);
-  };
-  const setIdle = () => {
-    viewState.showAlert = false;
-    form.email = "";
-    form.password = "";
-  };
+  }
+
   const emailRules = [
     (text: string) => !!text || "Email is required",
     (text: string) => /.+@.+/.test(text) || "This is not a valid email",
@@ -42,8 +37,9 @@ export const useLoginStore = defineStore("login", () => {
   ];
   return {
     viewState,
-    form,
-    logIn,
+    email,
+    password,
+    signIn,
     emailRules,
     passwordRules,
   };

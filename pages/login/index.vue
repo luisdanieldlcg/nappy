@@ -6,11 +6,11 @@
     />
     <!-------------Start Animation Alert---------->
     <AnimatedAlert
-      :show="loginController.viewState.showAlert"
-      v-model="loginController.viewState.showAlert"
+      :show="controller.viewState.showAlert"
+      v-model="controller.viewState.showAlert"
     >
       <template #default>
-        {{ loginController.viewState.errorMessage }}
+        {{ controller.viewState.errorMessage }}
       </template>
     </AnimatedAlert>
     <!-------------End Animation Alert---------->
@@ -22,31 +22,31 @@
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
             <v-card
               class="elevation-0"
-              :loading="loginController.viewState.loading ? 'red' : undefined"
+              :loading="controller.viewState.loading ? 'red' : undefined"
             >
               <v-card-text>
                 <TextField
-                  v-model="loginController.form.email"
+                  v-model="controller.email"
                   hint="Enter your email to grant you access."
                   label="Email"
                   clearable
-                  :rules="loginController.emailRules"
+                  :rules="controller.emailRules"
                   required
                   autocomplete="off"
                 />
                 <TextField
-                  v-model="loginController.form.password"
+                  v-model="controller.password"
                   label="Password"
                   hint="Enter your password to grant you access."
                   withEye
-                  :rules="loginController.passwordRules"
+                  :rules="controller.passwordRules"
                   required
                   autocomplete="new-password"
                 />
 
                 <v-btn
                   class="mt-5"
-                  color="black"
+                  color="dark"
                   elevation="0"
                   variant="flat"
                   width="100%"
@@ -56,7 +56,7 @@
                 >
                 <p class="text-center mt-8">
                   Not a member yet?
-                  <span class="text-primary highlight-link">
+                  <span class="text-dark font-weight-bold highlight-link">
                     <nuxt-link to="/signup" class="text-black text-font-bold">
                       Signup instead.
                     </nuxt-link>
@@ -69,15 +69,22 @@
         <!-----------------End Content------------>
       </v-container>
     </v-form>
+    <DefaultSnackbar v-model="signup.snackbar" @close="signup.snackbar = false">
+      <p>Your account was successfully created!</p>
+    </DefaultSnackbar>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useLoginStore } from "~/stores/login_store";
-const loginController = useLoginStore();
-const router = useRouter();
+import { useSignupStore } from "~~/stores/signup_store";
+const controller = useLoginStore();
+const signup = useSignupStore();
+
 const loginForm = ref<HTMLFormElement | null>(null);
 const onSubmit = async () => {
+  console.log(signup.snackbar);
+
   // Fast Return if for some reason the html element is not attached
   if (!loginForm.value) {
     return;
@@ -87,9 +94,7 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  await loginController.logIn(() => {
-    router.push("/app/");
-  });
+  await controller.signIn();
 };
 </script>
 

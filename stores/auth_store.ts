@@ -1,76 +1,66 @@
-import { AuthAPI } from "~/api/API";
-import { AxiosError } from "axios";
-import {
-  LoginRequest,
-  AuthResponse,
-  RawRequest,
-  RawResponse,
-  serverError,
-  SignupRequest,
-} from "~/api/interfaces";
+import { AxiosError, isAxiosError } from "axios";
+import { RawRequest, serverError } from "~/api/interfaces";
+import { LoginDTO, LoginResponse } from "~~/api/dtos/login_dto";
+import * as api from "~/api/index";
+import { Result } from "true-myth";
+import { ErrorResponse } from "~~/api/endpoints";
+import { SignupDTO, SignupResponse } from "~~/api/dtos/signup_dto";
+
+type FutureResult<T> = Promise<Result<T, ErrorResponse>>;
 
 export const useAuthStore = defineStore("auth", () => {
-  const login = async (request: LoginRequest) => {
+  async function signIn(input: LoginDTO): FutureResult<LoginResponse> {
     try {
-      const response = await AuthAPI.post<AuthResponse>(
-        "/login",
-        {
-          email: request.email,
-          password: request.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const json = response.data;
-      return request.onSuccess(json);
+      const response = await api.login(input);
+      return Result.ok(response.data);
     } catch (error) {
-      return handleAuthError(error, request);
+      return handleHttpError(error);
     }
-  };
+  }
 
-  const signup = async (request: SignupRequest) => {
+  async function signUp(input: SignupDTO): FutureResult<SignupResponse> {
     try {
-      const response = await AuthAPI.post<AuthResponse>(
-        "/signup",
-        {
-          email: request.email,
-          password: request.password,
-          passwordConfirm: request.passwordConfirm,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const json = response.data;
-      return request.onSuccess(json);
+      const response = await api.signup(input);
+      return Result.ok(response.data);
     } catch (error) {
-      return handleAuthError(error, request);
+      return handleHttpError(error);
     }
-  };
+  }
 
-  const verifyAuth = async (request: RawRequest) => {
-    try {
-      const response = await AuthAPI.get<RawResponse>("/verifyIdToken");
-      const json = response.data;
-      return request.onSuccess(json);
-    } catch (error) {
-      return handleAuthError(error, request);
+  function handleHttpError(error: any): Result<LoginResponse, ErrorResponse> {
+    if (
+      !isAxiosError<ErrorResponse>(error) ||
+      !error.response ||
+      !error.response.data
+    ) {
+      return Result.err({
+        message: "Could not reach Nappy Servers.",
+        statusCode: 500,
+      });
+    } else {
+      const json = error.response.data;
+      return Result.err(json);
     }
-  };
-  const signOut = async (request: RawRequest) => {
-    try {
-      const response = await AuthAPI.get<RawResponse>("/sign-out");
-      const json = response.data;
-      return request.onSuccess(json);
-    } catch (error) {
-      return handleAuthError(error, request);
-    }
-  };
+  }
+
+  // const verifyAuth = async (request: RawRequest) => {
+  //   try {
+  //     const response = await AuthAPI.get<RawResponse>("/verifyIdToken");
+  //     const json = response.data;
+  //     return request.onSuccess(json);
+  //   } catch (error) {
+  //     return handleAuthError(error, request);
+  //   }
+  // };
+  // const signOut = async (request: RawRequest) => {
+  //   try {
+  //     const response = await AuthAPI.get<RawResponse>("/sign-out");
+  //     const json = response.data;
+  //     return request.onSuccess(json);
+  //   } catch (error) {
+  //     return handleAuthError(error, request);
+  //   }
+  // };
 
   const handleAuthError = (error: any, request: RawRequest) => {
     // If this is not an axios error something else blocked the request.
@@ -87,9 +77,9 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   return {
-    login,
-    signup,
-    verifyAuth,
-    signOut,
+    signIn,
+    signUp,
+    // verifyAuth,
+    // signOut,
   };
 });
