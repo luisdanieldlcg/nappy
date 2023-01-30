@@ -43,12 +43,12 @@
 import { useAuthStore } from "~~/stores/auth_store";
 const authController = useAuthStore();
 const signOut = async () => {
-  await authController.signOut({
-    onError(err) {},
-    onSuccess(response) {
-      location.reload();
-    },
-  });
+  // await authController.signOut({
+  //   onError(err) {},
+  //   onSuccess(response) {
+  //     location.reload();
+  //   },
+  // });
 };
 </script>
 

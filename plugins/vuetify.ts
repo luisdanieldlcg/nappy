@@ -7,10 +7,11 @@ import { ThemeDefinition } from "vuetify/lib/index";
 
 const lightTheme: ThemeDefinition = {
   colors: {
+    background: "#f6f8fc",
     muted: "#8d97ad",
     primary: "#212121",
     dark: "#212121",
-    surface: "#f6f8fc",
+    surface: "#FFFFFF",
   },
 };
 
