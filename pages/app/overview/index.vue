@@ -4,7 +4,7 @@
       <h1 class="title">Hi, Welcome back</h1>
       <v-row>
         <v-col cols="12" sm="8" md="5" lg="3" v-for="entry in overview">
-          <InsightCard
+          <DashboardInsightCard
             :title="entry.title"
             :quantity="entry.quantity"
             :icon="entry.icon"
