@@ -1,8 +1,7 @@
 import { AxiosError, isAxiosError } from "axios";
-import { RawRequest, serverError } from "~/api/interfaces";
 import { LoginDTO, LoginResponse } from "~~/api/dtos/login_dto";
 import * as api from "~/api/index";
-import { Result } from "true-myth";
+import { Result, Unit } from "true-myth";
 import { ErrorResponse } from "~~/api/endpoints";
 import { SignupDTO, SignupResponse } from "~~/api/dtos/signup_dto";
 
@@ -26,8 +25,16 @@ export const useAuthStore = defineStore("auth", () => {
       return handleHttpError(error);
     }
   }
+  async function logOut(): FutureResult<Unit> {
+    try {
+      await api.logout();
+      return Result.ok();
+    } catch (error) {
+      return handleHttpError(error);
+    }
+  }
 
-  function handleHttpError(error: any): Result<LoginResponse, ErrorResponse> {
+  function handleHttpError(error: any): Result<any, ErrorResponse> {
     if (
       !isAxiosError<ErrorResponse>(error) ||
       !error.response ||
@@ -43,42 +50,10 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  // const verifyAuth = async (request: RawRequest) => {
-  //   try {
-  //     const response = await AuthAPI.get<RawResponse>("/verifyIdToken");
-  //     const json = response.data;
-  //     return request.onSuccess(json);
-  //   } catch (error) {
-  //     return handleAuthError(error, request);
-  //   }
-  // };
-  // const signOut = async (request: RawRequest) => {
-  //   try {
-  //     const response = await AuthAPI.get<RawResponse>("/sign-out");
-  //     const json = response.data;
-  //     return request.onSuccess(json);
-  //   } catch (error) {
-  //     return handleAuthError(error, request);
-  //   }
-  // };
-
-  const handleAuthError = (error: any, request: RawRequest) => {
-    // If this is not an axios error something else blocked the request.
-    if (!(error instanceof AxiosError)) {
-      return request.onError(serverError);
-    }
-    // There there is no response then this is a server error
-    if (!error.response) {
-      return request.onError(serverError);
-    }
-    // Grab the response
-    const json = error.response.data;
-    return request.onError(json);
-  };
-
   return {
     signIn,
     signUp,
+    logOut,
     // verifyAuth,
     // signOut,
   };

@@ -18,3 +18,11 @@ export const login = (dto: LoginDTO) => {
 export const signup = (dto: SignupDTO) => {
   return AuthEndpoint.post<SignupResponse>("/signup", dto);
 };
+
+/**
+ *  @url POST /auth/logout
+ *  @since 1.0
+ */
+export const logout = () => {
+  return AuthEndpoint.post("/logout");
+};
