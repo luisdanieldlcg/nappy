@@ -21,8 +21,7 @@
 </template>
 
 <script setup lang="ts">
-const rail = ref(false);
-const mini = ref(false);
+import { useAuthStore } from "~~/stores/auth_store";
 defineEmits(["showDrawer"]);
 const items = [
   {
@@ -52,13 +51,11 @@ const items = [
     title: "Logout",
     icon: "mdi-logout",
     click: async () => {
-      //const authController = useAuthStore();
-      // await authController.signOut({
-      //   onError(err) {},
-      //   onSuccess(response) {
-      //     return navigateTo("/");
-      //   },
-      // });
+      const authController = useAuthStore();
+      const result = await authController.logOut();
+      if (result.isOk) {
+        return navigateTo("/");
+      }
     },
   },
 ];
