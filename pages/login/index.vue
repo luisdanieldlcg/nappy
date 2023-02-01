@@ -83,8 +83,6 @@ const signup = useSignupStore();
 
 const loginForm = ref<HTMLFormElement | null>(null);
 const onSubmit = async () => {
-  console.log(signup.snackbar);
-
   // Fast Return if for some reason the html element is not attached
   if (!loginForm.value) {
     return;

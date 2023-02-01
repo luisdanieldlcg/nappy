@@ -25,6 +25,15 @@ export const useAuthStore = defineStore("auth", () => {
       return handleHttpError(error);
     }
   }
+
+  async function verifyToken(): FutureResult<Unit> {
+    try {
+      await api.verifyToken();
+      return Result.ok();
+    } catch (error) {
+      return handleHttpError(error);
+    }
+  }
   async function logOut(): FutureResult<Unit> {
     try {
       await api.logout();
@@ -54,6 +63,7 @@ export const useAuthStore = defineStore("auth", () => {
     signIn,
     signUp,
     logOut,
+    verifyToken,
     // verifyAuth,
     // signOut,
   };

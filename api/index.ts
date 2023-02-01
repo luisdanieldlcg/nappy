@@ -23,6 +23,10 @@ export const signup = (dto: SignupDTO) => {
  *  @url POST /auth/logout
  *  @since 1.0
  */
-export const logout = () => {
-  return AuthEndpoint.post("/logout");
-};
+export const logout = () => AuthEndpoint.post("/logout");
+
+/**
+ *  @url POST /auth/verify-token
+ *  @since 1.0
+ */
+export const verifyToken = () => AuthEndpoint.post("/verify-token");
