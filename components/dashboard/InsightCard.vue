@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="text-center my-6 insight-card elevation-0 pa-5" style="border: solid 0.2px">
+    <v-card class="text-center insight-card elevation-0">
       <v-card-text>
         <v-btn
           variant="tonal"
@@ -10,7 +10,7 @@
           :ripple="false"
           elevation="0"
         ></v-btn>
-        <p :class="`text-h3 font-weight-bold`">
+        <p :class="`text-h3 font-weight-bold mt-2 pa-1`">
           {{ quantity }}
         </p>
         <p class="text-h6 font-weight-bold">{{ title }}</p>
@@ -35,4 +35,10 @@ defineProps({
 });
 </script>
 
-<style scoped></style>
+<style>
+.insight-card {
+  border-radius: 12px !important;
+  padding: 2rem !important;
+  border: solid 1.5px rgb(230, 229, 229);
+}
+</style>

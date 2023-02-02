@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Cards</h1>
-    <v-row>
+    <v-row align="center" justify="center">
       <v-col>
         <DashboardNewProfileCard />
       </v-col>

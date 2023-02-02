@@ -8,6 +8,7 @@
       rail
       style="border: none"
       color="background"
+      permanent
     >
     </v-navigation-drawer>
   </div>

@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer rail style="border: none" :order="1" color="background">
+  <v-navigation-drawer
+    rail
+    style="border: none"
+    :order="1"
+    color="background"
+    permanent
+  >
     <v-list color="primary" density="comfortable" nav>
       <v-list-item
         class="rounded-lg"

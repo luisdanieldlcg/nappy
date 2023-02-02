@@ -12,6 +12,7 @@ const lightTheme: ThemeDefinition = {
     primary: "#212121",
     dark: "#212121",
     surface: "#FFFFFF",
+    surfaceBorder: "#e9e8e8",
   },
 };
 
