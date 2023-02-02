@@ -11,7 +11,7 @@
         />
       </v-col>
     </v-row>
-    <h1>Members</h1>
+    <h1 class="mt-8 mb-8">Members</h1>
     <v-row justify="center">
       <v-col cols="9">
         <v-table class="insight-card">

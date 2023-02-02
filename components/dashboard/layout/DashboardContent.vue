@@ -1,9 +1,7 @@
 <template>
   <v-main>
-    <v-card class="bg-surface rounded-xl">
-      <v-container>
-        <NuxtPage></NuxtPage>
-      </v-container>
+    <v-card class="bg-surface rounded-xl" min-height="880" :elevation="0">
+      <NuxtPage></NuxtPage>
     </v-card>
   </v-main>
 </template>

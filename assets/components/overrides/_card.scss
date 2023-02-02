@@ -1,18 +1,18 @@
 .v-card {
   border-radius: 16px !important;
-  padding: 2rem !important;
+  margin: 2rem !important;
 }
 // .card-shadow {
 //   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
 // }
 .light-shadow {
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
 }
 .card-shadow-light {
   box-shadow: rgba(118, 118, 118, 0.15) 0px 2px 8px 0px !important;
 }
-
-v-container {
+.insight-card {
   border-radius: 12px !important;
   padding: 2rem !important;
+  border: solid 1px rgb(195, 195, 195) !important;
 }

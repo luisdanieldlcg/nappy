@@ -1,0 +1,12 @@
+.profile-card {
+  transition: 0.2s ease-in;
+  &:hover {
+    transform: translateY(-10px);
+    cursor: pointer;
+  }
+  border-radius: 20px !important;
+  
+  border: solid 1px rgb(195, 195, 195) !important;
+  background-color: rgb(251, 251, 251);
+  min-height: 400px;
+}
