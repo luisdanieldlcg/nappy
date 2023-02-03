@@ -39,13 +39,18 @@ const items = [
     },
   },
   {
+    title: "Members",
+    icon: "mdi-account-group-outline",
+    targetRoute: "/app/members",
+  },
+  {
     title: "Cards",
-    icon: "mdi-card-account-details",
+    icon: "mdi-card-account-details-outline",
     targetRoute: "/app/cards",
   },
   {
     title: "Contacts",
-    icon: "mdi-account-group-outline",
+    icon: "mdi-contacts-outline",
     targetRoute: "/app/contacts",
   },
   {

@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1>Settings</h1>
-  </div>
+  <NuxtLayout name="dashboard">
+    <template #header> Settings </template>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts"></script>

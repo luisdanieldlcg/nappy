@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="dashboard">
-    <template #header> Contacts </template>
+    <template #header> Members </template>
   </NuxtLayout>
 </template>
 

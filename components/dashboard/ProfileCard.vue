@@ -23,8 +23,8 @@
       </v-row>
     </v-img>
     <v-container>
-      <h1 class="text-light-grey">Luis de la Cruz</h1>
-      <h2 class="text-light-grey font-weight-medium">Architect</h2>
+      <h1 >Luis de la Cruz</h1>
+      <h2 class="font-weight-medium">Architect</h2>
       <v-list-item subtitle="Personal" class="mt-5 pa-0">
         <template #prepend>
           <v-avatar color="red">
@@ -32,7 +32,7 @@
           </v-avatar>
         </template>
         <template #title>
-          <p class="font-weight-bold text-light-grey">danikingrd@gmail.com</p>
+          <p class="font-weight-bold">danikingrd@gmail.com</p>
         </template>
       </v-list-item>
     </v-container>

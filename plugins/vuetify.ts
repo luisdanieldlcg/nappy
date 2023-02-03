@@ -13,7 +13,7 @@ const lightTheme: ThemeDefinition = {
     dark: "#212121",
     surface: "#FFFFFF",
     surfaceBorder: "#e9e8e8",
-    "light-grey": "#35393b",
+    "on-surface": "#35393b",
   },
 };
 
