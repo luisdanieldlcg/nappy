@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <DashboardSidebar :rail="expandDrawer" />
+  <div class="">
+    <AppSidebar />
+    <!-- <DashboardSidebar :rail="expandDrawer" />
     <DashboardAppbar @show-drawer="expandDrawer = !expandDrawer" />
-    <DashboardContent />
+    <DashboardContent /> -->
     <!-- <v-navigation-drawer
       location="right"
       rail
