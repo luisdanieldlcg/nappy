@@ -1,5 +1,18 @@
 <template>
   <NuxtLayout name="dashboard">
+    <div>
+      <v-container class="pa-0">
+        <v-row class="pa-0">
+          <v-col cols="12" sm="5" md="4" v-for="entry in insights">
+            <DashInsightCard
+              :title="entry.title"
+              :quantity="entry.quantity"
+              :icon="entry.icon"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
     <!-- <v-row justify="center" class="pa-5">
       <v-col cols="12" sm="12" md="5" lg="3" v-for="entry in overview">
         <DashboardInsightCard
@@ -33,27 +46,9 @@
 </template>
 
 <script setup lang="ts">
-const overview = [
-  {
-    title: "Cards",
-    quantity: 12,
-    icon: "mdi-account-card",
-    theme: "red",
-  },
-  {
-    title: "Contacts",
-    quantity: 110,
-    icon: "mdi-account-group",
-    theme: "aqua",
-  },
-  {
-    title: "Members",
-    quantity: 290,
-    icon: "mdi-account-group",
-    theme: "green",
-  },
-];
+import { overviewInsights } from "~~/config/overview";
 
+const insights = overviewInsights;
 const members = {
   itemsPerPage: 5,
   headers: [],

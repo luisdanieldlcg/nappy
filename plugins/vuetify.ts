@@ -13,6 +13,7 @@ const lightTheme: ThemeDefinition = {
     dark: "#212121",
     surface: "#FFFFFF",
     surfaceBorder: "#e9e8e8",
+    "card-subtitle": "#6b7280",
   },
 };
 

@@ -1,9 +1,6 @@
 <template>
   <v-list-item>
-    <v-list-item-title
-      v-text="title"
-      class="text-subtitle-2 font-weight-bold"
-    />
+    <v-list-item-title v-text="title" class="text-subtitle-2" />
   </v-list-item>
 </template>
 

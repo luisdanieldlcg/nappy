@@ -1,6 +1,6 @@
 <template>
-  <DashAppbar />
-  <DashSidebar />
+  <DashAppbar @toggle-drawer="toggleDrawer = !toggleDrawer" />
+  <DashSidebar v-model="toggleDrawer" />
   <DashContent />
 </template>
 
@@ -8,7 +8,7 @@
 definePageMeta({
   middleware: "auth",
 });
-const expandDrawer = ref(false);
+const toggleDrawer = ref(false);
 </script>
 
 <style></style>
