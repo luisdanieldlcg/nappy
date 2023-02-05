@@ -9,7 +9,7 @@
     >
       <DashSidebarItem
         v-for="entry in pages"
-        :prepend-icon="entry.sidebarIcon"
+        :prepend-icon="entry.sidebarItemIcon"
         :title="entry.title"
         :to="entry.targetRoute"
       />
