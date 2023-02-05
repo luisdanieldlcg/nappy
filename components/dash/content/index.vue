@@ -1,6 +1,7 @@
 <template>
-  <NuxtLayout name="dashboard">
-  </NuxtLayout>
+  <v-main>
+    <NuxtPage />
+  </v-main>
 </template>
 
 <script setup lang="ts"></script>

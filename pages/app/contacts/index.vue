@@ -1,7 +1,5 @@
 <template>
-  <NuxtLayout name="dashboard">
-    <template #header> Contacts </template>
-  </NuxtLayout>
+  <NuxtLayout name="dashboard"> </NuxtLayout>
 </template>
 
 <script setup lang="ts"></script>

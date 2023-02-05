@@ -1,18 +1,7 @@
 <template>
-  <div class="">
-    <AppSidebar />
-    <!-- <DashboardSidebar :rail="expandDrawer" />
-    <DashboardAppbar @show-drawer="expandDrawer = !expandDrawer" />
-    <DashboardContent /> -->
-    <!-- <v-navigation-drawer
-      location="right"
-      rail
-      style="border: none"
-      color="background"
-      permanent
-    >
-    </v-navigation-drawer> -->
-  </div>
+  <DashAppbar />
+  <DashSidebar />
+  <DashContent />
 </template>
 
 <script setup lang="ts">

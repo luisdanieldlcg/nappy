@@ -1,7 +1,6 @@
 <template>
   <NuxtLayout name="dashboard">
-    <template #header> Overview </template>
-    <v-row justify="center" class="pa-5">
+    <!-- <v-row justify="center" class="pa-5">
       <v-col cols="12" sm="12" md="5" lg="3" v-for="entry in overview">
         <DashboardInsightCard
           :title="entry.title"
@@ -29,7 +28,7 @@
           </tbody>
         </v-table>
       </v-col>
-    </v-row>
+    </v-row> -->
   </NuxtLayout>
 </template>
 
