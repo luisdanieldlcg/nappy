@@ -20,6 +20,7 @@ export const dashboardPages = [
   {
     title: "Cards",
     titleIcon: "mdi-card-account-details-outline",
+    withCreateButton: true,
     sidebarItemIcon: "mdi-card-account-details-outline",
     targetRoute: "/app/cards",
   },
@@ -38,6 +39,7 @@ export const dashboardPages = [
   {
     title: "Logout",
     sidebarItemIcon: "mdi-logout",
+    titleIcon: "",
     click: async () => {
       // const authController = useAuthStore();
       // const result = await authController.logOut();
