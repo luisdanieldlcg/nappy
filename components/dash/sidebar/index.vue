@@ -5,7 +5,7 @@
       nav
       class="justify-center pa-6"
       density="compact"
-      active-color="indigo-lighten-1"
+      active-color="red-lighten-2"
     >
       <DashSidebarItem
         v-for="entry in pages"
