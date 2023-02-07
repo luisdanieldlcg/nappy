@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 function navigateToCreateCard() {
-  console.log("navigate!");
+  navigateTo("/app/cards/create");
 }
 </script>
 

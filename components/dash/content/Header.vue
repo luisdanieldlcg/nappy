@@ -14,11 +14,9 @@
 defineProps({
   icon: {
     type: String,
-    required: true,
   },
   title: {
     type: String,
-    required: true,
   },
   renderCreateButton: {
     type: Boolean,

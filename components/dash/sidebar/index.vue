@@ -8,19 +8,17 @@
       active-color="red-lighten-2"
     >
       <DashSidebarItem
-        v-for="entry in pages"
-        :prepend-icon="entry.sidebarItemIcon"
+        v-for="entry in items"
+        :prepend-icon="entry.icon"
         :title="entry.title"
-        :to="entry.targetRoute"
+        :to="entry.navigateTo"
+        @click="entry.onClick"
       />
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import { dashboardPages } from "~~/config/dashboard";
-const pages = dashboardPages;
-const drawer = ref(true);
+import { sidebarItems } from "~~/config/dash/sidebar";
+const items = sidebarItems;
 </script>
-
-<style scoped></style>

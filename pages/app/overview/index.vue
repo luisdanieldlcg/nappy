@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { overviewInsights } from "~~/config/overview";
+import { overviewInsights } from "~~/config/dash/overview";
 
 const insights = overviewInsights;
 const members = {
