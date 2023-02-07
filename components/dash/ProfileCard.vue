@@ -5,9 +5,8 @@
       class="align-end"
       src="https://wallpaperaccess.com/full/2774333.jpg"
     >
-      
     </v-img>
-    
+
     <v-container>
       <div class="text-center pa-3">
         <v-avatar
@@ -28,7 +27,7 @@
           </v-avatar>
         </v-avatar>
       </div>
-      <h1>Luis de la Cruz</h1>
+      <h1>{{ fullName }}</h1>
       <h2 class="font-weight-medium">Architect</h2>
       <v-list-item subtitle="Personal" class="mt-5 pa-0">
         <template #prepend>
@@ -44,4 +43,11 @@
   </v-card>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps({
+  fullName: {
+    type: String,
+    required: true,
+  },
+});
+</script>
