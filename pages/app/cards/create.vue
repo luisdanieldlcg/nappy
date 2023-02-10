@@ -2,27 +2,44 @@
   <NuxtLayout name="dashboard">
     <v-container>
       <v-row>
-        <v-col cols="4">
-          <DashProfileCard :fullName="firstName" />
+        <v-col cols="12" sm="7" lg="6" xl="5">
+          <DashProfileCard />
         </v-col>
-        <v-col cols="5">
-          <v-expansion-panels class="mt-7">
+        <v-col cols="12" sm="5" class="mt-16">
+          <v-expansion-panels>
             <TextField
               label="Card Title"
               hint="Enter the title for this card"
-              v-model="firstName"
+              v-model="cardController.data.title"
             />
 
             <DashFieldExpansion title="Full Name">
-              <TextField label="First Name" />
-              <TextField label="LastName" />
+              <TextField
+                label="First Name"
+                v-model="cardController.data.firstName"
+              />
+              <TextField
+                label="LastName"
+                v-model="cardController.data.lastName"
+              />
             </DashFieldExpansion>
 
             <DashFieldExpansion title="More details">
-              <TextField label="Job Title" />
-              <TextField label="Company Name" />
+              <TextField
+                label="Job Title"
+                v-model="cardController.data.jobTitle"
+              />
+              <TextField
+                label="Company Name"
+                v-model="cardController.data.company"
+              />
             </DashFieldExpansion>
           </v-expansion-panels>
+          <v-btn
+            variant="tonal"
+            class="mt-6 text-capitalize"
+            icon="mdi-check-bold"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -30,8 +47,6 @@
 </template>
 
 <script setup lang="ts">
-
-const firstName = ref("Luis de la Cruz");
+import { useProfileCard } from "~~/stores/card_store";
+const cardController = useProfileCard();
 </script>
-
-<style scoped></style>
