@@ -2,12 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" lg="9" class="pa-0">
-        <DashContentHeader
-          v-if="currentPage"
-          :title="currentPage.title"
-          :icon="currentPage.icon"
-          :render-create-button="currentPage.renderCreateButton"
-        />
+        <DashContentHeader v-if="currentPage" :header="currentPage" />
         <slot></slot>
       </v-col>
     </v-row>

@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
+
 const firstName = ref("Luis de la Cruz");
 </script>
 
 <style scoped></style>
-z

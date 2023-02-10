@@ -1,18 +1,21 @@
 <template>
   <v-avatar
+    v-bind="$attrs"
     color="grey-lighten-2"
     size="32"
     class="ml-4 hover-effect"
-    @click="navigateToCreateCard"
   >
-    <v-icon icon="mdi-plus" size="16" />
+    <v-icon :icon="icon" size="16" />
   </v-avatar>
 </template>
 
 <script setup lang="ts">
-function navigateToCreateCard() {
-  navigateTo("/app/cards/create");
-}
+defineProps({
+  icon: {
+    type: String,
+    required: true,
+  },
+});
 </script>
 
 <style scoped lang="scss">
