@@ -9,8 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import { useProfileCard } from "~~/stores/card_store";
-const card = useProfileCard();
+import { CardDTO } from "~~/api/dtos/card.dto";
+const card: CardDTO = {
+  title: "Title",
+  company: "Company",
+  firstName: "First Name",
+  lastName: "Last Name",
+  jobTitle: "Job Title",
+};
 </script>
 
 <style scoped></style>

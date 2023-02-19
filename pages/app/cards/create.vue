@@ -3,41 +3,34 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="7" lg="6" xl="5">
-          <DashProfileCard />
+          <DashProfileCard :card="card" />
         </v-col>
+
         <v-col cols="12" sm="5" class="mt-16">
           <v-expansion-panels>
+            <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
             <TextField
               label="Card Title"
               hint="Enter the title for this card"
-              v-model="cardController.data.title"
+              v-model="card.title"
             />
+
             <DashFieldExpansion title="Full Name">
-              <TextField
-                label="First Name"
-                v-model="cardController.data.firstName"
-              />
-              <TextField
-                label="Last Name"
-                v-model="cardController.data.lastName"
-              />
+              <TextField label="First Name" v-model="card.firstName" />
+              <TextField label="Last Name" v-model="card.lastName" />
             </DashFieldExpansion>
 
             <DashFieldExpansion title="More details">
-              <TextField
-                label="Job Title"
-                v-model="cardController.data.jobTitle"
-              />
-              <TextField
-                label="Company Name"
-                v-model="cardController.data.company"
-              />
+              <TextField label="Job Title" v-model="card.jobTitle" />
+              <TextField label="Company Name" v-model="card.company" />
             </DashFieldExpansion>
           </v-expansion-panels>
+
           <v-btn
             variant="tonal"
             class="mt-6 text-capitalize"
             icon="mdi-check-bold"
+            @click="createCard"
           />
         </v-col>
       </v-row>
@@ -46,6 +39,33 @@
 </template>
 
 <script setup lang="ts">
-import { useProfileCard } from "~~/stores/card_store";
-const cardController = useProfileCard();
+import { CreateCardDTO } from "~~/api/dtos/card.dto";
+import { useCardStore } from "~~/stores/card.store";
+const loading = ref(false);
+const card = reactive<CreateCardDTO>({
+  title: "Work",
+  firstName: "Luis",
+  lastName: "de la Cruz",
+  jobTitle: "",
+  company: "",
+});
+const cardStore = useCardStore();
+
+const fullName = computed(() => {
+  return card.firstName + " " + card.lastName;
+});
+const createCard = async () => {
+  loading.value = true;
+  console.log(card.firstName);
+  const result = await cardStore.create(card);
+  result.match({
+    Ok(value) {
+      console.log(value.data);
+    },
+    Err(error) {
+      console.log(error);
+    },
+  });
+  loading.value = false;
+};
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center mt-4">
-    <v-chip color="grey-darken-4"> {{ cardController.data.title }} </v-chip>
+    <v-chip color="grey-darken-4"> {{ card.title }} </v-chip>
     <v-card class="card-shadow-light" color="background" :elevation="0">
       <v-img
         cover
@@ -28,11 +28,11 @@
           </v-avatar>
         </div>
         <div class="text-left text-grey-subtitle">
-          <h1>{{ cardController.fullName }}</h1>
-          <h2 class="font-weight-medium">{{ cardController.data.jobTitle }}</h2>
-          <h2 class="font-weight-medium">{{ cardController.data.company }}</h2>
+          <h1>{{ card.firstName + " " + card.lastName }}</h1>
+          <h2 class="font-weight-medium">{{ card.jobTitle }}</h2>
+          <h2 class="font-weight-medium">{{ card.company }}</h2>
         </div>
-        <!-- <v-list-item subtitle="Personal" class="mt-5 pa-0">
+        <v-list-item subtitle="Personal" class="mt-5 pa-0">
           <template #prepend>
             <v-avatar color="red">
               <v-icon icon="mdi-email"></v-icon>
@@ -41,14 +41,16 @@
           <template #title>
             <p class="font-weight-bold">danikingrd@gmail.com</p>
           </template>
-        </v-list-item> -->
+        </v-list-item>
       </v-container>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useProfileCard } from "~~/stores/card_store";
+import { CardDTO } from "../../api/dtos/card.dto";
+defineProps<{
+  card: CardDTO;
+}>();
 
-const cardController = useProfileCard();
 </script>
