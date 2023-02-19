@@ -1,6 +1,6 @@
 <template>
   <div class="text-center mt-4">
-    <v-chip color="red"> {{ cardController.data.title }} </v-chip>
+    <v-chip color="grey-darken-4"> {{ cardController.data.title }} </v-chip>
     <v-card class="card-shadow-light" color="background" :elevation="0">
       <v-img
         cover

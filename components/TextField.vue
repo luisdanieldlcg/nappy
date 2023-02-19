@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    density="compact"
+    density="default"
     color="primary"
     variant="filled"
     :type="showText ? 'text' : 'password'"

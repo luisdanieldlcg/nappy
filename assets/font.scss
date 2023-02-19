@@ -2,7 +2,11 @@
 @use "sass:map";
 @use "sass:meta";
 @use "vuetify/lib/styles/tools/functions" as *;
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap");
+
+$body-font-family: "Public Sans", sans-serif;
+
+// @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 // ==================================== //
 // Global Settings
 // ==================================== //

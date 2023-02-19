@@ -3,12 +3,9 @@
     <RootHeader title="Signup" subtitle="Create an account to get started!" />
 
     <!-------------Start Animation Alert---------->
-    <AnimatedAlert
-      :show="controller.viewState.showAlert"
-      v-model="controller.viewState.showAlert"
-    >
+    <AnimatedAlert :show="showAlert" v-model="showAlert">
       <template #default>
-        {{ controller.viewState.errorMessage }}
+        {{ errorMessage }}
       </template>
     </AnimatedAlert>
     <!-------------End Animation Alert---------->
@@ -16,46 +13,43 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
-            <v-card
-              class="elevation-0"
-              :loading="controller.viewState.loading ? 'red' : undefined"
-            >
+            <v-card class="elevation-0" :loading="loading ? 'red' : undefined">
               <v-card-text>
                 <TextField
-                  v-model="controller.email"
+                  v-model="email"
                   hint="Enter your email address."
                   label="Email"
                   clearable
-                  :rules="controller.emailRules"
+                  :rules="emailRules"
                   required
                   autocomplete="off"
                 />
                 <TextField
-                  v-model="controller.password"
+                  v-model="password"
                   label="Password"
                   hint="Your password must be at least 8 characters long."
-                  :rules="controller.passwordRules"
+                  :rules="passwordRules"
                   required
                   withEye
                   autocomplete="new-password"
                 />
 
                 <TextField
-                  v-model="controller.passwordConfirm"
+                  v-model="passwordConfirm"
                   label="Password Confirm"
                   hint="Confirm your password."
                   required
                   withEye
-                  :rules="controller.passwordConfirmRules"
+                  :rules="passwordConfirmRules"
                   autocomplete="new-password"
                 />
 
                 <v-checkbox
-                  v-model="controller.checkbox"
+                  v-model="checkbox"
                   class="custom-checkbox"
                   color="primary"
                   label="I agree the Terms of Service"
-                  :rules="controller.checkboxRules"
+                  :rules="checkboxRules"
                 >
                   <template #label>
                     <div>
@@ -91,10 +85,47 @@
 </template>
 
 <script setup lang="ts">
-import { useSignupStore } from "~~/stores/signup_store";
+import { useAuthStore } from "~~/stores/auth.store";
 
+/**
+ * SignupView state
+ */
+const loading = ref(false);
+const email = ref("");
+const password = ref("");
+const passwordConfirm = ref("");
+const checkbox = ref(false);
+const errorMessage = ref("");
+const showAlert = ref(false);
 const signupForm = ref<HTMLFormElement | null>(null);
-const controller = useSignupStore();
+const authStore = useAuthStore();
+
+/**
+ * TextField rules
+ */
+const checkboxRules = [
+  (check: Boolean) =>
+    !!check ||
+    "You must agree the Terms of Service if you want to create an account.",
+];
+const emailRules = [
+  (text: string) => !!text || "Email is required",
+  (text: string) => /.+@.+/.test(text) || "Email must be valid",
+];
+const passwordRules = [
+  (text: string) => !!text || "Password is required",
+  (text: string) =>
+    text.length >= 8 || "Your password must be at least 8 characters long.",
+];
+
+const passwordConfirmRules = [
+  (text: string) => !!text || "Password Confirm is required",
+  (text: string) => text === password.value || "Passwords do not match.",
+];
+
+/**
+ * LoginView actions
+ */
 const onSubmit = async () => {
   // Fast Return if for some reason the html element is not attached
   if (!signupForm.value) {
@@ -105,8 +136,20 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  // router.push("/login");
-  await controller.signUp();
+  const result = await authStore.signUp({
+    email: email.value,
+    password: password.value,
+    passwordConfirm: passwordConfirm.value,
+  });
+  
+  result.match({
+    Err(error) {
+      console.log(error);
+    },
+    Ok(e) {
+      console.log({ e });
+    },
+  });
 };
 </script>
 

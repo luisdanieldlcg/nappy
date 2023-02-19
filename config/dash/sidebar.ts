@@ -1,4 +1,4 @@
-import { useAuthStore } from "~~/stores/auth_store";
+import { useAuthStore } from "~~/stores/auth.store";
 
 export interface SidebarItem {
   title: string;
@@ -37,11 +37,11 @@ export const sidebarItems: SidebarItem[] = [
     title: "Logout",
     icon: "mdi-logout",
     async onClick() {
-      const controller = useAuthStore();
-      const result = await controller.logOut();
-      if (result.isOk) {
-        navigateTo("/");
-      }
+      // const controller = useAuthStore();
+      // const result = await controller.logOut();
+      // if (result.isOk) {
+      //   navigateTo("/");
+      // }
     },
   },
 ];

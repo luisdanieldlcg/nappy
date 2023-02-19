@@ -4,8 +4,8 @@
     <v-list
       nav
       class="justify-center pa-6"
-      density="compact"
-      active-color="red-lighten-2"
+      active-color="grey-darken-4"
+      density="comfortable"
     >
       <DashSidebarItem
         v-for="entry in items"

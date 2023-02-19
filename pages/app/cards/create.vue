@@ -12,14 +12,13 @@
               hint="Enter the title for this card"
               v-model="cardController.data.title"
             />
-
             <DashFieldExpansion title="Full Name">
               <TextField
                 label="First Name"
                 v-model="cardController.data.firstName"
               />
               <TextField
-                label="LastName"
+                label="Last Name"
                 v-model="cardController.data.lastName"
               />
             </DashFieldExpansion>

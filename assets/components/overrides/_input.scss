@@ -1,6 +1,8 @@
 $border-radius: 6px;
+.v-textfield input {
+  font-size: 2rem !important;
+}
 .v-text-field {
-  font-family: "DM Sans", sans-serif;
   margin-top: 18px !important;
   .v-field__outline__start {
     border-radius: $border-radius 0 0 $border-radius !important;
