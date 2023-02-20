@@ -1,5 +1,5 @@
 export interface CreateCardDTO {
-  title: string;
+  label: string;
   firstName: string;
   lastName: string;
   jobTitle: string;

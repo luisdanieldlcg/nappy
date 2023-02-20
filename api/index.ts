@@ -1,2 +1,2 @@
 export { login, signup, logout, verify } from "./auth.api";
-export { createCard } from "./card.api";
+export { createCard, findAllByUser } from "./card.api";

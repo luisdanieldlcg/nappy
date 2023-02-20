@@ -4,9 +4,13 @@ import { makeRequest } from "~~/utils/request";
 
 export const useCardStore = defineStore("card", () => {
   const create = async (dto: CreateCardDTO) => {
-    return makeRequest(() => api.createCard(dto));
+    return makeRequest<any>(() => api.createCard(dto));
+  };
+  const findAll = async () => {
+    return makeRequest<CardDTO[]>(() => api.findAllByUser());
   };
   return {
     create,
+    findAll,
   };
 });

@@ -7,15 +7,15 @@ import { makeRequest } from "~~/utils/request";
 
 export const useAuthStore = defineStore("auth", () => {
   const logIn = async (dto: LoginDTO) => {
-    return makeRequest<AxiosResponse<LoginResponse>>(() => api.login(dto));
+    return makeRequest<LoginResponse>(() => api.login(dto));
   };
 
   const signUp = async (dto: SignupDTO) => {
-    return makeRequest<AxiosResponse<SignupResponse>>(() => api.signup(dto));
+    return makeRequest<SignupResponse>(() => api.signup(dto));
   };
 
   const verifyToken = async () => {
-    return makeRequest<AxiosResponse>(() => api.verify());
+    return makeRequest<void>(() => api.verify());
   };
 
   return {

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center mt-4">
-    <v-chip color="grey-darken-4"> {{ card.title }} </v-chip>
+    <v-chip color="grey-darken-4"> {{ card.label }} </v-chip>
     <v-card class="card-shadow-light" color="background" :elevation="0">
       <v-img
         cover
@@ -32,7 +32,7 @@
           <h2 class="font-weight-medium">{{ card.jobTitle }}</h2>
           <h2 class="font-weight-medium">{{ card.company }}</h2>
         </div>
-        <v-list-item subtitle="Personal" class="mt-5 pa-0">
+        <!-- <v-list-item subtitle="Personal" class="mt-5 pa-0">
           <template #prepend>
             <v-avatar color="red">
               <v-icon icon="mdi-email"></v-icon>
@@ -41,7 +41,7 @@
           <template #title>
             <p class="font-weight-bold">danikingrd@gmail.com</p>
           </template>
-        </v-list-item>
+        </v-list-item> -->
       </v-container>
     </v-card>
   </div>
@@ -52,5 +52,4 @@ import { CardDTO } from "../../api/dtos/card.dto";
 defineProps<{
   card: CardDTO;
 }>();
-
 </script>

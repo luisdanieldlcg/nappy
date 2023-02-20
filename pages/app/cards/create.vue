@@ -12,7 +12,7 @@
             <TextField
               label="Card Title"
               hint="Enter the title for this card"
-              v-model="card.title"
+              v-model="card.label"
             />
 
             <DashFieldExpansion title="Full Name">
@@ -41,26 +41,26 @@
 <script setup lang="ts">
 import { CreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "~~/stores/card.store";
+import { useUserStore } from "~~/stores/user.store";
 const loading = ref(false);
 const card = reactive<CreateCardDTO>({
-  title: "Work",
+  label: "Work",
   firstName: "Luis",
   lastName: "de la Cruz",
   jobTitle: "",
   company: "",
 });
 const cardStore = useCardStore();
-
 const fullName = computed(() => {
   return card.firstName + " " + card.lastName;
 });
 const createCard = async () => {
   loading.value = true;
-  console.log(card.firstName);
   const result = await cardStore.create(card);
   result.match({
     Ok(value) {
       console.log(value.data);
+      useRouter().replace("/app/cards");
     },
     Err(error) {
       console.log(error);
