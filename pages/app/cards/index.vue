@@ -2,7 +2,7 @@
   <NuxtLayout name="dashboard">
     <v-row>
       <v-col cols="12" sm="9" md="6" xl="4" v-for="card in userStore.cards">
-        <DashProfileCard :card="card" />
+        <DashCard :card="card" />
       </v-col>
     </v-row>
   </NuxtLayout>

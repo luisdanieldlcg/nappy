@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="7" lg="6" xl="5">
-          <DashProfileCard :card="card" />
+          <DashCard :card="card" />
         </v-col>
 
         <v-col cols="12" sm="5" class="mt-16">
