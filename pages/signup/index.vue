@@ -13,7 +13,10 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
-            <v-card class="elevation-0" :loading="loading ? 'red' : undefined">
+            <v-card
+              class="elevation-0"
+              :loading="isLoading ? 'red' : undefined"
+            >
               <v-card-text>
                 <TextField
                   v-model="email"
@@ -85,20 +88,19 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~~/stores/auth.store";
+import { SignupDTO } from "~~/api/dtos/signup.dto";
 
 /**
  * SignupView state
  */
-const loading = ref(false);
 const email = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 const checkbox = ref(false);
-const errorMessage = ref("");
-const showAlert = ref(false);
 const signupForm = ref<HTMLFormElement | null>(null);
-const authStore = useAuthStore();
+const { isLoading, errorMessage, showAlert, execute } = useAuthAPI(
+  AuthEndpoint.SIGN_UP
+);
 
 /**
  * TextField rules
@@ -136,19 +138,13 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  const result = await authStore.signUp({
+  const dto: SignupDTO = {
     email: email.value,
     password: password.value,
     passwordConfirm: passwordConfirm.value,
-  });
-  
-  result.match({
-    Err(error) {
-      console.log(error);
-    },
-    Ok(e) {
-      console.log({ e });
-    },
+  };
+  await execute({
+    data: dto,
   });
 };
 </script>

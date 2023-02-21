@@ -10,6 +10,7 @@
   "dependencies": {
     "@mdi/font": "^7.1.96",
     "@pinia/nuxt": "^0.4.6",
+    "@vueuse/integrations": "^9.13.0",
     "@vueuse/rxjs": "^9.13.0",
     "axios": "^1.2.3",
     "pinia": "^2.0.29",

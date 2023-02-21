@@ -17,7 +17,10 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
-            <v-card class="elevation-0" :loading="loading ? 'red' : undefined">
+            <v-card
+              class="elevation-0"
+              :loading="isLoading ? 'red' : undefined"
+            >
               <v-card-text>
                 <TextField
                   v-model="email"
@@ -70,19 +73,20 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "../../stores/auth.store";
-
+import { LoginDTO, LoginResponse } from "~~/api/dtos/login.dto";
+import { useAuthAPI } from "../../composables/useAuthAPI";
 /**
  * LoginView state
  */
-const loading = ref(false);
 const email = ref("admin@example.com");
 const password = ref("12345678");
-const errorMessage = ref("");
-const showAlert = ref(false);
 const loginForm = ref<HTMLFormElement | null>(null);
-const authStore = useAuthStore();
 
+/**
+ * Make login from Authentication API
+ */
+const { isLoading, execute, errorMessage, showAlert, response } =
+  useAuthAPI<LoginResponse>(AuthEndpoint.LOG_IN);
 /**
  * TextField rules
  */
@@ -108,21 +112,16 @@ const onSubmit = async () => {
   if (!valid) {
     return;
   }
-  const result = await authStore.logIn({
+  const dto: LoginDTO = {
     email: email.value,
     password: password.value,
+  };
+  await execute({
+    data: dto,
   });
-  result.match({
-    Ok(e) {
-      errorMessage.value = "";
-      showAlert.value = false;
-      useRouter().replace("/app");
-    },
-    Err(e) {
-      errorMessage.value = e;
-      showAlert.value = true;
-    },
-  });
+  if (response.value?.data) {
+    navigateTo("/app/cards");
+  }
 };
 </script>
 

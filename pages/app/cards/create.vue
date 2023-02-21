@@ -8,7 +8,10 @@
 
         <v-col cols="12" sm="5" class="mt-16">
           <v-expansion-panels>
-            <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
+            <v-progress-linear
+              indeterminate
+              v-if="isLoading"
+            ></v-progress-linear>
             <TextField
               label="Card Title"
               hint="Enter the title for this card"
@@ -39,10 +42,12 @@
 </template>
 
 <script setup lang="ts">
-import { CreateCardDTO } from "~~/api/dtos/card.dto";
-import { useCardStore } from "~~/stores/card.store";
+import { CardDTO, CreateCardDTO } from "~~/api/dtos/card.dto";
 import { useUserStore } from "~~/stores/user.store";
-const loading = ref(false);
+
+const { isLoading, response, execute } = useCardAPI<CardDTO>(
+  CardFunctions.CREATE
+);
 const card = reactive<CreateCardDTO>({
   label: "Work",
   firstName: "Luis",
@@ -50,22 +55,15 @@ const card = reactive<CreateCardDTO>({
   jobTitle: "",
   company: "",
 });
-const cardStore = useCardStore();
-const fullName = computed(() => {
-  return card.firstName + " " + card.lastName;
-});
+
 const createCard = async () => {
-  loading.value = true;
-  const result = await cardStore.create(card);
-  result.match({
-    Ok(value) {
-      console.log(value.data);
-      useRouter().replace("/app/cards");
-    },
-    Err(error) {
-      console.log(error);
-    },
+  await execute({
+    data: card,
   });
-  loading.value = false;
+  if (response.value?.data) {
+    isLoading.value = true;
+    await useUserStore().fetchAll();
+    useRouter().replace("/app/cards");
+  }
 };
 </script>

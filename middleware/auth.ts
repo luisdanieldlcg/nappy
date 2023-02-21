@@ -1,10 +1,8 @@
-import { useAuthStore } from "~~/stores/auth.store";
-
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (to.path.startsWith("/app")) {
-    const controller = useAuthStore();
-    const result = await controller.verifyToken();
-    if (result.isErr) {
+    const { execute, response } = useAuthAPI(AuthEndpoint.VERIFY_TOKEN);
+    await execute();
+    if (!response.value?.data) {
       return navigateTo("/login");
     }
   }

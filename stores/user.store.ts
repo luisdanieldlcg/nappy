@@ -1,21 +1,18 @@
 import { CardDTO } from "~~/api/dtos/card.dto";
-import { useCardStore } from "./card.store";
 
 export const useUserStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
-  const cardStore = useCardStore();
 
   const fetchAll = async () => {
-    const result = await cardStore.findAll();
-    result.match({
-      Ok(value) {
-        cards.splice(0, cards.length, ...value);
-      },
-      Err(error) {
-        console.log("Failed to fetch cards: " + error);
-      },
-    });
+    const { response, execute } = useCardAPI<CardDTO[]>(
+      CardFunctions.GET_BY_USER
+    );
+    await execute();
+    if (response.value?.data) {
+      cards.splice(0, cards.length, ...response.value.data);
+    }
   };
+
   return {
     cards,
     fetchAll,
