@@ -1,8 +1,6 @@
 import { useAxios } from "@vueuse/integrations/useAxios";
 import { HttpMethod } from "~~/utils/http-method";
-import { CardFunctions } from "~/composables/useCardAPI";
 import { AuthEndpoint } from "~/composables/useAuthAPI";
-import { HttpStatusCode } from "axios";
 
 type Options = {
   resource: Resource;

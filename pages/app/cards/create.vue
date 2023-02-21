@@ -49,6 +49,7 @@ const { isLoading, response, execute } = useCardAPI<CardDTO>(
   CardFunctions.CREATE
 );
 const card = reactive<CreateCardDTO>({
+  id: "",
   label: "Work",
   firstName: "Luis",
   lastName: "de la Cruz",

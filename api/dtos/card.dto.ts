@@ -1,4 +1,5 @@
 export interface CreateCardDTO {
+  id: string;
   label: string;
   firstName: string;
   lastName: string;
