@@ -30,3 +30,7 @@ export const findAllByUser = () => {
 export const deleteCard = (cardId: string) => {
   return API.delete(`/${cardId}`);
 };
+
+export const updateCard = (cardId: string) => {
+  return API.patch(`${cardId}`);
+};

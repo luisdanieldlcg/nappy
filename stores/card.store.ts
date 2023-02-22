@@ -1,5 +1,5 @@
 import { Maybe } from "true-myth";
-import { createCard, findAllByUser, deleteCard } from "~~/api";
+import { createCard, findAllByUser, deleteCard, updateCard } from "~~/api";
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { ViewState } from "~~/utils/view-state";
 
@@ -31,6 +31,15 @@ export const useCardStore = defineStore("user", () => {
     return Maybe.of(cards.find((dto) => dto.id === id));
   };
 
+  const updateById = async (card: CardDTO, screen: ViewState) => {
+    const result = await screen.updateWith<CardDTO>(() => updateCard(card.id));
+    if (result.isJust) {
+      const i = cards.indexOf(card);
+      if (i >= 0) {
+        cards.splice(i, 1, result.value);
+      }
+    }
+  };
   return {
     cards: readonly(cards),
     fetchAll,
