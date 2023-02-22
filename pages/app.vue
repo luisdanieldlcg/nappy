@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~~/stores/user.store";
+import { useCardStore } from "~~/stores/card.store";
 
 definePageMeta({
   middleware: "auth",
 });
 const toggleDrawer = ref(false);
-const user = useUserStore();
+const user = useCardStore();
 onMounted(async () => {
   await user.fetchAll();
 });

@@ -43,9 +43,9 @@
 
 <script setup lang="ts">
 import { CardDTO, CreateCardDTO } from "~~/api/dtos/card.dto";
-import { useUserStore } from "~~/stores/user.store";
+import { useCardStore } from "~~/stores/card.store";
 
-const { isLoading, response, execute } = useCardAPI<CardDTO>(
+const { isLoading, execute, response } = useCardAPI<CardDTO>(
   CardFunctions.CREATE
 );
 const card = reactive<CreateCardDTO>({
@@ -58,12 +58,9 @@ const card = reactive<CreateCardDTO>({
 });
 
 const createCard = async () => {
-  await execute({
-    data: card,
-  });
+  await execute({ data: card });
   if (response.value?.data) {
-    isLoading.value = true;
-    await useUserStore().fetchAll();
+    useCardStore().addCard(response.value.data);
     useRouter().replace("/app/cards");
   }
 };

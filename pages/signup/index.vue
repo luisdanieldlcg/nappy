@@ -3,9 +3,9 @@
     <RootHeader title="Signup" subtitle="Create an account to get started!" />
 
     <!-------------Start Animation Alert---------->
-    <AnimatedAlert :show="showAlert" v-model="showAlert">
+    <AnimatedAlert :show="view.alert()">
       <template #default>
-        {{ errorMessage }}
+        {{ view.getError() }}
       </template>
     </AnimatedAlert>
     <!-------------End Animation Alert---------->
@@ -15,7 +15,7 @@
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
             <v-card
               class="elevation-0"
-              :loading="isLoading ? 'red' : undefined"
+              :loading="view.isLoading() ? 'red' : undefined"
             >
               <v-card-text>
                 <TextField
@@ -88,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+import { signUp } from "~~/api";
 import { SignupDTO } from "~~/api/dtos/signup.dto";
 
 /**
@@ -98,10 +99,7 @@ const password = ref("");
 const passwordConfirm = ref("");
 const checkbox = ref(false);
 const signupForm = ref<HTMLFormElement | null>(null);
-const { isLoading, errorMessage, showAlert, execute } = useAuthAPI(
-  AuthEndpoint.SIGN_UP
-);
-
+const view = new ViewState();
 /**
  * TextField rules
  */
@@ -143,9 +141,10 @@ const onSubmit = async () => {
     password: password.value,
     passwordConfirm: passwordConfirm.value,
   };
-  await execute({
-    data: dto,
-  });
+  const result = await view.updateWith(() => signUp(dto));
+  if (result.isJust) {
+    navigateTo("/login");
+  }
 };
 </script>
 

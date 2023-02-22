@@ -1,5 +1,13 @@
-import { CardEndpoint } from "./endpoints";
+import axios from "axios";
+import { API_BASE_URL } from "~~/config/url";
 import { CreateCardDTO, CardDTO } from "./dtos/card.dto";
+
+const AUTH_API_URL = API_BASE_URL + "auth";
+
+const API = axios.create({
+  baseURL: AUTH_API_URL,
+  withCredentials: true,
+});
 
 /**
  * @url POST /cards/
@@ -7,7 +15,7 @@ import { CreateCardDTO, CardDTO } from "./dtos/card.dto";
  * @since 1.0
  */
 export const createCard = (dto: CreateCardDTO) => {
-  return CardEndpoint.post<CardDTO>("/", dto);
+  return API.post<CardDTO>("/", dto);
 };
 
 /**
@@ -16,5 +24,5 @@ export const createCard = (dto: CreateCardDTO) => {
  * @since 1.0
  */
 export const findAllByUser = () => {
-  return CardEndpoint.get<CardDTO[]>("/");
+  return API.get<CardDTO[]>("/");
 };

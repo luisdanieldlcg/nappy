@@ -1,24 +1,32 @@
-import { isAxiosError } from "axios";
-import { ErrorResponse } from "~~/api/endpoints";
+import { AxiosResponse, isAxiosError } from "axios";
+import { Result, Maybe } from "true-myth";
+import { ViewState } from "./view-state";
 
-/**
- * Will parse the error message from http call.
- * Additionally handles the case for when we get an array of messages.
- */
-export const parseErrorMessage = (err: any): string => {
-  const SERVER_ERROR = "Failed to connect to nappy servers.";
-  if (!err || !isAxiosError<ErrorResponse>(err)) {
-    return SERVER_ERROR;
+export class ErrorResponse {
+  message: string | string[];
+  statusCode: number;
+}
+
+export const handleRequest = async <T>(
+  executor: () => Promise<AxiosResponse<T>>
+): Promise<Result<T, string>> => {
+  try {
+    const result = await executor();
+    return Result.ok(result.data);
+  } catch (error) {
+    if (
+      !isAxiosError<ErrorResponse>(error) ||
+      !error.response ||
+      !error.response.data
+    ) {
+      return Result.err("Failed to connect to nappy servers.");
+    }
+    const message = error.response.data.message;
+    const badState =
+      "Something went very wrong. Try again or contact with support";
+    if (Array.isArray(message)) {
+      return Result.err(message.length === 0 ? badState : message[0]);
+    }
+    return Result.err(message);
   }
-  const response = err.response;
-  const INVALID_STATE =
-    "Something went very wrong. Try again or contact with support";
-  if (!response || !response.data) {
-    return INVALID_STATE;
-  }
-  const message = response.data.message;
-  if (Array.isArray(message)) {
-    return message.length === 0 ? INVALID_STATE : message[0];
-  }
-  return message;
 };

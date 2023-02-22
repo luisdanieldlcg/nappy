@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~~/stores/user.store";
-const userStore = useUserStore();
+import { useCardStore } from "~~/stores/card.store";
+const userStore = useCardStore();
 // console.log(userStore.cards.length);
 </script>
 

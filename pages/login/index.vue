@@ -5,9 +5,9 @@
       subtitle=" Welcome back! Enter your credentials to log in."
     />
     <!-------------Start Animation Alert---------->
-    <AnimatedAlert :show="showAlert" v-model="showAlert">
+    <AnimatedAlert :show="view.alert()">
       <template #default>
-        {{ errorMessage }}
+        {{ view.getError() }}
       </template>
     </AnimatedAlert>
     <!-------------End Animation Alert---------->
@@ -19,7 +19,7 @@
           <v-col cols="12" sm="7" md="6" lg="5" xl="4">
             <v-card
               class="elevation-0"
-              :loading="isLoading ? 'red' : undefined"
+              :loading="view.isLoading() ? 'red' : undefined"
             >
               <v-card-text>
                 <TextField
@@ -73,20 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import { LoginDTO, LoginResponse } from "~~/api/dtos/login.dto";
-import { useAuthAPI } from "../../composables/useAuthAPI";
+import { logIn } from "~~/api";
+import { LoginDTO } from "~~/api/dtos/login.dto";
 /**
  * LoginView state
  */
 const email = ref("admin@example.com");
 const password = ref("12345678");
 const loginForm = ref<HTMLFormElement | null>(null);
-
-/**
- * Make login from Authentication API
- */
-const { isLoading, execute, errorMessage, showAlert, response } =
-  useAuthAPI<LoginResponse>(AuthEndpoint.LOG_IN);
+const view = new ViewState();
 /**
  * TextField rules
  */
@@ -116,10 +111,8 @@ const onSubmit = async () => {
     email: email.value,
     password: password.value,
   };
-  await execute({
-    data: dto,
-  });
-  if (response.value?.data) {
+  const result = await view.updateWith<LoginDTO>(() => logIn(dto));
+  if (result.isJust) {
     navigateTo("/app/cards");
   }
 };
