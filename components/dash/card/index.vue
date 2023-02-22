@@ -1,5 +1,9 @@
 <template>
-  <ConfirmDialog v-model="deleteConfirm" @close="deleteConfirm = false" />
+  <ConfirmDialog
+    v-model="deleteConfirm"
+    @close="deleteConfirm = false"
+    @trigger="deleteSelected"
+  />
   <div class="text-center mt-4">
     <v-chip color="grey-darken-4"> {{ card.label }} </v-chip>
     <v-card class="card-shadow-light" color="background" :elevation="0">
@@ -64,9 +68,15 @@
 </template>
 
 <script setup lang="ts">
+import { useCardStore } from "~~/stores/card.store";
 import { CardDTO } from "../../../api/dtos/card.dto";
-defineProps<{
+const props = defineProps<{
   card: CardDTO;
 }>();
+const view = new ViewState();
+const deleteSelected = () => {
+  useCardStore().deleteById(props.card.id, view);
+  deleteConfirm.value = false;
+};
 const deleteConfirm = ref(false);
 </script>

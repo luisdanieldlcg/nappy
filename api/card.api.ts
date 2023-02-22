@@ -2,10 +2,10 @@ import axios from "axios";
 import { API_BASE_URL } from "~~/config/url";
 import { CreateCardDTO, CardDTO } from "./dtos/card.dto";
 
-const AUTH_API_URL = API_BASE_URL + "auth";
+const CARD_API_URL = API_BASE_URL + "cards";
 
 const API = axios.create({
-  baseURL: AUTH_API_URL,
+  baseURL: CARD_API_URL,
   withCredentials: true,
 });
 
@@ -25,4 +25,8 @@ export const createCard = (dto: CreateCardDTO) => {
  */
 export const findAllByUser = () => {
   return API.get<CardDTO[]>("/");
+};
+
+export const deleteCard = (cardId: string) => {
+  return API.delete(`/${cardId}`);
 };

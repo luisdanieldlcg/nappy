@@ -3,29 +3,29 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="7" lg="6" xl="5">
-          <DashCard :card="card" />
+          <DashCard :card="dto" />
         </v-col>
 
         <v-col cols="12" sm="5" class="mt-16">
           <v-expansion-panels>
             <v-progress-linear
               indeterminate
-              v-if="isLoading"
+              v-if="view.isLoading()"
             ></v-progress-linear>
             <TextField
               label="Card Title"
               hint="Enter the title for this card"
-              v-model="card.label"
+              v-model="dto.label"
             />
 
             <DashFieldExpansion title="Full Name">
-              <TextField label="First Name" v-model="card.firstName" />
-              <TextField label="Last Name" v-model="card.lastName" />
+              <TextField label="First Name" v-model="dto.firstName" />
+              <TextField label="Last Name" v-model="dto.lastName" />
             </DashFieldExpansion>
 
             <DashFieldExpansion title="More details">
-              <TextField label="Job Title" v-model="card.jobTitle" />
-              <TextField label="Company Name" v-model="card.company" />
+              <TextField label="Job Title" v-model="dto.jobTitle" />
+              <TextField label="Company Name" v-model="dto.company" />
             </DashFieldExpansion>
           </v-expansion-panels>
 
@@ -42,13 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { CardDTO, CreateCardDTO } from "~~/api/dtos/card.dto";
+import { CreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "~~/stores/card.store";
 
-const { isLoading, execute, response } = useCardAPI<CardDTO>(
-  CardFunctions.CREATE
-);
-const card = reactive<CreateCardDTO>({
+const view = new ViewState();
+const dto = reactive<CreateCardDTO>({
   id: "",
   label: "Work",
   firstName: "Luis",
@@ -56,12 +54,7 @@ const card = reactive<CreateCardDTO>({
   jobTitle: "",
   company: "",
 });
-
 const createCard = async () => {
-  await execute({ data: card });
-  if (response.value?.data) {
-    useCardStore().addCard(response.value.data);
-    useRouter().replace("/app/cards");
-  }
+  useCardStore().create(dto, view);
 };
 </script>

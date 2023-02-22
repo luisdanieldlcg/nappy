@@ -22,7 +22,9 @@
               @click="$emit('close')"
               >Cancel
             </v-btn>
-            <v-btn class="text-capitalize bg-primary"> Delete Card</v-btn>
+            <v-btn class="text-capitalize bg-primary" @click="$emit('trigger')">
+              Delete Card</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -31,5 +33,5 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(["close"]);
+defineEmits(["close", "trigger"]);
 </script>

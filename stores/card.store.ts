@@ -1,41 +1,35 @@
+import { createCard, findAllByUser, deleteCard } from "~~/api";
 import { CardDTO } from "~~/api/dtos/card.dto";
+import { ViewState } from "~~/utils/view-state";
+
 export const useCardStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
-  const isLoading = ref(false);
-  const errorMessage = ref("");
 
-  const create = async () => {
-    const { execute, errorMessage, isLoading } = useCardAPI<CardDTO>(
-      CardFunctions.CREATE
-    );
-
-    isLoading.value = true;
-    const { data } = await execute();
-    errorMessage.value = errorMessage.value;
-    isLoading.value = false;
-
-    if (!data.value) return;
-    cards.push(data.value);
+  const create = async (card: CardDTO, screen: ViewState) => {
+    const newCard = await screen.updateWith<CardDTO>(() => createCard(card));
+    if (newCard.isJust) {
+      cards.push(newCard.value);
+      useRouter().replace("/app/cards");
+    }
   };
-  const fetchAll = async () => {
-    const { response, execute } = useCardAPI<CardDTO[]>(
-      CardFunctions.GET_BY_USER
-    );
-
-    await execute();
-    if (response.value?.data) {
-      cards.splice(0, cards.length, ...response.value.data);
+  const fetchAll = async (screen: ViewState) => {
+    const result = await screen.updateWith<CardDTO[]>(() => findAllByUser());
+    if (result.isJust) {
+      cards.splice(0, cards.length, ...result.value);
+    }
+  };
+  const deleteById = async (id: string, screen: ViewState) => {
+    const result = await screen.updateWith(() => deleteCard(id), false);
+    if (result.isJust) {
+      const newArray = cards.filter((entry) => entry.id !== id);
+      cards.splice(0, cards.length, ...newArray);
     }
   };
 
-  const addCard = (card: CardDTO) => {
-    if (!card) return;
-    cards.push(card);
-  };
   return {
-    cards,
     fetchAll,
-    addCard,
-    isLoading,
+    create,
+    cards: readonly(cards),
+    deleteById,
   };
 });

@@ -10,7 +10,10 @@ export class ViewState {
   private showAlert = ref(false);
 
   // This will update the new state with the returned http data
-  public updateWith = async <T>(fn: () => HttpRequest<T>): FutureOption<T> => {
+  public updateWith = async <T>(
+    fn: () => HttpRequest<T>,
+    hasContent = false
+  ): FutureOption<T> => {
     this.setLoading();
     const result = await handleRequest<T>(() => fn());
     this.setIdle();
@@ -21,7 +24,7 @@ export class ViewState {
         return Maybe.nothing<T>();
       },
       (data) => {
-        if (!data) {
+        if (hasContent && !data) {
           this.setAlert();
           this.setError("Something went wrong.");
           return Maybe.nothing<T>();
