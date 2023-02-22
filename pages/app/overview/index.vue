@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="dashboard">
+  <NuxtLayout name="dashboard" :header="header">
     <div>
       <v-container class="pa-0">
         <v-row class="pa-0">
@@ -33,6 +33,11 @@ const members = {
       id: "MeJf36POk6yJV_adQssw5c",
     },
   ],
+};
+const header = {
+  title: "Overview",
+  icon: "mdi-chart-line",
+  target: "/app/overview",
 };
 </script>
 

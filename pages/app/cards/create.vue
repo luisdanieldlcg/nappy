@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="dashboard">
+  <NuxtLayout name="dashboard" :header="header">
     <CardEditor
       :card="dto"
       @on-finish="createCard"
@@ -11,7 +11,11 @@
 <script setup lang="ts">
 import { CreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "~~/stores/card.store";
-
+const header = {
+  title: "Create a New Card",
+  icon: "mdi-card-account-details-outline",
+  target: "/app/cards/create",
+};
 const view = new ViewState();
 const dto = reactive<CreateCardDTO>({
   id: "",

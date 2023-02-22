@@ -1,3 +1,4 @@
+import { Maybe } from "true-myth";
 import { createCard, findAllByUser, deleteCard } from "~~/api";
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { ViewState } from "~~/utils/view-state";
@@ -26,10 +27,15 @@ export const useCardStore = defineStore("user", () => {
     }
   };
 
+  const getById = (id: string): Maybe<CardDTO> => {
+    return Maybe.of(cards.find((dto) => dto.id === id));
+  };
+
   return {
+    cards: readonly(cards),
     fetchAll,
     create,
-    cards: readonly(cards),
     deleteById,
+    getById,
   };
 });

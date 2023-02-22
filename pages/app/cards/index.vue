@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="dashboard">
+  <NuxtLayout name="dashboard" :header="header">
     <v-row>
       <v-col
         cols="12"
@@ -19,7 +19,7 @@
           <CardActionButton
             icon="mdi-pencil"
             tooltip="Edit Card"
-            @click="openEditor"
+            @click="openEditor(card.id)"
           />
           <CardActionButton
             icon="mdi-trash-can-outline"
@@ -35,13 +35,17 @@
 <script setup lang="ts">
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "~~/stores/card.store";
-
+const header = {
+  title: "Cards",
+  icon: "mdi-card-account-details-outline",
+  target: "/app/cards",
+};
 const cardStore = useCardStore();
 const deleteConfirm = ref(false);
 const view = new ViewState();
 
-const openEditor = () => {
-  navigateTo("/app/cards/edit");
+const openEditor = (cardId: string) => {
+  navigateTo(`/app/cards/edit/${cardId}`);
 };
 
 const deleteCard = async (card: CardDTO) => {

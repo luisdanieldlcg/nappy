@@ -1,1 +1,4 @@
-export const dashNestedRoutes: string[] = ["/app/cards/create"];
+export const dashNestedRoutes: string[] = [
+  "/app/cards/create",
+  "/app/cards/edit",
+];

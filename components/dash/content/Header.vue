@@ -15,26 +15,29 @@
       <p class="text-h5 d-inline">{{ header.title }}</p>
       <DashCircularActionButton
         icon="mdi-plus"
-        v-if="header.navigateTo"
-        @click="navigate"
+        v-if="isCardsViewRoute"
+        @click="navigateCreateCard"
       />
     </v-container>
   </v-list-item>
 </template>
 
 <script setup lang="ts">
-import { dashNestedRoutes } from "~~/config/dash/routes";
 import { DashPageHeader } from "~~/config/dash/header";
 
-const props = defineProps<{
+defineProps<{
   header: DashPageHeader;
 }>();
+const route = useRoute();
+
 const isNestedRoute = computed(() => {
-  const route = useRoute();
-  return dashNestedRoutes.some((path) => route.path.startsWith(path));
+  return route.path.includes("/cards/");
 });
-const navigate = () => {
-  navigateTo(props.header.navigateTo);
+const isCardsViewRoute = computed(() => {
+  return route.path === "/app/cards";
+});
+const navigateCreateCard = () => {
+  navigateTo("/app/cards/create");
 };
 </script>
 

@@ -1,4 +1,3 @@
-import { useAuthStore } from "~~/stores/auth.store";
 
 export interface SidebarItem {
   title: string;
