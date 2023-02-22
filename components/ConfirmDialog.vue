@@ -2,7 +2,11 @@
   <v-dialog>
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6" lg="4" class="pa-0">
-        <v-card class="pa-10 text-center font-weight-bold" elevation="0">
+        <v-card
+          class="pa-10 text-center font-weight-bold"
+          elevation="0"
+          :loading="loading"
+        >
           <v-icon
             icon="mdi-alert-circle-outline"
             color="grey-subtitle"
@@ -34,4 +38,10 @@
 
 <script setup lang="ts">
 defineEmits(["close", "trigger"]);
+defineProps({
+  loading: {
+    type: Boolean,
+    required: false,
+  },
+});
 </script>

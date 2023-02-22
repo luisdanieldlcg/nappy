@@ -1,6 +1,5 @@
 import { AxiosResponse, isAxiosError } from "axios";
 import { Result, Maybe } from "true-myth";
-import { ViewState } from "./view-state";
 
 export class ErrorResponse {
   message: string | string[];

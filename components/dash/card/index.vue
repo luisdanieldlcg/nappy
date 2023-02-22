@@ -3,9 +3,11 @@
     v-model="deleteConfirm"
     @close="deleteConfirm = false"
     @trigger="deleteSelected"
+    :loading="view.isLoading()"
   />
-  <div class="text-center mt-4">
-    <v-chip color="grey-darken-4"> {{ card.label }} </v-chip>
+
+  <div class="text-center mt-6">
+    <v-chip> {{ card.label }} </v-chip>
     <v-card class="card-shadow-light" color="background" :elevation="0">
       <v-hover v-slot="{ isHovering, props }">
         <v-img
@@ -15,6 +17,7 @@
           src="https://wallpaperaccess.com/full/2774333.jpg"
         >
           <v-overlay
+            :close-on-content-click="false"
             :model-value="isHovering"
             contained
             class="align-center justify-center"
@@ -74,8 +77,8 @@ const props = defineProps<{
   card: CardDTO;
 }>();
 const view = new ViewState();
-const deleteSelected = () => {
-  useCardStore().deleteById(props.card.id, view);
+const deleteSelected = async () => {
+  await useCardStore().deleteById(props.card.id, view);
   deleteConfirm.value = false;
 };
 const deleteConfirm = ref(false);

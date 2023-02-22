@@ -1,8 +1,9 @@
+import { verify } from "~~/api";
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (to.path.startsWith("/app")) {
-    const { execute, response } = useAuthAPI(AuthEndpoint.VERIFY_TOKEN);
-    await execute();
-    if (!response.value?.data) {
+    const result = await verify();
+    if (!result.data) {
       return navigateTo("/login");
     }
   }
