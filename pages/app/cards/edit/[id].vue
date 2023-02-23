@@ -1,6 +1,7 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
     <CardEditor
+      mode="edit"
       :card="card.value"
       @on-finish="save"
       :loading="view.isLoading()"
@@ -22,5 +23,8 @@ const card = cardStore.getById(params.id as string);
 if (card.isNothing) {
   throw "Unknown card";
 }
-const save = async () => {};
+
+const save = async () => {
+  await cardStore.updateById(card.value, view);
+};
 </script>

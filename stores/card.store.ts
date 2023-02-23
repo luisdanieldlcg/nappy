@@ -20,6 +20,7 @@ export const useCardStore = defineStore("user", () => {
     }
   };
   const deleteById = async (id: string, screen: ViewState) => {
+    console.log(id);
     const result = await screen.updateWith(() => deleteCard(id), false);
     if (result.isJust) {
       const newArray = cards.filter((entry) => entry.id !== id);
@@ -32,11 +33,12 @@ export const useCardStore = defineStore("user", () => {
   };
 
   const updateById = async (card: CardDTO, screen: ViewState) => {
-    const result = await screen.updateWith<CardDTO>(() => updateCard(card.id));
+    const result = await screen.updateWith<CardDTO>(() => updateCard(card));
     if (result.isJust) {
       const i = cards.indexOf(card);
       if (i >= 0) {
         cards.splice(i, 1, result.value);
+        useRouter().replace("/app/cards");
       }
     }
   };
@@ -46,5 +48,6 @@ export const useCardStore = defineStore("user", () => {
     create,
     deleteById,
     getById,
+    updateById,
   };
 });

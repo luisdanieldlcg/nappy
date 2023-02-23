@@ -1,6 +1,7 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
     <CardEditor
+      mode="create"
       :card="dto"
       @on-finish="createCard"
       :loading="view.isLoading()"

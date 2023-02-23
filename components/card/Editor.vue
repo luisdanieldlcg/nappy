@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="7" lg="6" xl="5">
-        <CardPresentation :card="card" />
+        <CardPresentation :card="card" :mode="mode" />
       </v-col>
 
       <v-col cols="12" sm="5" class="mt-16">
@@ -45,5 +45,6 @@ defineEmits(["onFinish"]);
 defineProps<{
   card: CreateCardDTO;
   loading: boolean;
+  mode: "create" | "edit";
 }>();
 </script>
