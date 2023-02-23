@@ -20,7 +20,6 @@ export const useCardStore = defineStore("user", () => {
     }
   };
   const deleteById = async (id: string, screen: ViewState) => {
-    console.log(id);
     const result = await screen.updateWith(() => deleteCard(id), false);
     if (result.isJust) {
       const newArray = cards.filter((entry) => entry.id !== id);

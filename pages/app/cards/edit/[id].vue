@@ -6,7 +6,6 @@
       @on-finish="save"
       :loading="view.isLoading()"
     />
-    <DropZone />
   </NuxtLayout>
 </template>
 

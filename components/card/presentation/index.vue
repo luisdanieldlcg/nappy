@@ -5,25 +5,7 @@
       <CardPresentationHeader
         image="https://wallpaperaccess.com/full/2774333.jpg"
       >
-        <template v-if="mode === 'view'">
-          <CardActionButton
-            icon="mdi-pencil"
-            tooltip="Edit Card"
-            @click="emit('onEdit', props.card)"
-          />
-          <CardActionButton
-            icon="mdi-trash-can-outline"
-            tooltip="Delete Card"
-            @click="emit('onDelete', props.card)"
-          />
-        </template>
-        <template v-else-if="mode === 'create' || mode === 'edit'">
-          <CardActionButton
-            icon="mdi-pencil"
-            tooltip="Edit Card"
-            @click="emit('onEdit', props.card)"
-          />
-        </template>
+        <slot></slot>
       </CardPresentationHeader>
       <v-container class="pa-6">
         <CardPresentationAvatar
@@ -37,12 +19,7 @@
 
 <script setup lang="ts">
 import { CardDTO } from "~~/api/dtos/card.dto";
-const props = defineProps<{
+defineProps<{
   card: CardDTO;
-  mode: "view" | "edit" | "create";
-}>();
-const emit = defineEmits<{
-  (e: "onEdit", card: CardDTO): void;
-  (e: "onDelete", card: CardDTO): void;
 }>();
 </script>

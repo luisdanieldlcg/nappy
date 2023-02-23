@@ -2,7 +2,13 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" sm="8" lg="7" xl="5" class="pa-0">
-        <CardPresentation :card="card" :mode="mode" />
+        <CardPresentation :card="card">
+          <CardActionButton
+            icon="mdi-pencil"
+            tooltip="Edit Card"
+            @click="pickImage"
+          />
+        </CardPresentation>
       </v-col>
 
       <v-col cols="12" sm="8" lg="5" class="mt-16">
@@ -34,10 +40,11 @@
           icon="mdi-check-bold"
           @click="$emit('onFinish')"
         />
-        <v-file-input></v-file-input>
       </v-col>
     </v-row>
   </v-container>
+  <!-- style="height: 50%; margin-left: 45rem; align-self: flex-end"-->
+  <FileDropDialog v-model="showDialog" @close="showDialog = false" />
 </template>
 
 <script setup lang="ts">
@@ -48,4 +55,8 @@ defineProps<{
   loading: boolean;
   mode: "create" | "edit";
 }>();
+const showDialog = ref(false);
+const pickImage = () => {
+  showDialog.value = true;
+};
 </script>
