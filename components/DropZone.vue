@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-file-input></v-file-input>
+    <v-file-input class="hidden-input"></v-file-input>
     dasdsa
   </v-card>
   <label for="fileInput" class="file-label">
@@ -9,6 +9,27 @@
   </label>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const onChange = () => {
 
-<style scoped></style>
+}
+const dragOver = () => {
+
+}
+const drageLeave = () => {
+
+}
+const drop = () => {
+
+}
+</script>
+g
+<style scoped>
+.hidden-input {
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+}
+</style>
