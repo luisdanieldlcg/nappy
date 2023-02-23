@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <v-row>
+    <v-row justify="center">
       <v-col
         cols="12"
         sm="9"

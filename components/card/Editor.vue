@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" sm="7" lg="6" xl="5">
+    <v-row justify="center">
+      <v-col cols="12" sm="8" lg="7" xl="5" class="pa-0">
         <CardPresentation :card="card" :mode="mode" />
       </v-col>
 
-      <v-col cols="12" sm="5" class="mt-16">
+      <v-col cols="12" sm="8" lg="5" class="mt-16">
         <v-expansion-panels>
           <v-progress-linear
             :indeterminate="loading"
@@ -34,6 +34,7 @@
           icon="mdi-check-bold"
           @click="$emit('onFinish')"
         />
+        <v-file-input></v-file-input>
       </v-col>
     </v-row>
   </v-container>

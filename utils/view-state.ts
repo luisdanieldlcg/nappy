@@ -7,7 +7,7 @@ export type FutureOption<T> = Promise<Maybe<T>>;
 export class ViewState {
   private loading = ref(false);
   private errorMessage = ref("");
-  private showAlert = ref(false);
+  public showAlert = ref(false);
 
   // This will update the new state with the returned http data
   public updateWith = async <T>(

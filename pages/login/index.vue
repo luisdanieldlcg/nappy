@@ -5,7 +5,7 @@
       subtitle=" Welcome back! Enter your credentials to log in."
     />
     <!-------------Start Animation Alert---------->
-    <AnimatedAlert :show="view.alert()">
+    <AnimatedAlert :show="view.alert()" v-model="view.showAlert.value">
       <template #default>
         {{ view.getError() }}
       </template>

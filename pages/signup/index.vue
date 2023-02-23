@@ -3,7 +3,7 @@
     <RootHeader title="Signup" subtitle="Create an account to get started!" />
 
     <!-------------Start Animation Alert---------->
-    <AnimatedAlert :show="view.alert()">
+    <AnimatedAlert :show="view.alert()" v-model="view.showAlert.value">
       <template #default>
         {{ view.getError() }}
       </template>

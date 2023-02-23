@@ -7,14 +7,14 @@
       >
         <template v-if="mode === 'view'">
           <CardActionButton
-            icon="mdi-trash-can-outline"
-            tooltip="Delete Card"
-            @click="emit('onDelete', props.card)"
-          />
-          <CardActionButton
             icon="mdi-pencil"
             tooltip="Edit Card"
             @click="emit('onEdit', props.card)"
+          />
+          <CardActionButton
+            icon="mdi-trash-can-outline"
+            tooltip="Delete Card"
+            @click="emit('onDelete', props.card)"
           />
         </template>
         <template v-else-if="mode === 'create' || mode === 'edit'">
