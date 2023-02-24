@@ -2,9 +2,7 @@
   <div class="text-center mt-6">
     <v-chip> {{ card.label }} </v-chip>
     <v-card class="card-shadow-light" color="background" :elevation="0">
-      <CardPresentationHeader
-        image="https://wallpaperaccess.com/full/2774333.jpg"
-      >
+      <CardPresentationHeader :image="image">
         <slot></slot>
       </CardPresentationHeader>
       <v-container class="pa-6">
@@ -21,5 +19,6 @@
 import { CardDTO } from "~~/api/dtos/card.dto";
 defineProps<{
   card: CardDTO;
+  image: string,
 }>();
 </script>

@@ -9,7 +9,10 @@
         v-for="card in cardStore.cards"
         :key="card.id"
       >
-        <CardPresentation :card="card">
+        <CardPresentation
+          :card="card"
+          image="https://wallpaperaccess.com/full/2774333.jpg"
+        >
           <CardActionButton
             icon="mdi-pencil"
             tooltip="Edit Card"

@@ -60,16 +60,22 @@
 </template>
 
 <script lang="ts" setup>
-defineEmits(["close"]);
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "filepicked", file: string): void;
+}>();
 
 const isDragging = ref(false);
 const files = ref([]);
 const file = ref<undefined | HTMLInputElement>();
 const selectedFile = ref<undefined | File>();
-
 const onChange = () => {
   if (file.value?.files) {
     selectedFile.value = file.value.files[0];
+    const thumbnail = generateThumbnail.value;
+    if (thumbnail) {
+      emit("filepicked", thumbnail);
+    }
   }
   console.log("New selected file: ", selectedFile.value);
 };
@@ -103,6 +109,10 @@ const onDrop = (e: DragEvent) => {
   const droppedFiles = e.dataTransfer?.files;
   if (droppedFiles?.length) {
     selectedFile.value = droppedFiles[0];
+    const thumbnail = generateThumbnail.value;
+    if (thumbnail) {
+      emit("filepicked", thumbnail);
+    }
   }
   console.log("New selected file: ", selectedFile.value);
 };
