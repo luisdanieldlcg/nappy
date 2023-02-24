@@ -14,19 +14,44 @@
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </div>
+          <v-text-field
+            class="hidden-input"
+            type="file"
+            name="file"
+            ref="file"
+            id="fileInput"
+            @change="onChange"
+            accept=".png,.jpg,.jpeg"
+          />
 
-          <div class="corner">
-            <v-icon
-              icon="mdi-cloud-upload-outline"
-              color="grey-subtitle"
-              size="40"
-            ></v-icon>
-            <v-card-title>
-              Drop your image here or click to browse
-            </v-card-title>
-            <v-card-subtitle class="ma-4"
-              >We support PNG, JPEG and JPG</v-card-subtitle
+          <label for="fileInput">
+            <div
+              class="corner"
+              @dragover.prevent="onDragOver"
+              @dragleave.prevent="onDragLeave"
+              @drop.prevent="onDrop"
             >
+              <v-icon
+                icon="mdi-cloud-upload-outline"
+                color="grey-subtitle"
+                size="40"
+              ></v-icon>
+
+              <v-card-title>
+                Drop your image here or click to browse
+              </v-card-title>
+              <v-card-subtitle class="ma-4"
+                >We support PNG, JPEG and JPG</v-card-subtitle
+              >
+            </div>
+          </label>
+          <div v-if="selectedFile" class="preview-container">
+            <div>
+              <img class="preview-img" :src="generateThumbnail" />
+              <p :title="selectedFile.name">
+                {{ makeName(selectedFile.name) }}
+              </p>
+            </div>
           </div>
         </v-card>
       </v-col>
@@ -36,16 +61,28 @@
 
 <script lang="ts" setup>
 defineEmits(["close"]);
+
 const isDragging = ref(false);
 const files = ref([]);
-const onChange = () => {};
-const generateThumbnail = (file: any) => {
-  let fileSrc = URL.createObjectURL(file);
-  setTimeout(() => {
-    URL.revokeObjectURL(fileSrc);
-  }, 1000);
-  return fileSrc;
+const file = ref<undefined | HTMLInputElement>();
+const selectedFile = ref<undefined | File>();
+
+const onChange = () => {
+  if (file.value?.files) {
+    selectedFile.value = file.value.files[0];
+  }
+  console.log("New selected file: ", selectedFile.value);
 };
+
+const generateThumbnail = computed(() => {
+  if (selectedFile.value) {
+    let fileSrc = URL.createObjectURL(selectedFile.value);
+    setTimeout(() => {
+      URL.revokeObjectURL(fileSrc);
+    }, 1000);
+    return fileSrc;
+  }
+});
 const makeName = (name: string) => {
   return (
     name.split(".")[0].substring(0, 3) +
@@ -56,19 +93,18 @@ const makeName = (name: string) => {
 const remove = (i: number) => {
   files.value.splice(i, 1);
 };
-const dragover = () => {
-  // e.preventDefault();
+const onDragOver = () => {
   isDragging.value = true;
-  console.log("mouseeeeeeee");
 };
-const dragleave = () => {
+const onDragLeave = () => {
   isDragging.value = false;
 };
-const drop = () => {
-  // e.preventDefault();
-  // this.$refs.file.files = e.dataTransfer.files;
-  // this.onChange();
-  // isDragging.value.isDragging = false;
+const onDrop = (e: DragEvent) => {
+  const droppedFiles = e.dataTransfer?.files;
+  if (droppedFiles?.length) {
+    selectedFile.value = droppedFiles[0];
+  }
+  console.log("New selected file: ", selectedFile.value);
 };
 </script>
 
@@ -110,8 +146,8 @@ const drop = () => {
   margin-left: 5px;
 }
 .preview-img {
-  width: 50px;
-  height: 50px;
+  width: 120px;
+  height: 120px;
   border-radius: 5px;
   border: 1px solid #a2a2a2;
   background-color: #a2a2a2;

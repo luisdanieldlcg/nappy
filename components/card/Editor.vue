@@ -11,7 +11,7 @@
         </CardPresentation>
       </v-col>
 
-      <v-col cols="12" sm="8" lg="5" class="mt-16">
+      <v-col cols="12" sm="8" lg="5" xl="4" class="mt-16 pa-2 text-center">
         <v-expansion-panels>
           <v-progress-linear
             :indeterminate="loading"
@@ -22,7 +22,6 @@
             hint="Enter the title for this card"
             v-model="card.label"
           />
-
           <DashFieldExpansion title="Full Name">
             <TextField label="First Name" v-model="card.firstName" />
             <TextField label="Last Name" v-model="card.lastName" />
@@ -33,7 +32,7 @@
             <TextField label="Company Name" v-model="card.company" />
           </DashFieldExpansion>
         </v-expansion-panels>
-
+        <ImageCard title="Profile picture" @click="showDialog = true" />
         <v-btn
           variant="tonal"
           class="mt-6 text-capitalize"
@@ -42,9 +41,8 @@
         />
       </v-col>
     </v-row>
+    <FileDropDialog v-model="showDialog" @close="showDialog = false" />
   </v-container>
-  <!-- style="height: 50%; margin-left: 45rem; align-self: flex-end"-->
-  <FileDropDialog v-model="showDialog" @close="showDialog = false" />
 </template>
 
 <script setup lang="ts">

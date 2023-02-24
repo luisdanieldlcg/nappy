@@ -24,6 +24,9 @@ const getInnerIcon = computed(() => {
   }
   return showText.value ? "mdi-eye" : "mdi-eye-off";
 });
+function o() {
+  console.log("onChange()");
+}
 </script>
 
 <style scoped></style>
