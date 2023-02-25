@@ -5,6 +5,7 @@ import { ViewState } from "~~/utils/view-state";
 
 export const useCardStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
+  const isFetching = ref(false);
 
   const create = async (card: CardDTO, screen: ViewState) => {
     const newCard = await screen.updateWith<CardDTO>(() => createCard(card));
@@ -14,7 +15,9 @@ export const useCardStore = defineStore("user", () => {
     }
   };
   const fetchAll = async (screen: ViewState) => {
+    isFetching.value = true;
     const result = await screen.updateWith<CardDTO[]>(() => findAllByUser());
+    isFetching.value = false;
     if (result.isJust) {
       cards.splice(0, cards.length, ...result.value);
     }
@@ -28,7 +31,9 @@ export const useCardStore = defineStore("user", () => {
   };
 
   const getById = (id: string): Maybe<CardDTO> => {
-    return Maybe.of(cards.find((dto) => dto.id === id));
+    console.log(cards[0]);
+    //return Maybe.of(cards.find((dto) => dto.id === id));
+    return Maybe.of(cards[0]);
   };
 
   const updateById = async (card: CardDTO, screen: ViewState) => {
@@ -41,12 +46,23 @@ export const useCardStore = defineStore("user", () => {
       }
     }
   };
+  const waitUntilFetch = async () => {
+    return new Promise<void>((resolve) => {
+      const loop = setInterval(() => {
+        if (!isFetching.value) {
+          clearInterval(loop);
+          resolve();
+        }
+      }, 150);
+    });
+  };
   return {
-    cards: readonly(cards),
+    cards: cards,
     fetchAll,
     create,
     deleteById,
     getById,
     updateById,
+    waitUntilFetch,
   };
 });

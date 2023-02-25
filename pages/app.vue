@@ -11,10 +11,12 @@ definePageMeta({
   middleware: "auth",
 });
 const toggleDrawer = ref(false);
-const user = useCardStore();
+const card = useCardStore();
 onMounted(async () => {
-  await user.fetchAll(view);
+  console.log("fetchingALL");
+  await card.fetchAll(view);
 });
+
 </script>
 
 <style></style>

@@ -17,7 +17,7 @@
             icon="mdi-pencil"
             tooltip="Edit Card"
             @click="openEditor(card)"
-          />
+          />  
           <CardActionButton
             icon="mdi-trash-can-outline"
             tooltip="Delete Card"
