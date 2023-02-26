@@ -1,7 +1,13 @@
 <template>
-  <div class="text-center mt-6">
+  <div class="text-center" :style="containerStyle">
     <v-chip> {{ card.label }} </v-chip>
-    <v-card class="card-shadow-light" color="background" :elevation="0">
+    <v-card
+      class="card-shadow-light"
+      color="background"
+      :elevation="0"
+      :min-width="320"
+      :max-width="400"
+    >
       <slot name="header">
         <CardPresentationHeader :image="image">
           <slot></slot>
@@ -19,7 +25,17 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from "vuetify/lib/framework.mjs";
 import { CardDTO } from "~~/api/dtos/card.dto";
+const { lgAndDown } = useDisplay();
+
+const containerStyle = computed(() => {
+  return lgAndDown.value
+    ? {
+        width: "400px",
+      }
+    : undefined;
+});
 defineProps<{
   card: CardDTO;
   image: string;

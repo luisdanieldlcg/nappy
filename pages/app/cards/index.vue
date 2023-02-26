@@ -1,31 +1,34 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <v-row justify="center">
-      <v-col
-        class="pa-0"
-        cols="12"
-        sm="5"
-        md="4"
-        v-for="card in cardStore.cards"
-        :key="card.id"
-      >
-        <CardPresentation
-          :card="card"
-          image="https://wallpaperaccess.com/full/2774333.jpg"
+    <v-container>
+      <v-row :justify="justifyBy" class="mt-6">
+        <v-col
+          class="pa-0"
+          cols="10"
+          sm="7"
+          md="5"
+          lg="3"
+          v-for="card in cardStore.cards"
+          :key="card.id"
         >
-          <CardActionButton
-            icon="mdi-pencil"
-            tooltip="Edit Card"
-            @click="openEditor(card)"
-          />
-          <CardActionButton
-            icon="mdi-trash-can-outline"
-            tooltip="Delete Card"
-            @click="onDeleteClicked(card)"
-          />
-        </CardPresentation>
-      </v-col>
-    </v-row>
+          <CardPresentation
+            :card="card"
+            image="https://wallpaperaccess.com/full/2774333.jpg"
+          >
+            <CardActionButton
+              icon="mdi-pencil"
+              tooltip="Edit Card"
+              @action="openEditor(card)"
+            />
+            <CardActionButton
+              icon="mdi-trash-can-outline"
+              tooltip="Delete Card"
+              @action="onDeleteClicked(card)"
+            />
+          </CardPresentation>
+        </v-col>
+      </v-row>
+    </v-container>
     <ConfirmDialog
       title="Are you sure?"
       subtitle="This card will be permanently deleted and cannot be restored."
@@ -53,12 +56,18 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { CardDTO } from "~~/api/dtos/card.dto";
+import { DashPageHeader } from "~~/config/dash/header";
 import { useCardStore } from "~~/stores/card.store";
-const {} = useDisplay();
-const header = {
+const { lgAndDown } = useDisplay();
+const justifyBy = computed(() => {
+  return lgAndDown.value ? "space-evenly" : "center";
+});
+const header: DashPageHeader = {
   title: "Cards",
   icon: "mdi-card-account-details-outline",
   target: "/app/cards",
+  createResourcePath: "/app/cards/create",
+  createResourceTooltip: "Create a new Card",
 };
 
 // We need to keep track of the active card manually because it will be passed to the ConfirmDialog.
@@ -85,6 +94,7 @@ const deleteCard = async () => {
 
 const openEditor = (card: CardDTO) => {
   navigateTo(`/app/cards/edit/${card.id}`);
+  console.log("aopdasdaok");
 };
 </script>
 

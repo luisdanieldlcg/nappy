@@ -1,9 +1,9 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <div>
-      <v-container class="pa-0">
-        <v-row class="pa-0">
-          <v-col cols="12" sm="5" md="4" v-for="entry in insights">
+    <div class="mt-5">
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="12" sm="5" md="4" lg=3 v-for="entry in insights">
             <DashInsightCard
               :title="entry.title"
               :quantity="entry.quantity"

@@ -1,31 +1,36 @@
 <template>
-  <v-app-bar
-    elevation="0"
-    color="background"
-    density="compact"
-    class="pa-10 mt-0"
-  >
-    <template #prepend>
-      <v-avatar
-        color="surface"
-        :icon="'mdi-arrow-left'"
-        size="48"
-        class="ma-4"
-        v-if="isNestedRoute"
-        @click="$router.back()"
-        style="cursor: pointer"
-      />
-      <v-avatar color="surface" :icon="header.icon" size="48" />
-    </template>
-    <v-container class="d-flex">
-      <p class="text-h5 d-inline">{{ header.title }}</p>
-      <DashCircularActionButton
-        icon="mdi-plus"
-        v-if="isCardsViewRoute"
-        @click="navigateCreateCard"
-      />
-    </v-container>
-  </v-app-bar>
+  <v-row justify="space-around">
+    <v-col offset="1" cols="10">
+      <v-card elevation="0" :min-width="150">
+        <v-toolbar color="background">
+          <v-avatar
+            v-if="isNestedRoute"
+            color="surface"
+            :icon="'mdi-arrow-left'"
+            size="48"
+            class="ma-4"
+            @click="$router.back()"
+            style="cursor: pointer"
+          />
+          <v-app-bar-nav-icon :icon="header.icon" class="bg-surface" />
+          <p class="text-h5 pa-6 text-grey-subtitle font-weight-medium">
+            {{ header.title }}
+          </p>
+          <v-tooltip :text="header.createResourceTooltip" location="bottom">
+            <template #activator="{ props }">
+              <v-icon
+                v-if="header.createResourcePath"
+                icon="mdi-plus"
+                v-bind="props"
+                style="cursor: pointer"
+                @click="navigateTo(header.createResourcePath)"
+              ></v-icon>
+            </template>
+          </v-tooltip>
+        </v-toolbar>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -39,12 +44,6 @@ const route = useRoute();
 const isNestedRoute = computed(() => {
   return route.path.includes("/cards/");
 });
-const isCardsViewRoute = computed(() => {
-  return route.path === "/app/cards";
-});
-const navigateCreateCard = () => {
-  navigateTo("/app/cards/create");
-};
 </script>
 
 <style scoped></style>

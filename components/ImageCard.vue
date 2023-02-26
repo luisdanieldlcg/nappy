@@ -1,6 +1,6 @@
 <template>
-  <div class="text-center mt-6">
-    <v-card class="card-shadow-light container-hover" :elevation="0">
+  <div class="text-center">
+    <v-card class="card-shadow-light container-hover" :elevation="0" :min-width="240">
       <v-container class="pa-6 text-grey-subtitle font-weight-medium">
         <v-icon icon="mdi-plus"></v-icon>
         <p>{{ title }}</p>
