@@ -2,10 +2,10 @@
   <NuxtLayout name="dashboard" :header="header">
     <v-row justify="center">
       <v-col
+        class="pa-0"
         cols="12"
-        sm="9"
-        md="6"
-        xl="4"
+        sm="5"
+        md="4"
         v-for="card in cardStore.cards"
         :key="card.id"
       >
@@ -17,7 +17,7 @@
             icon="mdi-pencil"
             tooltip="Edit Card"
             @click="openEditor(card)"
-          />  
+          />
           <CardActionButton
             icon="mdi-trash-can-outline"
             tooltip="Delete Card"
@@ -51,8 +51,10 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from "vuetify/lib/framework.mjs";
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "~~/stores/card.store";
+const {} = useDisplay();
 const header = {
   title: "Cards",
   icon: "mdi-card-account-details-outline",

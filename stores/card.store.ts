@@ -31,9 +31,7 @@ export const useCardStore = defineStore("user", () => {
   };
 
   const getById = (id: string): Maybe<CardDTO> => {
-    console.log(cards[0]);
-    //return Maybe.of(cards.find((dto) => dto.id === id));
-    return Maybe.of(cards[0]);
+    return Maybe.of(cards.find((dto) => dto.id === id));
   };
 
   const updateById = async (card: CardDTO, screen: ViewState) => {

@@ -1,6 +1,12 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-img v-bind="props" cover class="align-end" :src="image">
+    <v-img
+      v-bind="props"
+      cover
+      class="align-end"
+      :lazy-src="image"
+      :src="image"
+    >
       <v-overlay
         :close-on-content-click="false"
         :model-value="isHovering"

@@ -1,10 +1,16 @@
 <template>
-  <v-list-item class="pl-8">
+  <v-app-bar
+    elevation="0"
+    color="background"
+    density="compact"
+    class="pa-10 mt-0"
+  >
     <template #prepend>
       <v-avatar
         color="surface"
         :icon="'mdi-arrow-left'"
         size="48"
+        class="ma-4"
         v-if="isNestedRoute"
         @click="$router.back()"
         style="cursor: pointer"
@@ -19,7 +25,7 @@
         @click="navigateCreateCard"
       />
     </v-container>
-  </v-list-item>
+  </v-app-bar>
 </template>
 
 <script setup lang="ts">

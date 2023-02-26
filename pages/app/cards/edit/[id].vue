@@ -34,9 +34,9 @@ const header = {
 };
 
 const save = async () => {
-  // if (card.isJust) {
-  //   await cardStore.updateById(card.value, view);
-  // }
+  if (card.isJust) {
+    await cardStore.updateById(card.value, view);
+  }
 };
 </script>
 

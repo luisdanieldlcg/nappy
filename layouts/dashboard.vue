@@ -1,11 +1,8 @@
 <template>
+  <DashContentHeader v-if="header" :header="header" />
   <v-container>
-    <v-row justify="center">
-      <v-col cols="12" lg="9" class="pa-0">
-        <DashContentHeader v-if="header" :header="header" />
-        <slot></slot>
-      </v-col>
-    </v-row>
+
+  <slot></slot>
   </v-container>
 </template>
 <script setup lang="ts">

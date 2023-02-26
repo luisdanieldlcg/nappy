@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" sm="8" lg="7" xl="5" class="pa-0">
+      <v-col cols="12" sm="8" lg="5" class="pa-0">
         <CardPresentation :card="card" :image="backgroundImage">
           <template #header>
             <Preview
