@@ -1,6 +1,6 @@
 <template>
-  <DashAppbar @toggle-drawer="toggleDrawer = !toggleDrawer" />
-  <DashSidebar v-model="toggleDrawer" />
+  <DashAppbar />
+  <DashSidebar />
   <DashContent />
 </template>
 
@@ -10,13 +10,9 @@ const view = new ViewState();
 definePageMeta({
   middleware: "auth",
 });
-const toggleDrawer = ref(false);
 const card = useCardStore();
 onMounted(async () => {
   console.log("fetchingALL");
   await card.fetchAll(view);
 });
-
 </script>
-
-<style></style>
