@@ -14,8 +14,12 @@ const API = axios.create({
  * @param dto CardTO
  * @since 1.0
  */
-export const createCard = (dto: CreateCardDTO) => {
-  return API.post<CardDTO>("/", dto);
+export const createCard = (dto: FormData) => {
+  return API.post<CardDTO>("/", dto, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
 /**

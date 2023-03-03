@@ -5,5 +5,6 @@ export interface CreateCardDTO {
   lastName: string;
   jobTitle: string;
   company: string;
+  backgroundImage: string;
 }
 export interface CardDTO extends CreateCardDTO {}

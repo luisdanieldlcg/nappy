@@ -7,7 +7,7 @@ export const useCardStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
   const isFetching = ref(false);
 
-  const create = async (card: CardDTO, screen: ViewState) => {
+  const create = async (card: FormData, screen: ViewState) => {
     const newCard = await screen.updateWith<CardDTO>(() => createCard(card));
     if (newCard.isJust) {
       cards.push(newCard.value);

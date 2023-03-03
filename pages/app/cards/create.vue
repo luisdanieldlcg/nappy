@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { CreateCardDTO } from "~~/api/dtos/card.dto";
+import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 const header = {
   title: "Create a New Card",
@@ -25,9 +26,23 @@ const dto = reactive<CreateCardDTO>({
   lastName: "de la Cruz",
   jobTitle: "",
   company: "",
+  backgroundImage: "",
 });
 
 const createCard = async () => {
-  useCardStore().create(dto, view);
+  const form = new FormData();
+  const editor = useCardEditorStore();
+  if (editor.canvas) {
+    editor.canvas.toBlob((blob) => {
+      console.log("======");
+      if (blob) {
+        form.append("backgroundImage", blob);
+        Object.entries(dto).forEach(([key, value]) => {
+          form.append(key, value);
+        });
+        useCardStore().create(form, view);
+      }
+    });
+  }
 };
 </script>

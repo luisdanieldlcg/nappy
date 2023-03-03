@@ -64,7 +64,6 @@
 import { CreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { Preview } from "vue-advanced-cropper";
-import { useDisplay } from "vuetify/lib/framework.mjs";
 defineEmits(["onFinish"]);
 defineProps<{
   card: CreateCardDTO;
@@ -92,9 +91,9 @@ const pickImage = () => {
   showDialog.value = true;
 };
 
-const onFilePicked = (f: string) => {
+const onFilePicked = (file: string) => {
   closeDialog();
-  editorStore.profilePicImage = f;
+  editorStore.profilePicImage = file;
   editingImage.value = true;
 };
 </script>
