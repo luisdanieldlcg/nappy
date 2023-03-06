@@ -9,7 +9,7 @@
       :max-width="400"
     >
       <slot name="header">
-        <CardPresentationHeader :image="image">
+        <CardPresentationHeader :image="card.backgroundImage">
           <slot></slot>
         </CardPresentationHeader>
       </slot>
@@ -38,6 +38,5 @@ const containerStyle = computed(() => {
 });
 defineProps<{
   card: CardDTO;
-  image: string;
 }>();
 </script>

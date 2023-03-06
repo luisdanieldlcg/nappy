@@ -18,14 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
+import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 const view = new ViewState();
 
 const params = useRoute().params;
 const cardStore = useCardStore();
-await cardStore.waitUntilFetch();
-const card = cardStore.getById(params.id as string);
+const cardId = params.id as string;
+const card = cardStore.getById(cardId);
 
 const header = {
   title: "Edit card",
@@ -33,9 +33,19 @@ const header = {
   target: "/app/cards/edit",
 };
 
-const save = async () => {
+const save = async (form: FormData) => {
   if (card.isJust) {
-    await cardStore.updateById(card.value, view);
+    const editor = useCardEditorStore();
+    if (editor.canvas) {
+      editor.canvas.toBlob((blob) => {
+        if (blob) {
+          form.append("backgroundImage", blob);
+          cardStore.updateById(card.value, form, view);
+        }
+      });
+    } else {
+      cardStore.updateById(card.value, form, view);
+    }
   }
 };
 </script>

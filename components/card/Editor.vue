@@ -6,15 +6,15 @@
           <Preview
             v-if="editorStore.editorResult"
             :width="500"
-            :height="330"
+            :height="250"
             :image="editorStore.editorResult.image"
             :coordinates="editorStore.editorResult.coordinates"
           />
         </template>
         <CardActionButton
           icon="mdi-pencil"
-          tooltip="Edit Card"
-          @action="pickImage"
+          :tooltip="mode === 'edit' ? 'Edit Background' : 'Edit Card'"
+          @action="onEditClicked"
         />
       </CardPresentation>
     </v-col>
@@ -45,15 +45,18 @@
             variant="tonal"
             class="mt-6 text-capitalize"
             icon="mdi-check-bold"
-            @click="$emit('onFinish')"
+            @click="sendForm"
           />
         </div>
       </v-expansion-panels>
 
-      <div v-else>
+      <template v-else>
         <ImageEditor />
-        <v-btn @click="editingImage = false"> Exit </v-btn>
-      </div>
+        <v-btn @click="editingImage = false" variant="tonal" class="mr-16 mt-7">
+          Done
+        </v-btn>
+        <div class="pr-7 d-inline"></div>
+      </template>
     </v-col>
   </v-row>
 
@@ -64,14 +67,21 @@
 import { CreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { Preview } from "vue-advanced-cropper";
-defineEmits(["onFinish"]);
-defineProps<{
+
+const emit = defineEmits<{
+  (e: "onFinish", form: FormData): void;
+}>();
+const props = defineProps<{
   card: CreateCardDTO;
   loading: boolean;
   mode: "create" | "edit";
 }>();
+const form = new FormData();
 
 const editorStore = useCardEditorStore();
+// Quick dirty fix for avoiding rendering Preview image component
+// after the image is chosen and the screen is reset.
+editorStore.editorResult = undefined;
 const editingImage = ref(false);
 
 const showDialog = ref(false);
@@ -87,14 +97,24 @@ const closeDialog = () => {
   showDialog.value = false;
 };
 
-const pickImage = () => {
-  showDialog.value = true;
+const onEditClicked = async () => {
+  if (props.mode === "edit") {
+    editingImage.value = true;
+  } else {
+    showDialog.value = true;
+  }
 };
 
 const onFilePicked = (file: string) => {
   closeDialog();
   editorStore.profilePicImage = file;
   editingImage.value = true;
+};
+const sendForm = () => {
+  Object.entries(props.card).forEach(([key, value]) => {
+    form.append(key, value);
+  });
+  emit("onFinish", form);
 };
 </script>
 

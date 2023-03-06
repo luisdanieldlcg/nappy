@@ -17,16 +17,19 @@
     }"
     image-restriction="stencil"
     :debounce="false"
-    @change="editorStore.updateResult"
+    @change="onChange"
   />
 </template>
 
 <script setup lang="ts">
-import { Cropper } from "vue-advanced-cropper";
+import { Cropper, CropperResult } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 const editorStore = useCardEditorStore();
+const onChange = (result: CropperResult) => {
+  editorStore.updateResult(result);
+}
 </script>
 
 <style scoped></style>

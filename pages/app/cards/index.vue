@@ -86,7 +86,6 @@ const onDeleteClicked = (card: CardDTO) => {
 
 const deleteCard = async () => {
   if (activeCard.value) {
-    console.log("====");
     await useCardStore().deleteById(activeCard.value.id, view);
   }
   deleteConfirm.value = false;
@@ -94,7 +93,6 @@ const deleteCard = async () => {
 
 const openEditor = (card: CardDTO) => {
   navigateTo(`/app/cards/edit/${card.id}`);
-  console.log("aopdasdaok");
 };
 </script>
 

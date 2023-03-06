@@ -35,6 +35,10 @@ export const deleteCard = (cardId: string) => {
   return API.delete(`/${cardId}`);
 };
 
-export const updateCard = (card: CardDTO) => {
-  return API.patch<CardDTO>(`${card.id}`, card);
+export const updateCard = (cardId: string, form: FormData) => {
+  return API.patch<CardDTO>(`${cardId}`, form, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };

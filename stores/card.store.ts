@@ -2,13 +2,14 @@ import { Maybe } from "true-myth";
 import { createCard, findAllByUser, deleteCard, updateCard } from "~~/api";
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { ViewState } from "~~/utils/view-state";
+import { useCardEditorStore } from "./card-editor.store";
 
 export const useCardStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
   const isFetching = ref(false);
 
-  const create = async (card: FormData, screen: ViewState) => {
-    const newCard = await screen.updateWith<CardDTO>(() => createCard(card));
+  const create = async (form: FormData, screen: ViewState) => {
+    const newCard = await screen.updateWith<CardDTO>(() => createCard(form));
     if (newCard.isJust) {
       cards.push(newCard.value);
       useRouter().replace("/app/cards");
@@ -34,8 +35,8 @@ export const useCardStore = defineStore("user", () => {
     return Maybe.of(cards.find((dto) => dto.id === id));
   };
 
-  const updateById = async (card: CardDTO, screen: ViewState) => {
-    const result = await screen.updateWith<CardDTO>(() => updateCard(card));
+  const updateById = async (card: CardDTO, form: FormData, screen: ViewState) => {
+    const result = await screen.updateWith<CardDTO>(() => updateCard(card.id, form));
     if (result.isJust) {
       const i = cards.indexOf(card);
       if (i >= 0) {
@@ -54,6 +55,7 @@ export const useCardStore = defineStore("user", () => {
       }, 150);
     });
   };
+
   return {
     cards: cards,
     fetchAll,

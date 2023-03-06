@@ -77,7 +77,6 @@ const onChange = () => {
       emit("filepicked", thumbnail);
     }
   }
-  console.log("New selected file: ", selectedFile.value);
 };
 
 const generateThumbnail = computed(() => {
@@ -114,7 +113,6 @@ const onDrop = (e: DragEvent) => {
       emit("filepicked", thumbnail);
     }
   }
-  console.log("New selected file: ", selectedFile.value);
 };
 </script>
 

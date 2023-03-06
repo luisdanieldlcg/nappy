@@ -28,21 +28,18 @@ const dto = reactive<CreateCardDTO>({
   company: "",
   backgroundImage: "",
 });
-
-const createCard = async () => {
-  const form = new FormData();
+const cardStore = useCardStore();
+const createCard = async (form: FormData) => {
   const editor = useCardEditorStore();
   if (editor.canvas) {
     editor.canvas.toBlob((blob) => {
-      console.log("======");
       if (blob) {
         form.append("backgroundImage", blob);
-        Object.entries(dto).forEach(([key, value]) => {
-          form.append(key, value);
-        });
-        useCardStore().create(form, view);
+        cardStore.create(form, view);
       }
     });
+  } else {
+    cardStore.create(form, view);
   }
 };
 </script>
