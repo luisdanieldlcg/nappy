@@ -1,95 +1,67 @@
 <template>
-  <div>
-    <RootHeader title="Signup" subtitle="Create an account to get started!" />
+  <AuthForm
+    title="Signup"
+    subtitle="Create an account to get started!"
+    @submit="trySignup"
+  >
+    <template #body>
+      <TextField
+        v-model="email"
+        hint="Enter your email address."
+        label="Email"
+        clearable
+        :rules="emailRules"
+        required
+        autocomplete="off"
+      />
+      <TextField
+        v-model="password"
+        label="Password"
+        hint="Your password must be at least 8 characters long."
+        :rules="passwordRules"
+        required
+        withEye
+        autocomplete="new-password"
+      />
 
-    <!-------------Start Animation Alert---------->
-    <AnimatedAlert :show="view.alert()" v-model="view.showAlert.value">
-      <template #default>
-        {{ view.getError() }}
-      </template>
-    </AnimatedAlert>
-    <!-------------End Animation Alert---------->
-    <v-form ref="signupForm" @submit.prevent="onSubmit" autocomplete="off">
-      <v-container>
-        <v-row justify="center">
-          <v-col cols="12" sm="7" md="6" lg="5" xl="4">
-            <v-card
-              class="elevation-0"
-              :loading="view.isLoading() ? 'red' : undefined"
-            >
-              <v-card-text>
-                <TextField
-                  v-model="email"
-                  hint="Enter your email address."
-                  label="Email"
-                  clearable
-                  :rules="emailRules"
-                  required
-                  autocomplete="off"
-                />
-                <TextField
-                  v-model="password"
-                  label="Password"
-                  hint="Your password must be at least 8 characters long."
-                  :rules="passwordRules"
-                  required
-                  withEye
-                  autocomplete="new-password"
-                />
+      <TextField
+        v-model="passwordConfirm"
+        label="Password Confirm"
+        hint="Confirm your password."
+        required
+        withEye
+        :rules="passwordConfirmRules"
+        autocomplete="new-password"
+      />
 
-                <TextField
-                  v-model="passwordConfirm"
-                  label="Password Confirm"
-                  hint="Confirm your password."
-                  required
-                  withEye
-                  :rules="passwordConfirmRules"
-                  autocomplete="new-password"
-                />
-
-                <v-checkbox
-                  v-model="checkbox"
-                  class="custom-checkbox"
-                  color="primary"
-                  label="I agree the Terms of Service"
-                  :rules="checkboxRules"
-                >
-                  <template #label>
-                    <div>
-                      I agree the
-                      <span class="font-weight-bold">Terms of Service</span>
-                    </div>
-                  </template>
-                </v-checkbox>
-
-                <v-btn
-                  color="dark"
-                  elevation="0"
-                  variant="flat"
-                  width="100%"
-                  type="submit"
-                  class="mt-5"
-                >
-                  submit</v-btn
-                >
-                <p class="text-center mt-8">
-                  Already have an account?
-                  <span class="text-dark font-weight-bold highlight-link">
-                    <nuxt-link to="/login"> Login instead. </nuxt-link>
-                  </span>
-                </p>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-  </div>
+      <v-checkbox
+        v-model="checkbox"
+        class="custom-checkbox"
+        color="primary"
+        label="I agree the Terms of Service"
+        :rules="checkboxRules"
+      >
+        <template #label>
+          <div>
+            I agree the
+            <span class="font-weight-bold">Terms of Service</span>
+          </div>
+        </template>
+      </v-checkbox>
+    </template>
+    <template #redirect>
+      Not a member yet?
+      <span class="text-dark font-weight-bold highlight-link">
+        <nuxt-link to="/login"> Login instead. </nuxt-link>
+      </span>
+    </template>
+  </AuthForm>
 </template>
 
 <script setup lang="ts">
 import { signUp } from "~~/api";
 import { SignupDTO } from "~~/api/dtos/signup.dto";
+import { ViewState } from "~~/utils/view-state";
 
 /**
  * SignupView state
@@ -98,8 +70,6 @@ const email = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 const checkbox = ref(false);
-const signupForm = ref<HTMLFormElement | null>(null);
-const view = new ViewState();
 /**
  * TextField rules
  */
@@ -126,16 +96,7 @@ const passwordConfirmRules = [
 /**
  * LoginView actions
  */
-const onSubmit = async () => {
-  // Fast Return if for some reason the html element is not attached
-  if (!signupForm.value) {
-    return;
-  }
-  const { valid } = await signupForm.value.validate();
-  // Return if this is not a valid form
-  if (!valid) {
-    return;
-  }
+const trySignup = async (view: ViewState) => {
   const dto: SignupDTO = {
     email: email.value,
     password: password.value,

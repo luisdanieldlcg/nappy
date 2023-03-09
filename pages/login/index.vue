@@ -24,10 +24,14 @@
         autocomplete="new-password"
       />
     </template>
-    <!-- 
-    <DefaultSnackbar v-model="signup.snackbar" @close="signup.snackbar = false">
-      <p>Your account was successfully created!</p>
-    </DefaultSnackbar> -->
+    <template #redirect>
+      Not a member yet?
+      <span class="text-dark font-weight-bold highlight-link">
+        <nuxt-link to="/signup" class="text-black text-font-bold">
+          Signup instead.
+        </nuxt-link>
+      </span>
+    </template>
   </AuthForm>
 </template>
 
@@ -52,10 +56,6 @@ const passwordRules = [
   (text: string) => !!text || "Password is required",
   (text: string) => text.length >= 8 || "This is not a valid password",
 ];
-
-/**
- * LoginView actions
- */
 const tryLogin = async (view: ViewState) => {
   const dto: LoginDTO = {
     email: email.value,
@@ -67,5 +67,3 @@ const tryLogin = async (view: ViewState) => {
   }
 };
 </script>
-
-<style></style>

@@ -41,12 +41,7 @@
                 submit</v-btn
               >
               <p class="text-center mt-8">
-                Not a member yet?
-                <span class="text-dark font-weight-bold highlight-link">
-                  <nuxt-link to="/signup" class="text-black text-font-bold">
-                    Signup instead.
-                  </nuxt-link>
-                </span>
+                <slot name="redirect" />
               </p>
             </v-card-text>
           </v-card>
@@ -55,7 +50,10 @@
     </v-container>
   </v-form>
 </template>
-
+<!-- 
+    <DefaultSnackbar v-model="signup.snackbar" @close="signup.snackbar = false">
+      <p>Your account was successfully created!</p>
+    </DefaultSnackbar> -->
 <script setup lang="ts">
 import { ViewState } from "~~/utils/view-state";
 
@@ -75,7 +73,7 @@ defineProps({
 const view = new ViewState();
 const form = ref<HTMLFormElement | null>(null);
 
-const submit = async <T>() => {
+const submit = async () => {
   // Fast Return if for some reason the html element is not attached
   if (!form.value) {
     return;
