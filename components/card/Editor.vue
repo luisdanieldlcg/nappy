@@ -44,6 +44,7 @@
           <v-btn
             variant="tonal"
             class="mt-6 text-capitalize"
+
             icon="mdi-check-bold"
             @click="sendForm"
           />
@@ -62,6 +63,7 @@
 
   <FileDropDialog v-model="showDialog" @close="" @filepicked="onFilePicked" />
 </template>
+
 
 <script setup lang="ts">
 import { CreateCardDTO } from "~~/api/dtos/card.dto";
