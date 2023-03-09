@@ -6,20 +6,20 @@
   >
     <template #body>
       <TextField
+        type="email"
         v-model="email"
         hint="Enter your email to grant you access."
         label="Email"
         clearable
-        :rules="emailRules"
         required
         autocomplete="off"
       />
       <TextField
         v-model="password"
         label="Password"
+        type="password"
         hint="Enter your password to grant you access."
         withEye
-        :rules="passwordRules"
         required
         autocomplete="new-password"
       />
@@ -44,18 +44,6 @@ import { ViewState } from "~~/utils/view-state";
  */
 const email = ref("admin@example.com");
 const password = ref("12345678");
-
-/**
- * TextField rules
- */
-const emailRules = [
-  (text: string) => !!text || "Email is required",
-  (text: string) => /.+@.+/.test(text) || "This is not a valid email",
-];
-const passwordRules = [
-  (text: string) => !!text || "Password is required",
-  (text: string) => text.length >= 8 || "This is not a valid password",
-];
 const tryLogin = async (view: ViewState) => {
   const dto: LoginDTO = {
     email: email.value,

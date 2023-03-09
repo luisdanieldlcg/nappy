@@ -9,29 +9,30 @@
         v-model="email"
         hint="Enter your email address."
         label="Email"
-        clearable
-        :rules="emailRules"
-        required
         autocomplete="off"
+        type="email"
+        clearable
+        required
       />
       <TextField
         v-model="password"
         label="Password"
         hint="Your password must be at least 8 characters long."
-        :rules="passwordRules"
+        autocomplete="new-password"
+        type="password"
         required
         withEye
-        autocomplete="new-password"
       />
 
       <TextField
         v-model="passwordConfirm"
         label="Password Confirm"
         hint="Confirm your password."
+        autocomplete="new-password"
+        type="passwordConfirm"
+        :mustMatch="password"
         required
         withEye
-        :rules="passwordConfirmRules"
-        autocomplete="new-password"
       />
 
       <v-checkbox
@@ -77,20 +78,6 @@ const checkboxRules = [
   (check: Boolean) =>
     !!check ||
     "You must agree the Terms of Service if you want to create an account.",
-];
-const emailRules = [
-  (text: string) => !!text || "Email is required",
-  (text: string) => /.+@.+/.test(text) || "Email must be valid",
-];
-const passwordRules = [
-  (text: string) => !!text || "Password is required",
-  (text: string) =>
-    text.length >= 8 || "Your password must be at least 8 characters long.",
-];
-
-const passwordConfirmRules = [
-  (text: string) => !!text || "Password Confirm is required",
-  (text: string) => text === password.value || "Passwords do not match.",
 ];
 
 /**

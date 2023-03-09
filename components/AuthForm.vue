@@ -86,5 +86,3 @@ const submit = async () => {
   emit("submit", view);
 };
 </script>
-
-<style scoped></style>
