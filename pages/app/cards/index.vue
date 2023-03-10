@@ -1,17 +1,24 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
     <v-container>
-      <v-row :justify="justifyBy" class="mt-6">
+      <v-row justify="center" class="mt-6">
         <v-col
           class="pa-0"
           cols="10"
           sm="7"
           md="5"
-          lg="3"
+          lg="12"
           v-for="card in cardStore.cards"
           :key="card.id"
         >
-          <CardPresentation
+          <CardCover
+            :full-name="card.firstName + ' ' + card.lastName"
+            :label="card.label"
+            avatar-image="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
+            background-image="https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80"
+          >
+          </CardCover>
+          <!-- <CardPresentation
             :card="card"
             image="https://wallpaperaccess.com/full/2774333.jpg"
           >
@@ -25,7 +32,7 @@
               tooltip="Delete Card"
               @action="onDeleteClicked(card)"
             />
-          </CardPresentation>
+          </CardPresentation> -->
         </v-col>
       </v-row>
     </v-container>

@@ -1,0 +1,2 @@
+# ignore components folder on pages 
+pages/*/components/*

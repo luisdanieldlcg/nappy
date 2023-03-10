@@ -3,12 +3,13 @@
     <div class="mt-5">
       <v-container>
         <v-row justify="center">
-          <v-col cols="12" sm="5" md="4" lg=3 v-for="entry in insights">
-            <DashInsightCard
+          <v-col cols="12" sm="5" md="4" lg="3" v-for="entry in insights">
+            <InsightCard
               :title="entry.title"
               :quantity="entry.quantity"
               :icon="entry.icon"
             />
+            <Example></Example>
           </v-col>
         </v-row>
       </v-container>
@@ -18,22 +19,9 @@
 
 <script setup lang="ts">
 import { overviewInsights } from "~~/config/dash/overview";
-
+import InsightCard from "./components/InsightCard.vue";
 const insights = overviewInsights;
-const members = {
-  itemsPerPage: 5,
-  headers: [],
-  data: [
-    {
-      email: "danikingrd@gmail.com",
-      id: "eyJzdWIiOiIxMjM0NT",
-    },
-    {
-      email: "daniel@gmail.com",
-      id: "MeJf36POk6yJV_adQssw5c",
-    },
-  ],
-};
+
 const header = {
   title: "Overview",
   icon: "mdi-chart-line",
