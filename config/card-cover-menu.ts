@@ -1,9 +1,11 @@
-import { Store } from "pinia";
+import { CardDTO } from "~~/api/dtos/card.dto";
+import { DialogStore } from "~~/stores/dialog-store";
+import { ViewState } from "~~/utils/view-state";
 
-interface CardCoverMenuItem {
+export interface CardCoverMenuItem {
   title: string;
   navigate?: string;
-  onClick?: (store: Store<"">) => void;
+  clickHandler?: (store: DialogStore, card: CardDTO) => void;
 }
 
 export const cardCoverMenuItems: CardCoverMenuItem[] = [
@@ -13,8 +15,8 @@ export const cardCoverMenuItems: CardCoverMenuItem[] = [
   },
   {
     title: "Delete",
-    onClick(x: Store) {
-      console.log("onClick()");
+    async clickHandler(store: DialogStore, card: CardDTO) {
+      // await store.deleteById(card.id, view);
     },
   },
 ];

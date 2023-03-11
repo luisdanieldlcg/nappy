@@ -1,17 +1,25 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <v-container>
-      <v-row class="pr-16 pl-16 mt-0" no-gutters justify="center">
-        <v-col cols="12" sm="7" md="5" lg="3" v-for="card in cardStore.cards">
-          <CardCover
-            :full-name="card.firstName + ' ' + card.lastName"
-            :label="card.label"
-            avatar-image="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
-            background-image="https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80"
-          />
+    <v-card
+      color="background"
+      elevation="0"
+      :max-width="maxWidth"
+      class="pt-0 mt-0 pl-16"
+    >
+      <v-row class="pl-14" no-gutters>
+        <v-col
+          cols="12"
+          sm="7"
+          md="5"
+          lg="4"
+          xl="3"
+          v-for="card in cardStore.cards"
+          :key="card.id"
+        >
+          <CardCover :card="card" />
         </v-col>
       </v-row>
-    </v-container>
+    </v-card>
     <!-- <v-col
           class="pa-0"
           cols="10"
@@ -36,15 +44,14 @@
               @action="onDeleteClicked(card)"
             />
           </CardPresentation> -->
-    <v-container> </v-container>
     <ConfirmDialog
       title="Are you sure?"
       subtitle="This card will be permanently deleted and cannot be restored."
       v-model="deleteConfirm"
       @close="deleteConfirm = false"
       @trigger="deleteCard"
-      :loading="view.isLoading()"
     >
+      <!-- :loading="dialog.state.isLoading()" -->
       <template #icon>
         <v-icon
           icon="mdi-alert-circle-outline"
@@ -66,11 +73,21 @@ import { useDisplay } from "vuetify/lib/framework.mjs";
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/config/dash/header";
 import { useCardStore } from "~~/stores/card.store";
-import InsightCard from "../overview/components/InsightCard.vue";
-const { lgAndDown } = useDisplay();
-const justifyBy = computed(() => {
-  return lgAndDown.value ? "space-evenly" : "center";
+import { DialogStore, useDialogStore } from "~~/stores/dialog-store";
+const { name } = useDisplay();
+const maxWidth = computed(() => {
+  switch (name.value) {
+    case "xl":
+      return 1400;
+    case "lg":
+      return 1100;
+    case "md":
+      return 900;
+    default:
+      return 1200;
+  }
 });
+
 const header: DashPageHeader = {
   title: "Cards",
   icon: "mdi-card-account-details-outline",
@@ -86,7 +103,7 @@ const header: DashPageHeader = {
 const activeCard = ref<CardDTO | null>(null);
 const cardStore = useCardStore();
 const deleteConfirm = ref(false);
-const view = new ViewState();
+const dialog = useDialogStore();
 
 const onDeleteClicked = (card: CardDTO) => {
   activeCard.value = card;
@@ -95,7 +112,10 @@ const onDeleteClicked = (card: CardDTO) => {
 
 const deleteCard = async () => {
   if (activeCard.value) {
-    await useCardStore().deleteById(activeCard.value.id, view);
+    // await cardStore.deleteById(
+    //   activeCard.value.id,
+    //   dialog.state as DialogStore
+    // );
   }
   deleteConfirm.value = false;
 };

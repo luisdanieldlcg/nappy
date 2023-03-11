@@ -36,22 +36,25 @@
 </template>
 
 <script setup lang="ts">
-import { logIn } from "~~/api";
-import { LoginDTO } from "~~/api/dtos/login.dto";
+import { ILoginDTO } from "~~/api/dtos/login.dto";
 import { ViewState } from "~~/utils/view-state";
-/**
- * LoginView state
- */
+
 const email = ref("admin@example.com");
 const password = ref("12345678");
+
 const tryLogin = async (view: ViewState) => {
-  const dto: LoginDTO = {
+  const { $api } = useNuxtApp();
+
+  const dto: ILoginDTO = {
     email: email.value,
     password: password.value,
   };
-  const result = await view.updateWith<LoginDTO>(() => logIn(dto));
-  if (result.isJust) {
-    navigateTo("/app/cards");
-  }
+  const response = await $api.auth.login(dto);
+  console.log(response.unwrapOr(null)?.email);
+
+  // const result = await view.updateWith<ILoginDTO>(() => logIn(dto));
+  // if (result.isJust) {
+  //   navigateTo("/app/cards");
+  // }
 };
 </script>

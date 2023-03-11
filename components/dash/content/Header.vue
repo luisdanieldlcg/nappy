@@ -1,8 +1,8 @@
 <template>
-  <v-row justify="space-around">
-    <v-col offset="1" cols="10">
+  <v-row justify="center" class="ml-16">
+    <v-col class="ml-16 pb-0 pt-0">
       <v-card elevation="0" :min-width="150">
-        <v-toolbar color="background">
+        <v-toolbar color="background" density="compact">
           <v-avatar
             v-if="isNestedRoute"
             color="surface"

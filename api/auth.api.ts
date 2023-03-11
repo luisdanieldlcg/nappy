@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "~~/config/url";
-import { LoginDTO } from "./dtos/login.dto";
+import { ILoginDTO } from "./dtos/login.dto";
 import { SignupDTO } from "./dtos/signup.dto";
 
 const AUTH_API_URL = API_BASE_URL + "auth";
@@ -11,8 +11,8 @@ const API = axios.create({
   method: HttpMethod.POST,
 });
 
-export const logIn = (dto: LoginDTO) => {
-  return API.post<LoginDTO>("/login", dto);
+export const logIn = (dto: ILoginDTO) => {
+  return API.post<ILoginDTO>("/login", dto);
 };
 
 export const signUp = (dto: SignupDTO) => {

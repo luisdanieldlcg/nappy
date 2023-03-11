@@ -2,7 +2,21 @@ import { Maybe } from "true-myth";
 import { createCard, findAllByUser, deleteCard, updateCard } from "~~/api";
 import { CardDTO } from "~~/api/dtos/card.dto";
 import { ViewState } from "~~/utils/view-state";
-import { useCardEditorStore } from "./card-editor.store";
+
+/**
+ * CardStore definition for passing around functions
+ */
+export interface CardStore {
+  create: (form: FormData, screen: ViewState) => Promise<void>;
+  fetchAll: (screen: ViewState) => Promise<void>;
+  deleteById: (id: string, screen: ViewState) => Promise<void>;
+  getById: (id: string) => Maybe<CardDTO>;
+  updateById: (
+    card: CardDTO,
+    form: FormData,
+    screen: ViewState
+  ) => Promise<void>;
+}
 
 export const useCardStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
@@ -35,8 +49,14 @@ export const useCardStore = defineStore("user", () => {
     return Maybe.of(cards.find((dto) => dto.id === id));
   };
 
-  const updateById = async (card: CardDTO, form: FormData, screen: ViewState) => {
-    const result = await screen.updateWith<CardDTO>(() => updateCard(card.id, form));
+  const updateById = async (
+    card: CardDTO,
+    form: FormData,
+    screen: ViewState
+  ) => {
+    const result = await screen.updateWith<CardDTO>(() =>
+      updateCard(card.id, form)
+    );
     if (result.isJust) {
       const i = cards.indexOf(card);
       if (i >= 0) {
