@@ -12,6 +12,6 @@ definePageMeta({
 });
 const card = useCardStore();
 onMounted(async () => {
-  await card.fetchAll(view);
+  await card.fetchAll();
 });
 </script>

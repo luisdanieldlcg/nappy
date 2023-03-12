@@ -1,11 +1,12 @@
 import { ILoginDTO, ILoginResponse } from "../dtos/login.dto";
-import { SignupDTO } from "../dtos/signup.dto";
-import { ApiModule as Module } from "./module";
+import { ISignupDTO, ISignupResponse } from "../dtos/signup.dto";
+import { ApiModule  } from "./module";
 
-export class AuthModule extends Module {
+export class AuthModule extends ApiModule {
+
   private static RESOURCE = "auth";
 
-  public getResource(): string {
+  protected getResource(): string {
     return AuthModule.RESOURCE;
   }
 
@@ -16,5 +17,10 @@ export class AuthModule extends Module {
     });
   }
 
-  public async signup(dto: SignupDTO) {}
+  public async signup(dto: ISignupDTO) {
+    return await this.post<ISignupResponse>({
+      data: dto,
+      endpoint: "/signup",
+    });
+  }
 }

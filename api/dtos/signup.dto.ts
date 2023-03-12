@@ -1,10 +1,9 @@
-export class SignupDTO {
-    email: string;
-    password: string;
-    passwordConfirm: string;
-  }
-  export class SignupResponse {
-    email: string;
-    accessToken: string;
-  }
-  
+export class ISignupDTO {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+export class ISignupResponse {
+  email: string;
+  accessToken: string;
+}

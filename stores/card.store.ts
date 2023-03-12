@@ -1,6 +1,6 @@
 import { Maybe } from "true-myth";
-import { createCard, findAllByUser, deleteCard, updateCard } from "~~/api";
-import { CardDTO } from "~~/api/dtos/card.dto";
+import { createCard, deleteCard, updateCard } from "~~/api";
+import { ICardDTO } from "~~/api/dtos/card.dto";
 import { ViewState } from "~~/utils/view-state";
 
 /**
@@ -10,30 +10,41 @@ export interface CardStore {
   create: (form: FormData, screen: ViewState) => Promise<void>;
   fetchAll: (screen: ViewState) => Promise<void>;
   deleteById: (id: string, screen: ViewState) => Promise<void>;
-  getById: (id: string) => Maybe<CardDTO>;
+  getById: (id: string) => Maybe<ICardDTO>;
   updateById: (
-    card: CardDTO,
+    card: ICardDTO,
     form: FormData,
     screen: ViewState
   ) => Promise<void>;
 }
 
 export const useCardStore = defineStore("user", () => {
-  const cards: CardDTO[] = reactive([]);
+  const cards: ICardDTO[] = reactive([]);
   const isFetching = ref(false);
+  const cardModule = useNuxtApp().$api.card;
 
+  /**
+   * Creates a new Card.
+   * The DTO is sent as part of a FormData in order to
+   * handle image upload.
+   * @param form FormData
+   */
   const create = async (form: FormData, screen: ViewState) => {
-    const newCard = await screen.updateWith<CardDTO>(() => createCard(form));
-    if (newCard.isJust) {
+    const newCard = await cardModule.create(form);
+    // const newCard = await screen.updateWith<ICardDTO>(() => createCard(form));
+    if (newCard.isOk) {
       cards.push(newCard.value);
       useRouter().replace("/app/cards");
     }
   };
-  const fetchAll = async (screen: ViewState) => {
+  /**
+   * Fetches all the associated cards with the logged in user.
+   */
+  const getAll = async () => {
     isFetching.value = true;
-    const result = await screen.updateWith<CardDTO[]>(() => findAllByUser());
+    const result = await cardModule.getAllByUser();
     isFetching.value = false;
-    if (result.isJust) {
+    if (result.isOk) {
       cards.splice(0, cards.length, ...result.value);
     }
   };
@@ -45,16 +56,16 @@ export const useCardStore = defineStore("user", () => {
     }
   };
 
-  const getById = (id: string): Maybe<CardDTO> => {
+  const getById = (id: string): Maybe<ICardDTO> => {
     return Maybe.of(cards.find((dto) => dto.id === id));
   };
 
   const updateById = async (
-    card: CardDTO,
+    card: ICardDTO,
     form: FormData,
     screen: ViewState
   ) => {
-    const result = await screen.updateWith<CardDTO>(() =>
+    const result = await screen.updateWith<ICardDTO>(() =>
       updateCard(card.id, form)
     );
     if (result.isJust) {
@@ -78,7 +89,7 @@ export const useCardStore = defineStore("user", () => {
 
   return {
     cards: cards,
-    fetchAll,
+    fetchAll: getAll,
     create,
     deleteById,
     getById,

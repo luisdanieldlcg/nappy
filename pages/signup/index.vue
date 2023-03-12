@@ -60,9 +60,10 @@
 </template>
 
 <script setup lang="ts">
+import { Result } from "true-myth";
 import { signUp } from "~~/api";
-import { SignupDTO } from "~~/api/dtos/signup.dto";
-import { ViewState } from "~~/utils/view-state";
+import { ISignupDTO } from "~~/api/dtos/signup.dto";
+import { AuthModule } from "~~/api/modules/auth.module";
 
 /**
  * SignupView state
@@ -71,9 +72,7 @@ const email = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 const checkbox = ref(false);
-/**
- * TextField rules
- */
+
 const checkboxRules = [
   (check: Boolean) =>
     !!check ||
@@ -83,14 +82,18 @@ const checkboxRules = [
 /**
  * LoginView actions
  */
-const trySignup = async (view: ViewState) => {
-  const dto: SignupDTO = {
+const trySignup = async (
+  auth: AuthModule,
+  cb: (res: Result<unknown, string>) => void
+) => {
+  const dto: ISignupDTO = {
     email: email.value,
     password: password.value,
     passwordConfirm: passwordConfirm.value,
   };
-  const result = await view.updateWith(() => signUp(dto));
-  if (result.isJust) {
+  const result = await auth.signup(dto);
+  cb(result);
+  if (result.isOk) {
     navigateTo("/login");
   }
 };

@@ -1,11 +1,10 @@
-import { CardDTO } from "~~/api/dtos/card.dto";
+import { ICardDTO } from "~~/api/dtos/card.dto";
 import { DialogStore } from "~~/stores/dialog-store";
-import { ViewState } from "~~/utils/view-state";
 
 export interface CardCoverMenuItem {
   title: string;
   navigate?: string;
-  clickHandler?: (store: DialogStore, card: CardDTO) => void;
+  clickHandler?: (store: DialogStore, card: ICardDTO) => void;
 }
 
 export const cardCoverMenuItems: CardCoverMenuItem[] = [
@@ -15,7 +14,7 @@ export const cardCoverMenuItems: CardCoverMenuItem[] = [
   },
   {
     title: "Delete",
-    async clickHandler(store: DialogStore, card: CardDTO) {
+    async clickHandler(store: DialogStore, card: ICardDTO) {
       // await store.deleteById(card.id, view);
     },
   },

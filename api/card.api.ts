@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "~~/config/url";
-import { CreateCardDTO, CardDTO } from "./dtos/card.dto";
+import { ICreateCardDTO, ICardDTO } from "./dtos/card.dto";
 
 const CARD_API_URL = API_BASE_URL + "cards";
 
@@ -15,7 +15,7 @@ const API = axios.create({
  * @since 1.0
  */
 export const createCard = (dto: FormData) => {
-  return API.post<CardDTO>("/", dto, {
+  return API.post<ICardDTO>("/", dto, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -28,7 +28,7 @@ export const createCard = (dto: FormData) => {
  * @since 1.0
  */
 export const findAllByUser = () => {
-  return API.get<CardDTO[]>("/");
+  return API.get<ICardDTO[]>("/");
 };
 
 export const deleteCard = (cardId: string) => {
@@ -36,7 +36,7 @@ export const deleteCard = (cardId: string) => {
 };
 
 export const updateCard = (cardId: string, form: FormData) => {
-  return API.patch<CardDTO>(`${cardId}`, form, {
+  return API.patch<ICardDTO>(`${cardId}`, form, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

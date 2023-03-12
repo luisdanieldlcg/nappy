@@ -36,25 +36,26 @@
 </template>
 
 <script setup lang="ts">
+import { Result } from "true-myth";
 import { ILoginDTO } from "~~/api/dtos/login.dto";
-import { ViewState } from "~~/utils/view-state";
+import { AuthModule } from "~~/api/modules/auth.module";
 
 const email = ref("admin@example.com");
 const password = ref("12345678");
 
-const tryLogin = async (view: ViewState) => {
-  const { $api } = useNuxtApp();
-
+const tryLogin = async (
+  auth: AuthModule,
+  cb: (res: Result<unknown, string>) => void
+) => {
   const dto: ILoginDTO = {
     email: email.value,
     password: password.value,
   };
-  const response = await $api.auth.login(dto);
-  console.log(response.unwrapOr(null)?.email);
 
-  // const result = await view.updateWith<ILoginDTO>(() => logIn(dto));
-  // if (result.isJust) {
-  //   navigateTo("/app/cards");
-  // }
+  const result = await auth.login(dto);
+  cb(result);
+  if (result.isOk) {
+    navigateTo("/app/cards");
+  }
 };
 </script>

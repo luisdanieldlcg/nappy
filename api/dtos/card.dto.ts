@@ -1,4 +1,4 @@
-export interface CreateCardDTO {
+export interface ICreateCardDTO {
   id: string;
   label: string;
   firstName: string;
@@ -7,4 +7,4 @@ export interface CreateCardDTO {
   company: string;
   backgroundImage: string;
 }
-export interface CardDTO extends CreateCardDTO {}
+export interface ICardDTO extends ICreateCardDTO {}

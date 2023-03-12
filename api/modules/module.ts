@@ -16,12 +16,16 @@ type ApiResponse<T> = Promise<Result<T, string>>;
 
 export abstract class ApiModule {
   constructor(protected readonly http: AxiosInstance) {
-    http.interceptors.response.use((cfg) => cfg, ApiModule.resErrorInterceptor);
+    // http.interceptors.response.use((cfg) => cfg, ApiModule.resErrorInterceptor);
   }
 
-  abstract getResource(): string;
+  protected abstract getResource(): string;
 
-  public async get<T>() {}
+  public async get<T>(endpoint: string) {
+    return ApiModule.tryCatchResult(
+      this.http.get<T>(this.getResource() + endpoint)
+    );
+  }
 
   public async post<T>(opts: RequestOptions): ApiResponse<T> {
     const result = this.http.post<T>(
@@ -39,9 +43,11 @@ export abstract class ApiModule {
   ): Promise<Result<T, string>> => {
     try {
       const res = await future;
+      console.log("ok response");
       return Result.ok(res.data);
     } catch (error) {
-      return Result.err(error as string);
+      const message = this.resErrorInterceptor(error);
+      return Result.err(message);
     }
   };
 
