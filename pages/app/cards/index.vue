@@ -16,65 +16,45 @@
           v-for="card in cardStore.cards"
           :key="card.id"
         >
-          <CardCover :card="card" />
+          <CardCover :card="card" @menu-clicked="selectCard" />
         </v-col>
       </v-row>
     </v-card>
-    <!-- <v-col
-          class="pa-0"
-          cols="10"
-          sm="7"
-          md="5"
-          lg="12"
-          v-for="card in cardStore.cards"
-          :key="card.id"
-        > -->
-    <!-- <CardPresentation
-            :card="card"
-            image="https://wallpaperaccess.com/full/2774333.jpg"
+    <teleport to="body">
+      <ConfirmDialog
+        title="Are you sure?"
+        subtitle="This card will be permanently deleted and cannot be restored."
+        v-model="dialogHandler.show"
+        @close="dialogHandler.close()"
+        :loading="cardStore.loadTracker.deletingById"
+      >
+        <template #actions>
+          <v-btn class="text-capitalize bg-primary" @click="deleteCard">
+            Delete Card</v-btn
           >
-            <CardActionButton
-              icon="mdi-pencil"
-              tooltip="Edit Card"
-              @action="openEditor(card)"
-            />
-            <CardActionButton
-              icon="mdi-trash-can-outline"
-              tooltip="Delete Card"
-              @action="onDeleteClicked(card)"
-            />
-          </CardPresentation> -->
-    <ConfirmDialog
-      title="Are you sure?"
-      subtitle="This card will be permanently deleted and cannot be restored."
-      v-model="deleteConfirm"
-      @close="deleteConfirm = false"
-      @trigger="deleteCard"
-    >
-      <!-- :loading="dialog.state.isLoading()" -->
-      <template #icon>
-        <v-icon
-          icon="mdi-alert-circle-outline"
-          color="grey-subtitle"
-          size="40"
-        ></v-icon>
-      </template>
-      <template #actions>
-        <v-btn class="text-capitalize bg-primary" @click="deleteCard">
-          Delete Card</v-btn
-        >
-      </template>
-    </ConfirmDialog>
+        </template>
+      </ConfirmDialog>
+    </teleport>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { CardDTO } from "~~/api/dtos/card.dto";
+import { ICardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/config/dash/header";
 import { useCardStore } from "~~/stores/card.store";
-import { DialogStore, useDialogStore } from "~~/stores/dialog-store";
+import { useDialogStore } from "~~/stores/dialog-store";
+
+const header: DashPageHeader = {
+  title: "Cards",
+  icon: "mdi-card-account-details-outline",
+  target: "/app/cards",
+  createResourcePath: "/app/cards/create",
+  createResourceTooltip: "Create a new Card",
+};
+
 const { name } = useDisplay();
+
 const maxWidth = computed(() => {
   switch (name.value) {
     case "xl":
@@ -88,41 +68,22 @@ const maxWidth = computed(() => {
   }
 });
 
-const header: DashPageHeader = {
-  title: "Cards",
-  icon: "mdi-card-account-details-outline",
-  target: "/app/cards",
-  createResourcePath: "/app/cards/create",
-  createResourceTooltip: "Create a new Card",
-};
-
 // We need to keep track of the active card manually because it will be passed to the ConfirmDialog.
 // The confirm dialog has no idea of which card do we want to delete.
 // Another solution would be to move the dialog to the v-for block but that could cause
 // performance issues because it would create a new instance per card.
-const activeCard = ref<CardDTO | null>(null);
+const activeCard = ref<ICardDTO | null>(null);
 const cardStore = useCardStore();
-const deleteConfirm = ref(false);
-const dialog = useDialogStore();
+const dialogHandler = useDialogStore();
 
-const onDeleteClicked = (card: CardDTO) => {
+const selectCard = (card: ICardDTO) => {
   activeCard.value = card;
-  deleteConfirm.value = true;
 };
-
 const deleteCard = async () => {
   if (activeCard.value) {
-    // await cardStore.deleteById(
-    //   activeCard.value.id,
-    //   dialog.state as DialogStore
-    // );
+    console.log(activeCard.value.id);
+    await cardStore.deleteById(activeCard.value.id);
+    dialogHandler.close();
   }
-  deleteConfirm.value = false;
-};
-
-const openEditor = (card: CardDTO) => {
-  navigateTo(`/app/cards/edit/${card.id}`);
 };
 </script>
-
-<style scoped></style>

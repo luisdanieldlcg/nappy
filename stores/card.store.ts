@@ -1,5 +1,5 @@
 import { Maybe } from "true-myth";
-import { createCard, deleteCard, updateCard } from "~~/api";
+import { updateCard } from "~~/api";
 import { ICardDTO } from "~~/api/dtos/card.dto";
 import { ViewState } from "~~/utils/view-state";
 
@@ -7,21 +7,25 @@ import { ViewState } from "~~/utils/view-state";
  * CardStore definition for passing around functions
  */
 export interface CardStore {
-  create: (form: FormData, screen: ViewState) => Promise<void>;
-  fetchAll: (screen: ViewState) => Promise<void>;
-  deleteById: (id: string, screen: ViewState) => Promise<void>;
+  create: (form: FormData) => Promise<void>;
+  fetchAll: () => Promise<void>;
+  deleteById: (id: string) => Promise<void>;
   getById: (id: string) => Maybe<ICardDTO>;
-  updateById: (
-    card: ICardDTO,
-    form: FormData,
-    screen: ViewState
-  ) => Promise<void>;
+  updateById: (card: ICardDTO, form: FormData) => Promise<void>;
 }
 
 export const useCardStore = defineStore("user", () => {
   const cards: ICardDTO[] = reactive([]);
-  const isFetching = ref(false);
   const cardModule = useNuxtApp().$api.card;
+
+  // Keeps track of all the loading states.
+  const loadTracker = reactive({
+    creating: false,
+    deletingById: false,
+    gettingAll: false,
+    gettingById: false,
+    updatingById: false,
+  });
 
   /**
    * Creates a new Card.
@@ -30,34 +34,41 @@ export const useCardStore = defineStore("user", () => {
    * @param form FormData
    */
   const create = async (form: FormData, screen: ViewState) => {
+    loadTracker.creating = true;
     const newCard = await cardModule.create(form);
-    // const newCard = await screen.updateWith<ICardDTO>(() => createCard(form));
     if (newCard.isOk) {
       cards.push(newCard.value);
       useRouter().replace("/app/cards");
     }
+    loadTracker.creating = false;
   };
   /**
    * Fetches all the associated cards with the logged in user.
    */
   const getAll = async () => {
-    isFetching.value = true;
+    loadTracker.gettingAll = true;
     const result = await cardModule.getAllByUser();
-    isFetching.value = false;
+    loadTracker.gettingAll = false;
     if (result.isOk) {
       cards.splice(0, cards.length, ...result.value);
     }
   };
-  const deleteById = async (id: string, screen: ViewState) => {
-    const result = await screen.updateWith(() => deleteCard(id), false);
-    if (result.isJust) {
+
+  const deleteById = async (id: string) => {
+    loadTracker.deletingById = true;
+    const result = await cardModule.deleteById(id);
+    loadTracker.deletingById = false;
+    if (result.isOk) {
       const newArray = cards.filter((entry) => entry.id !== id);
       cards.splice(0, cards.length, ...newArray);
     }
   };
 
   const getById = (id: string): Maybe<ICardDTO> => {
-    return Maybe.of(cards.find((dto) => dto.id === id));
+    loadTracker.gettingById = true;
+    const result = Maybe.of(cards.find((dto) => dto.id === id));
+    loadTracker.gettingById = false;
+    return result;
   };
 
   const updateById = async (
@@ -65,9 +76,11 @@ export const useCardStore = defineStore("user", () => {
     form: FormData,
     screen: ViewState
   ) => {
+    loadTracker.updatingById = true;
     const result = await screen.updateWith<ICardDTO>(() =>
       updateCard(card.id, form)
     );
+    loadTracker.updatingById = false;
     if (result.isJust) {
       const i = cards.indexOf(card);
       if (i >= 0) {
@@ -76,24 +89,25 @@ export const useCardStore = defineStore("user", () => {
       }
     }
   };
-  const waitUntilFetch = async () => {
-    return new Promise<void>((resolve) => {
-      const loop = setInterval(() => {
-        if (!isFetching.value) {
-          clearInterval(loop);
-          resolve();
-        }
-      }, 150);
-    });
-  };
+  // const waitUntilFetch = async () => {
+  //   return new Promise<void>((resolve) => {
+  //     const loop = setInterval(() => {
+  //       if (!isFetching.value) {
+  //         clearInterval(loop);
+  //         resolve();
+  //       }
+  //     }, 150);
+  //   });
+  // };
 
   return {
-    cards: cards,
-    fetchAll: getAll,
+    cards,
+    getAll,
     create,
     deleteById,
     getById,
     updateById,
-    waitUntilFetch,
+    loadTracker,
+    // waitUntilFetch,
   };
 });

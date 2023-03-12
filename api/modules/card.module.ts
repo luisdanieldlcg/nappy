@@ -1,4 +1,4 @@
-import { ICreateCardDTO, ICardDTO } from "../dtos/card.dto";
+import { ICardDTO } from "../dtos/card.dto";
 import { ApiModule } from "./module";
 
 export class CardModule extends ApiModule {
@@ -20,5 +20,9 @@ export class CardModule extends ApiModule {
 
   public async getById(id: string) {
     return this.get<ICardDTO>(`/${id}`);
+  }
+
+  public async deleteById(cardId: string) {
+    return this.delete<void>(cardId);
   }
 }

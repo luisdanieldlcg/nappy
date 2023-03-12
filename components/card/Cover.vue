@@ -34,8 +34,8 @@
         </template>
         <v-list class="elevation-2">
           <v-list-item
-            v-for="item in menuItems"
-            :to="item.navigate"
+            v-for="item in items"
+            :to="item.navigateTo"
             @click="onMenuClicked(item)"
           >
             <v-list-item-title> {{ item.title }} </v-list-item-title>
@@ -47,22 +47,37 @@
 </template>
 
 <script setup lang="ts">
-import { CardDTO } from "~~/api/dtos/card.dto";
-import { plainToClass } from "class-transformer";
-import {
-  CardCoverMenuItem,
-  cardCoverMenuItems,
-} from "~~/config/card-cover-menu";
-import { DialogStore, useDialogStore } from "~~/stores/dialog-store";
-const dialog = useDialogStore();
+import { ICardDTO } from "~~/api/dtos/card.dto";
+
+import { useDialogStore } from "~/stores/dialog-store";
 const props = defineProps<{
-  card: CardDTO;
+  card: ICardDTO;
 }>();
-const menuItems = cardCoverMenuItems;
-const onMenuClicked = (item: CardCoverMenuItem) => {
-  if (item.clickHandler == null) return;
-  // item.clickHandler(, props.card);
+const emit = defineEmits<{
+  (e: "menuClicked", card: ICardDTO): void;
+}>();
+
+interface MenuItem {
+  title: string;
+  navigateTo?: string;
+  action: "delete" | "edit";
+}
+const items: MenuItem[] = [
+  {
+    title: "Edit",
+    navigateTo: `cards/edit/${props.card.id}`,
+    action: "edit",
+  },
+  {
+    title: "Delete",
+    action: "delete",
+  },
+];
+
+const onMenuClicked = (item: MenuItem) => {
+  emit("menuClicked", props.card);
+  if (item.action === "delete") {
+    useDialogStore().open();
+  }
 };
 </script>
-
-<style scoped></style>

@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { CreateCardDTO } from "~~/api/dtos/card.dto";
+import { ICreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 const header = {
@@ -19,7 +19,7 @@ const header = {
   target: "/app/cards/create",
 };
 const view = new ViewState();
-const dto = reactive<CreateCardDTO>({
+const dto = reactive<ICreateCardDTO>({
   id: "",
   label: "Work",
   firstName: "Luis",

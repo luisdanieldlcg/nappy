@@ -1,12 +1,4 @@
-import { HttpRequest, ViewState } from "~~/utils/view-state";
-
-export interface DialogStore {
-  view: {
-    updateWith: <T>(fn: () => HttpRequest<T>) => Promise<T>;
-  };
-}``
 export const useDialogStore = defineStore("dialog", () => {
-  const view = new ViewState();
   const show = ref(false);
 
   const open = () => {
@@ -15,10 +7,10 @@ export const useDialogStore = defineStore("dialog", () => {
   const close = () => {
     show.value = false;
   };
+  
   return {
+    show,
     open,
     close,
-    view,
   };
 });
-

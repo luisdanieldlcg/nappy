@@ -21,13 +21,13 @@ export abstract class ApiModule {
 
   protected abstract getResource(): string;
 
-  public async get<T>(endpoint: string) {
+  protected async get<T>(endpoint: string) {
     return ApiModule.tryCatchResult(
       this.http.get<T>(this.getResource() + endpoint)
     );
   }
 
-  public async post<T>(opts: RequestOptions): ApiResponse<T> {
+  protected async post<T>(opts: RequestOptions): ApiResponse<T> {
     const result = this.http.post<T>(
       this.getResource() + opts.endpoint,
       opts.data,
@@ -36,14 +36,18 @@ export abstract class ApiModule {
     return ApiModule.tryCatchResult<T>(result);
   }
 
-  public async put<T>() {}
+  protected async put<T>() {}
+
+  protected async delete<T>(id: string) {
+    const targetRoute = this.getResource() + `/${id}`;
+    return ApiModule.tryCatchResult(this.http.delete<T>(targetRoute));
+  }
 
   private static tryCatchResult = async <T>(
     future: Promise<AxiosResponse<T>>
   ): Promise<Result<T, string>> => {
     try {
       const res = await future;
-      console.log("ok response");
       return Result.ok(res.data);
     } catch (error) {
       const message = this.resErrorInterceptor(error);

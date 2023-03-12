@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { CardDTO } from "~~/api/dtos/card.dto";
+import { ICardDTO } from "~~/api/dtos/card.dto";
 const { lgAndDown } = useDisplay();
 
 const containerStyle = computed(() => {
@@ -37,6 +37,6 @@ const containerStyle = computed(() => {
     : undefined;
 });
 defineProps<{
-  card: CardDTO;
+  card: ICardDTO;
 }>();
 </script>

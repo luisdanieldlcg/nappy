@@ -8,7 +8,11 @@
           :loading="loading"
         >
           <div class="mb-2">
-            <slot name="icon" />
+            <v-icon
+              icon="mdi-alert-circle-outline"
+              color="grey-subtitle"
+              size="40"
+            ></v-icon>
           </div>
           <p class="text-grey-subtitle text-h6 font-weight-bold">
             {{ title }}

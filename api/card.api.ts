@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "~~/config/url";
-import { ICreateCardDTO, ICardDTO } from "./dtos/card.dto";
+import { ICardDTO } from "./dtos/card.dto";
 
 const CARD_API_URL = API_BASE_URL + "cards";
 
