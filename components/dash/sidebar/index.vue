@@ -3,7 +3,7 @@
     class="rounded-xl"
     floating
     :rail-width="92"
-    :rail="rail"
+    :rail="store.sidebarCollapsed"
     permanent
   >
     <v-container class="pb-0 pt-6 toggle-drawer">
@@ -16,7 +16,7 @@
             icon
             :elevation="0"
             location="center"
-            @click="rail = !rail"
+            @click="store.sidebarCollapsed = !store.sidebarCollapsed"
             key="example"
           >
             <v-icon :icon="toggleIcon"></v-icon>
@@ -45,15 +45,19 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { sidebarItems } from "~~/config/dash/sidebar";
+import { useDashStore } from "~~/stores/dash.store";
+const store = useDashStore();
+
 const items = sidebarItems;
-const rail = ref(false);
 const toggleIcon = computed(() => {
-  return rail.value ? "mdi-chevron-double-right" : "mdi-chevron-double-left";
+  return store.sidebarCollapsed
+    ? "mdi-chevron-double-right"
+    : "mdi-chevron-double-left";
 });
 const { mdAndDown } = useDisplay();
 watch(mdAndDown, () => {
-  if (!rail.value) {
-    rail.value = true;
+  if (!store.sidebarCollapsed) {
+    store.sidebarCollapsed = true;
   }
 });
 </script>

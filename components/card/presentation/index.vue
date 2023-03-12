@@ -8,10 +8,12 @@
       :min-width="320"
       :max-width="400"
     >
+      <CardHeader></CardHeader>
+
       <slot name="header">
-        <CardPresentationHeader :image="card.backgroundImage">
+        <!-- <CardPresentationHeader :image="card.backgroundImage">
           <slot></slot>
-        </CardPresentationHeader>
+        </CardPresentationHeader> -->
       </slot>
 
       <v-container class="pa-6">

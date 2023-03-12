@@ -17,9 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { CardDTO } from "~~/api/dtos/card.dto";
+import { ICardDTO } from '~~/api/dtos/card.dto';
+
 
 defineProps<{
-  card: CardDTO;
+  card: ICardDTO;
 }>();
 </script>

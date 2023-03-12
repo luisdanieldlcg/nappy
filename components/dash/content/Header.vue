@@ -1,7 +1,7 @@
 <template>
-  <v-row justify="center" class="ml-16">
-    <v-col class="ml-16 pb-0 pt-0">
-      <v-card elevation="0" :min-width="150">
+  <v-row justify="center" :class="handleSpacing" class="mr-12">
+    <v-col :class="handleSpacing">
+      <v-card elevation="0" :min-width="400">
         <v-toolbar color="background" density="compact">
           <v-avatar
             v-if="isNestedRoute"
@@ -34,11 +34,21 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from "vuetify/lib/framework.mjs";
 import { DashPageHeader } from "~~/config/dash/header";
-
-defineProps<{
+const { width } = useDisplay();
+const props = defineProps<{
   header: DashPageHeader;
 }>();
+const handleSpacing = computed(() => {
+  if (props.header.title.length <= 6) {
+    return { "ml-16": true };
+  }
+  return {
+    "ml-16": width.value >= 600,
+  };
+});
+
 const route = useRoute();
 
 const isNestedRoute = computed(() => {

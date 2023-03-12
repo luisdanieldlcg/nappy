@@ -28,6 +28,7 @@
         @close="dialogHandler.close()"
         :loading="cardStore.loadTracker.deletingById"
       >
+
         <template #actions>
           <v-btn class="text-capitalize bg-primary" @click="deleteCard">
             Delete Card</v-btn

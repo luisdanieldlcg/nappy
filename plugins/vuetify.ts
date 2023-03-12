@@ -2,6 +2,7 @@
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import { VVirtualScroll } from "vuetify/labs/VVirtualScroll";
 import { aliases, mdi } from "vuetify/iconsets/mdi";
 import { ThemeDefinition } from "vuetify/lib/index";
 
@@ -34,7 +35,10 @@ const darkTheme: ThemeDefinition = {
 };
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
-    components,
+    components: {
+      ...components,
+      VVirtualScroll,
+    },
     directives,
     theme: {
       themes: {
