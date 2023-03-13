@@ -1,6 +1,10 @@
 <template>
-  <v-card color="background" elevation="0" :max-width="1000" class="pt-0 mt-0">
-    <v-container>
+  <v-card elevation="0" class="pt-0 mt-0">
+    <v-container class="pa-0">
+      <CardEditorPreview :card="card" />
+
+      <CardEditorFields :card="card" />
+
       <v-row justify="center">
         <v-col
           :cols="cardGrid.cols"
@@ -10,7 +14,6 @@
           :xl="cardGrid.xl"
           class="mr-16"
         >
-          <CardEditorContent :card="card" />
         </v-col>
         <v-col
           :cols="textFieldsGrid.cols"
@@ -20,7 +23,6 @@
           :xl="textFieldsGrid.xl"
           class="ml-8 mt-8 text-center"
         >
-          <CardEditorFields :card="card" />
         </v-col>
       </v-row>
     </v-container>

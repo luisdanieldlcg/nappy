@@ -1,5 +1,19 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
+    <!--Header-->
+    <template #append>
+      <v-tooltip text="Create a new Card">
+        <template #activator="{ props }">
+          <v-icon
+            icon="mdi-plus"
+            style="cursor: pointer"
+            v-bind="props"
+            @click="goToCreateCardPage"
+          />
+        </template>
+      </v-tooltip>
+    </template>
+    <!--Content-->
     <v-card
       color="background"
       elevation="0"
@@ -28,7 +42,6 @@
         @close="dialogHandler.close()"
         :loading="cardStore.loadTracker.deletingById"
       >
-
         <template #actions>
           <v-btn class="text-capitalize bg-primary" @click="deleteCard">
             Delete Card</v-btn
@@ -42,18 +55,21 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { ICardDTO } from "~~/api/dtos/card.dto";
-import { DashPageHeader } from "~~/config/dash/header";
+import { DashPageHeader } from "~~/layouts/dashboard.vue";
 import { useCardStore } from "~~/stores/card.store";
 import { useDialogStore } from "~~/stores/dialog-store";
 
 const header: DashPageHeader = {
   title: "Cards",
   icon: "mdi-card-account-details-outline",
-  target: "/app/cards",
-  createResourcePath: "/app/cards/create",
-  createResourceTooltip: "Create a new Card",
 };
 
+/**
+ * Navigate to the create card page.
+ */
+const goToCreateCardPage = () => {
+  navigateTo("/app/cards/create");
+};
 const { name } = useDisplay();
 
 const maxWidth = computed(() => {

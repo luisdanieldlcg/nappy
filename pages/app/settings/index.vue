@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
-const header = {
-  title: "Overview",
-  icon: "mdi-chart-line",
-  target: "/app/overview",
+import { DashPageHeader } from '~~/layouts/dashboard.vue';
+
+const header: DashPageHeader = {
+  title: "Settings",
+  icon: "mdi-cog-outline",
 };
 </script>
 

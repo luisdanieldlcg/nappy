@@ -3,10 +3,12 @@
 </template>
 
 <script setup lang="ts">
-const header = {
+import { DashPageHeader } from '~~/layouts/dashboard.vue';
+
+
+const header: DashPageHeader = {
   title: "Contacts",
   icon: "mdi-contacts-outline",
-  target: "/app/contacts",
 };
 </script>
 

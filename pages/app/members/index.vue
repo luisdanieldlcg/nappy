@@ -3,10 +3,11 @@
 </template>
 
 <script setup lang="ts">
-const header = {
+import { DashPageHeader } from '~~/layouts/dashboard.vue';
+
+const header: DashPageHeader = {
   title: "Members",
   icon: "mdi-account-group-outline",
-  target: "/app/members",
 };
 </script>
 

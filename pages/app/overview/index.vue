@@ -2,7 +2,7 @@
   <NuxtLayout name="dashboard" :header="header">
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" sm="5" md="4" lg="3" v-for="entry in insights">
+        <v-col v-for="entry in insights">
           <InsightCard
             :title="entry.title"
             :quantity="entry.quantity"
@@ -15,14 +15,14 @@
 </template>
 
 <script setup lang="ts">
+import { DashPageHeader } from '~~/layouts/dashboard.vue';
 import { overviewInsights } from "~~/config/dash/overview";
 import InsightCard from "./components/InsightCard.vue";
 const insights = overviewInsights;
 
-const header = {
+const header: DashPageHeader = {
   title: "Overview",
   icon: "mdi-chart-line",
-  target: "/app/overview",
 };
 </script>
 

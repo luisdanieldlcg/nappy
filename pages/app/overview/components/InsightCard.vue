@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat :border="true">
     <v-container class="pa-6">
       <p class="text-card-subtitle">{{ title }}</p>
       <v-row>
