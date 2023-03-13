@@ -11,12 +11,16 @@
 
 <script setup lang="ts">
 import { ICreateCardDTO } from "~~/api/dtos/card.dto";
+import { DashPageHeader } from "~~/config/dash/header";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
-const header = {
+const header: DashPageHeader = {
   title: "Create a New Card",
   icon: "mdi-card-account-details-outline",
   target: "/app/cards/create",
+  saveHandler() {
+    
+  }
 };
 const view = new ViewState();
 const dto = reactive<ICreateCardDTO>({

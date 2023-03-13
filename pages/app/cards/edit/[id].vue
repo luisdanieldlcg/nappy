@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { DashPageHeader } from "~~/config/dash/header";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 const view = new ViewState();
@@ -27,10 +28,11 @@ const cardStore = useCardStore();
 const cardId = params.id as string;
 const card = cardStore.getById(cardId);
 
-const header = {
+const header: DashPageHeader = {
   title: "Edit card",
   icon: "mdi-card-account-details-outline",
   target: "/app/cards/edit",
+  canSave: true,
 };
 
 const save = async (form: FormData) => {

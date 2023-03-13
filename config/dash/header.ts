@@ -4,4 +4,5 @@ export interface DashPageHeader {
   target: string;
   createResourcePath?: string;
   createResourceTooltip?: string;
+  saveHandler: () => void;
 }
