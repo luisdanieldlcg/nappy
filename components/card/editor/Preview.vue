@@ -1,6 +1,5 @@
 <template>
-  <!--TODO: Set min width 320-->
-  <v-card :min-width="240"  :max-width="340" height="400" class="text-left" elevation="0" :border="true">
+  <v-card :min-width="250"  :max-width="320" height="400" class="text-left" elevation="0" :border="true">
     <CardHeader :avatar-size="100" />
     <div class="text-center mt-16">
       <v-chip> {{ card.label }} </v-chip>

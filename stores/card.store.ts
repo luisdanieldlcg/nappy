@@ -33,7 +33,7 @@ export const useCardStore = defineStore("user", () => {
    * handle image upload.
    * @param form FormData
    */
-  const create = async (form: FormData, screen: ViewState) => {
+  const create = async (form: FormData) => {
     loadTracker.creating = true;
     const newCard = await cardModule.create(form);
     if (newCard.isOk) {

@@ -18,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { DashPageHeader } from "~~/components/dash/content/Header.vue";
-import { useCardEditorStore } from "~~/stores/card-editor.store";
+import { DashPageHeader } from "~~/layouts/dashboard.vue";
+import { createCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 const view = new ViewState();
 
@@ -35,7 +35,7 @@ const header: DashPageHeader = {
 
 const save = async (form: FormData) => {
   if (card.isJust) {
-    const editor = useCardEditorStore();
+    const editor = createCardEditorStore(card.value);
     if (editor.canvas) {
       editor.canvas.toBlob((blob) => {
         if (blob) {

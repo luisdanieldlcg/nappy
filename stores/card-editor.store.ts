@@ -1,25 +1,39 @@
 import { CropperResult } from "vue-advanced-cropper";
 import { ICardDTO } from "~~/api/dtos/card.dto";
+import { useCardStore } from "./card.store";
 
-export const useCardEditorStore = defineStore("card-editor", () => {
-  const card = ref<ICardDTO>();
-  const profilePicImage = ref<string | undefined>();
-  const editorResult = ref<CropperResult | undefined>();
-  const canvas = ref<HTMLCanvasElement | undefined>();
+export function createCardEditorStore(dto: ICardDTO) {
+  return defineStore("card-editor", () => {
+    const card = ref<ICardDTO>(dto);
+    const form = new FormData();
 
-  const updateResult = (result: CropperResult) => {
-    editorResult.value = result;
-    canvas.value = result.canvas;
-  };
+    const profilePicImage = ref<string | undefined>();
+    const editorResult = ref<CropperResult | undefined>();
+    const canvas = ref<HTMLCanvasElement | undefined>();
 
-  const init = (dto: ICardDTO) => {
-    card.value = dto;
-  };
-  return {
-    profilePicImage,
-    editorResult,
-    updateResult,
-    canvas,
-    init,
-  };
-});
+    const submit = async () => {
+      Object.entries(card.value).forEach(([key, value]) => {
+        form.append(key, value);
+      });
+      const cardManager = useCardStore();
+      await cardManager.create(form);
+    };
+    const updateResult = (result: CropperResult) => {
+      editorResult.value = result;
+      canvas.value = result.canvas;
+    };
+
+    const init = (dto: ICardDTO) => {
+      card.value = dto;
+    };
+    return {
+      profilePicImage,
+      editorResult,
+      updateResult,
+      canvas,
+      init,
+      card,
+      submit,
+    };
+  })();
+}

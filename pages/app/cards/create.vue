@@ -20,6 +20,7 @@
       <v-tooltip text="Save changes" location="bottom">
         <template #activator="{ props }">
           <v-avatar
+            @click="createCard"
             v-bind="props"
             class="ml-2"
             icon="mdi-check"
@@ -34,7 +35,7 @@
       mode="create"
       :card="dto"
       @on-finish="createCard"
-      :loading="view.isLoading()"
+      :loading="cardManager.loadTracker.creating"
     />
   </NuxtLayout>
 </template>
@@ -42,13 +43,13 @@
 <script setup lang="ts">
 import { ICreateCardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
-import { useCardEditorStore } from "~~/stores/card-editor.store";
+import { createCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
+
 const header: DashPageHeader = {
   title: "Create a New Card",
   icon: "mdi-card-account-details-outline",
 };
-const view = new ViewState();
 const dto = reactive<ICreateCardDTO>({
   id: "",
   label: "Work",
@@ -58,18 +59,20 @@ const dto = reactive<ICreateCardDTO>({
   company: "",
   backgroundImage: "",
 });
-const cardStore = useCardStore();
-const createCard = async (form: FormData) => {
-  const editor = useCardEditorStore();
-  if (editor.canvas) {
-    editor.canvas.toBlob((blob) => {
-      if (blob) {
-        form.append("backgroundImage", blob);
-        cardStore.create(form, view);
-      }
-    });
-  } else {
-    cardStore.create(form, view);
-  }
+const cardManager = useCardStore();
+const store = createCardEditorStore(dto);
+const createCard = () => {
+  store.submit();
+  // const editor = createCardEditorStore(dto);
+  // if (editor.canvas) {
+  //   editor.canvas.toBlob((blob) => {
+  //     if (blob) {
+  //       form.append("backgroundImage", blob);
+  //       cardStore.create(form, view);
+  //     }
+  //   });
+  // } else {
+  //   cardStore.create(form, view);
+  // }
 };
 </script>

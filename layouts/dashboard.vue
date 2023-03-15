@@ -2,24 +2,17 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="11">
-        <!-- <v-toolbar
-          class="rounded-xl"
-          color="backgroubnd"
-          density="compact"
-          :height="80"
-          style="position: fixed; z-index: 1; top: 65px"
-        >
-   
-        </v-toolbar> -->
+        <v-toolbar color="background" class="pl-2 mt-4" density="compact">
+          <slot name="prepend" />
+          <v-app-bar-nav-icon :icon="header.icon" class="bg-surface" />
+          <p
+            class="text-h5 pa-6 text-grey-subtitle font-weight-medium text-no-wrap"
+          >
+            {{ header.title }}
+          </p>
+          <slot name="append" />
+        </v-toolbar>
         <v-card elevation="0" :border="true">
-          <v-toolbar color="white" class="pl-8" density="compact">
-            <slot name="prepend" />
-            <v-app-bar-nav-icon :icon="header.icon" class="bg-surface" />
-            <p class="text-h5 pa-6 text-grey-subtitle font-weight-medium">
-              {{ header.title }}
-            </p>
-            <slot name="append" />
-          </v-toolbar>
           <slot></slot>
         </v-card>
       </v-col>

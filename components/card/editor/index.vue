@@ -45,11 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { ICreateCardDTO } from "~~/api/dtos/card.dto";
-const emit = defineEmits<{
-  (e: "onFinish", form: FormData): void;
-}>();
+import { createCardEditorStore } from "~~/stores/card-editor.store";
+// const emit = defineEmits<{
+//   (e: "onFinish", form: FormData): void;
+// }>();
 
 // TODO: make a better grid view
 const cardGrid = {
@@ -71,11 +71,8 @@ const props = defineProps<{
   loading: boolean;
   mode: "create" | "edit";
 }>();
-useCardEditorStore().init(props.card);
+const editorStore = createCardEditorStore(props.card);
 
-const form = new FormData();
-
-const editorStore = useCardEditorStore();
 // Quick dirty fix for avoiding rendering Preview image component
 // after the image is chosen and the screen is reset.
 editorStore.editorResult = undefined;
@@ -108,10 +105,7 @@ const onFilePicked = (file: string) => {
   editingImage.value = true;
 };
 const sendForm = () => {
-  Object.entries(props.card).forEach(([key, value]) => {
-    form.append(key, value);
-  });
-  emit("onFinish", form);
+
 };
 </script>
 
