@@ -20,7 +20,7 @@
       :max-width="maxWidth"
       class="pt-0 mt-0 pl-16"
     >
-      <v-row class="pl-14" no-gutters>
+      <v-row class="pl-14" no-gutters justify="center">
         <v-col
           cols="12"
           sm="7"

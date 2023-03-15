@@ -2,7 +2,7 @@
   <v-text-field
     density="default"
     color="primary"
-    variant="filled"
+    variant="outlined"
     :type="showText ? 'text' : 'password'"
     :append-inner-icon="getInnerIcon"
     @click:append-inner="showText = !showText"

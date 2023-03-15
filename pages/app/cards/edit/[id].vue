@@ -1,6 +1,6 @@
 <template>
   <Suspense>
-    <NuxtLayout name="dashboard">
+    <NuxtLayout name="dashboard" :header="header">
       <template #default>
         <CardEditor
           v-if="card.isJust"
@@ -19,23 +19,24 @@
 
 <script setup lang="ts">
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
-import { createCardEditorStore } from "~~/stores/card-editor.store";
+import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 const view = new ViewState();
 
 const params = useRoute().params;
-const cardStore = useCardStore();
 const cardId = params.id as string;
+const cardStore = useCardStore();
 const card = cardStore.getById(cardId);
 
 const header: DashPageHeader = {
   title: "Edit card",
   icon: "mdi-card-account-details-outline",
+  canGoBack: true
 };
 
 const save = async (form: FormData) => {
   if (card.isJust) {
-    const editor = createCardEditorStore(card.value);
+    const editor = useCardEditorStore();
     if (editor.canvas) {
       editor.canvas.toBlob((blob) => {
         if (blob) {

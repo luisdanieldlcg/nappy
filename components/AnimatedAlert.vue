@@ -14,7 +14,7 @@
                 color="#000000"
                 closable
               >
-                <template #close="{ toggle }">
+                <template #close>
                   <v-btn
                     density="compact"
                     @click="$emit('update:modelValue', $event.target.value)"

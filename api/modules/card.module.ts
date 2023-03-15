@@ -25,4 +25,6 @@ export class CardModule extends ApiModule {
   public async deleteById(cardId: string) {
     return this.delete<void>(cardId);
   }
+
+  
 }

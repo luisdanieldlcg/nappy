@@ -69,6 +69,7 @@ const isDragging = ref(false);
 const files = ref([]);
 const file = ref<undefined | HTMLInputElement>();
 const selectedFile = ref<undefined | File>();
+
 const onChange = () => {
   if (file.value?.files) {
     selectedFile.value = file.value.files[0];
@@ -78,6 +79,7 @@ const onChange = () => {
     }
   }
 };
+
 
 const generateThumbnail = computed(() => {
   if (selectedFile.value) {

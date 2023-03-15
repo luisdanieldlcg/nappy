@@ -1,21 +1,5 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <template #prepend>
-      <v-tooltip text="Go back" location="bottom">
-        <template #activator="{ props }">
-          <v-avatar
-            v-bind="props"
-            color="transparent"
-            :icon="'mdi-arrow-left'"
-            size="48"
-            class="ma-4"
-            @click="$router.back()"
-            style="cursor: pointer"
-          />
-        </template>
-      </v-tooltip>
-    </template>
-
     <template #append>
       <v-tooltip text="Save changes" location="bottom">
         <template #activator="{ props }">
@@ -43,12 +27,13 @@
 <script setup lang="ts">
 import { ICreateCardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
-import { createCardEditorStore } from "~~/stores/card-editor.store";
+import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
 
 const header: DashPageHeader = {
   title: "Create a New Card",
   icon: "mdi-card-account-details-outline",
+  canGoBack: true,
 };
 const dto = reactive<ICreateCardDTO>({
   id: "",
@@ -60,19 +45,9 @@ const dto = reactive<ICreateCardDTO>({
   backgroundImage: "",
 });
 const cardManager = useCardStore();
-const store = createCardEditorStore(dto);
-const createCard = () => {
-  store.submit();
-  // const editor = createCardEditorStore(dto);
-  // if (editor.canvas) {
-  //   editor.canvas.toBlob((blob) => {
-  //     if (blob) {
-  //       form.append("backgroundImage", blob);
-  //       cardStore.create(form, view);
-  //     }
-  //   });
-  // } else {
-  //   cardStore.create(form, view);
-  // }
+const createCard = async () => {
+  const store = useCardEditorStore();
+  await store.submit(dto);
+  store.$dispose(); // FIXME find a workaround to this
 };
 </script>
