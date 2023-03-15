@@ -1,9 +1,14 @@
 <template>
-  <v-card elevation="0" class="pt-0 mt-0">
+  <v-card color="white" elevation="0" class="pt-0 mt-0 card-shadow-light">
     <v-container class="pa-0">
-      <CardEditorPreview :card="card" />
-
-      <CardEditorFields :card="card" />
+      <v-row>
+        <v-col cols="6">
+          <CardEditorPreview :card="card" />
+        </v-col>
+        <v-col cols="6">
+          <CardEditorFields :card="card" />
+        </v-col>
+      </v-row>
 
       <v-row justify="center">
         <v-col

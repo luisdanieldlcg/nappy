@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels style="width: 300px" >
+  <v-expansion-panels style="width: 300px" class="mt-6" >
     <!-- <v-progress-linear
       :indeterminate="loading"
       :active="loading"
