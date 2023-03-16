@@ -1,6 +1,6 @@
 <template>
   <cropper
-    class="cropper mt-5"
+    class="cropper mt-16 mb-16"
     :src="editorStore.profilePicImage"
     :stencil-props="{
       handlers: {},
@@ -29,7 +29,14 @@ import { useCardEditorStore } from "~~/stores/card-editor.store";
 const editorStore = useCardEditorStore();
 const onChange = (result: CropperResult) => {
   editorStore.updateResult(result);
-}
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+.cropper {
+  height: 300px;
+  width: 300px;
+
+  background: #ddd;
+}
+</style>

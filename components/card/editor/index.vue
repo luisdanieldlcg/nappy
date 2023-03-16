@@ -11,7 +11,10 @@
       <v-col cols="7">
         <CardEditorPreview :card="card" />
       </v-col>
-      <v-col cols="5" v-if="!isSmallScreen">
+
+      <ImageEditor v-if="editingImage" />
+      <!--FIXME: get rid of this nested if-->
+      <v-col cols="5" v-else-if="!isSmallScreen">
         <CardEditorFields :card="card">
           <template #before-panels>
             <ImageCard title="Profile picture" @click="showDialog = true" />
@@ -27,20 +30,11 @@
       </v-col>
     </v-row>
   </v-card>
-
   <FileDropDialog
     v-model="showDialog"
     @close="showDialog = false"
     @filepicked="onFilePicked"
   />
-  <!-- <ImageEditor />
-        <v-btn @click="editingImage = false" variant="tonal" class="mr-16 mt-7">
-          Done
-        </v-btn>
-        <div class="pr-7 d-inline"></div> -->
-  <!-- <div>
-  </div>
-  -->
 </template>
 
 <script setup lang="ts">
@@ -83,11 +77,3 @@ const onFilePicked = (file: string) => {
   editingImage.value = true;
 };
 </script>
-
-<style scoped>
-.cropper {
-  height: 300px;
-  width: 300px;
-  background: #ddd;
-}
-</style>
