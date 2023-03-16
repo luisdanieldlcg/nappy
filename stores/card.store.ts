@@ -26,7 +26,6 @@ export const useCardStore = defineStore("user", () => {
     gettingById: false,
     updatingById: false,
   });
-
   /**
    * Creates a new Card.
    * The DTO is sent as part of a FormData in order to
