@@ -1,6 +1,5 @@
 <template>
-  <v-container>
-    <v-row justify="center">
+  <v-row justify="center">
       <v-col cols="11">
         <v-card color="background" elevation="0">
           <v-toolbar color="background" class="pl-2 mt-4" density="compact">
@@ -31,7 +30,6 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
 </template>
 
 <script setup lang="ts">

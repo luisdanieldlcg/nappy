@@ -1,7 +1,6 @@
 <template>
   <v-card
-    :min-width="250"
-    :max-width="320"
+    :width="300"
     height="400"
     class="text-left card-shadow-light"
     elevation="0"
