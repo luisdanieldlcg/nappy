@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import inject from '@rollup/plugin-inject'
 export default defineNuxtConfig({
   css: ["@/assets/styles.scss", "@mdi/font/css/materialdesignicons.min.css"],
   build: {

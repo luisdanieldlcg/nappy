@@ -17,6 +17,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     auth: new AuthModule(httpInstance),
     card: new CardModule(httpInstance),
   };
+
   return {
     provide: {
       api: modules,

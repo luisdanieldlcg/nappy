@@ -29,12 +29,12 @@
         </CardEditorFields>
       </v-col>
     </v-row>
+    <FileDropDialog
+      v-model="showDialog"
+      @close="showDialog = false"
+      @picked="onFilePicked"
+    />
   </v-card>
-  <FileDropDialog
-    v-model="showDialog"
-    @close="showDialog = false"
-    @filepicked="onFilePicked"
-  />
 </template>
 
 <script setup lang="ts">

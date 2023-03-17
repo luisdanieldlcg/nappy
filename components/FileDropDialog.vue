@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="text-center" :max-width="600">
+  <v-dialog class="text-center" :max-width="600" persistent>
     <v-card class="elevation-0 pr-10 pl-10 pb-10" color="#f7fafc">
       <div class="mt-8">
         <v-btn
@@ -24,7 +24,7 @@
 
       <label for="fileInput">
         <div
-          class="corner"
+          class="corner rounded-lg"
           @dragover.prevent="onDragOver"
           @dragleave.prevent="onDragLeave"
           @drop.prevent="onDrop"
@@ -44,36 +44,67 @@
         </div>
       </label>
     </v-card>
+    <v-snackbar v-model="snackbar" variant="flat" @click="snackbar = false">
+      {{ fileError }}
+      <v-btn icon elevation="0" size="30" variant="tonal" class="ml-2">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
   </v-dialog>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import { isValidImage } from "~~/utils/file-upload";
+
 const emit = defineEmits<{
   (e: "close"): void;
-  (e: "filepicked", file: string): void;
+  (e: "picked", file: string): void;
 }>();
 
 const isDragging = ref(false);
 const file = ref<undefined | HTMLInputElement>();
 const selectedFile = ref<undefined | File>();
-const str = " Your image exceeds our limit of 8MB. Please try another one. ";
-const bytesToMb = (bytes: number) => {
-  return bytes / 1000 / 1000;
-};
-const MAX_SIZE_IN_MB = 5;
+const fileError = ref("");
+const snackbar = ref(false);
+
 const onChange = () => {
-  if (file.value?.files) {
-    selectedFile.value = file.value.files[0];
-    if (bytesToMb(selectedFile.value.size) >= MAX_SIZE_IN_MB) {
-      return;
-    }
-    const thumbnail = generateThumbnail();
-    if (thumbnail) {
-      emit("filepicked", thumbnail);
-    }
+  const input = file.value;
+  if (!input || !input.files) {
+    return;
   }
+  const target = input.files[0];
+  checkFile(target);
 };
 
+const onDrop = (e: DragEvent) => {
+  const data = e.dataTransfer;
+  if (!data || !data.files) {
+    return;
+  }
+  const droppedFiles = data.files;
+  if (!droppedFiles.length) {
+    return;
+  }
+  const target = droppedFiles[0];
+  checkFile(target);
+};
+
+const checkFile = async (file: File) => {
+  const validation = await isValidImage(file);
+  validation.match({
+    Ok() {
+      selectedFile.value = file;
+      const thumbnail = generateThumbnail();
+      if (thumbnail) {
+        emit("picked", thumbnail);
+      }
+    },
+    Err(err) {
+      fileError.value = err;
+      snackbar.value = true;
+    },
+  });
+};
 const generateThumbnail = () => {
   if (selectedFile.value) {
     let fileSrc = URL.createObjectURL(selectedFile.value);
@@ -90,20 +121,10 @@ const onDragOver = () => {
 const onDragLeave = () => {
   isDragging.value = false;
 };
-const onDrop = (e: DragEvent) => {
-  const droppedFiles = e.dataTransfer?.files;
-  if (droppedFiles?.length) {
-    selectedFile.value = droppedFiles[0];
-    const thumbnail = generateThumbnail();
-    if (thumbnail) {
-      emit("filepicked", thumbnail);
-    }
-  }
-};
 </script>
 
 <style scoped>
 .corner {
-  border: 2px dotted #d8d8d8;
+  border: 2px dotted #c5c3c3;
 }
 </style>
