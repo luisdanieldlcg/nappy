@@ -54,22 +54,27 @@ const emit = defineEmits<{
 }>();
 
 const isDragging = ref(false);
-// TODO maybe handle multiple files
-const files = ref([]);
 const file = ref<undefined | HTMLInputElement>();
 const selectedFile = ref<undefined | File>();
-
+const str = " Your image exceeds our limit of 8MB. Please try another one. ";
+const bytesToMb = (bytes: number) => {
+  return bytes / 1000 / 1000;
+};
+const MAX_SIZE_IN_MB = 5;
 const onChange = () => {
   if (file.value?.files) {
     selectedFile.value = file.value.files[0];
-    const thumbnail = generateThumbnail.value;
+    if (bytesToMb(selectedFile.value.size) >= MAX_SIZE_IN_MB) {
+      return;
+    }
+    const thumbnail = generateThumbnail();
     if (thumbnail) {
       emit("filepicked", thumbnail);
     }
   }
 };
 
-const generateThumbnail = computed(() => {
+const generateThumbnail = () => {
   if (selectedFile.value) {
     let fileSrc = URL.createObjectURL(selectedFile.value);
     setTimeout(() => {
@@ -77,7 +82,8 @@ const generateThumbnail = computed(() => {
     }, 1000);
     return fileSrc;
   }
-});
+};
+
 const onDragOver = () => {
   isDragging.value = true;
 };
@@ -88,7 +94,7 @@ const onDrop = (e: DragEvent) => {
   const droppedFiles = e.dataTransfer?.files;
   if (droppedFiles?.length) {
     selectedFile.value = droppedFiles[0];
-    const thumbnail = generateThumbnail.value;
+    const thumbnail = generateThumbnail();
     if (thumbnail) {
       emit("filepicked", thumbnail);
     }
