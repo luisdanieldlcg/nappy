@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
 import { Result } from "true-myth";
-import { signUp } from "~~/api";
 import { ISignupDTO } from "~~/api/dtos/signup.dto";
 import { AuthModule } from "~~/api/modules/auth.module";
 

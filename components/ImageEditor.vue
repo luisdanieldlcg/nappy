@@ -30,6 +30,10 @@
       thumb-label="always"
       append-icon="mdi-magnify-plus-outline"
       prepend-icon="mdi-magnify-minus-outline"
+      @update:model-value="onSliderUpdate"
+      
+      @click:append="zoomIn"
+      @click:prepend="zoomOut"
     >
       <template #thumb-label>
         <v-icon icon="mdi-magnify-expand"></v-icon>
@@ -49,6 +53,7 @@ import {
 } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
+
 type ImageEditor = {
   imageSize: ImageSize;
   sizeRestrictions: SizeRestrictions;
@@ -61,14 +66,7 @@ type ImageEditor = {
   flip: (horizontal: boolean, vertical?: boolean) => void;
   reset: () => void;
 };
-const editor = ref<ImageEditor | undefined>();
-const editorStore = useCardEditorStore();
-const zoomController = reactive({
-  slider: 0,
-  zoom: 0,
-});
-
-watch(zoomController, (_, __) => {
+const onSliderUpdate = () => {
   // editorStore.updateResult(result);
   if (!editor.value) return;
   const cropper = editor.value;
@@ -87,17 +85,28 @@ watch(zoomController, (_, __) => {
 
   //  This zoom method is used to scale visible area relative to its scale.
   // The first parameter factor is the number, that represents scale factor (i.e. 1.1 to resize to 110%, 0.8 to resize to 80%).
-  console.log("original: ", zoomController.slider);
-  console.log(zoomController.slider / 100);
   cropper.zoom(-(zoomController.slider * 0.3));
+};
+const zoomIn = () => {
+  console.log("Zooming in...");
+};
+
+const zoomOut = () => {
+  console.log("Zooming out...");
+};
+const editor = ref<ImageEditor | undefined>();
+const editorStore = useCardEditorStore();
+const zoomController = reactive({
+  slider: 0,
+  zoom: 0,
 });
+
 const defaultSize = (obj: { imageSize: ImageSize; visibleArea: boolean }) => {
   return {
     width: Math.min(obj.imageSize.height, obj.imageSize.width),
     height: Math.min(obj.imageSize.height, obj.imageSize.width),
   };
 };
-const onChange = (result: CropperResult) => {};
 </script>
 
 <style lang="scss">
