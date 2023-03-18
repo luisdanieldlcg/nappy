@@ -2,34 +2,31 @@
   <v-navigation-drawer
     class="rounded-xl"
     floating
-    :rail-width="92"
     :rail="store.sidebarCollapsed"
-    permanent
   >
-    <v-container class="pb-0 pt-6 toggle-drawer">
-      <v-row>
-        <v-col>
-          <h1 class="text-h6 font-weight-bold mt-1 text-center">Nappy</h1>
-        </v-col>
-        <v-col>
-          <v-btn
-            icon
-            :elevation="0"
-            location="center"
-            @click="store.sidebarCollapsed = !store.sidebarCollapsed"
-            key="example"
-          >
-            <v-icon :icon="toggleIcon"></v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row>
+      <v-col>
+        <h1 class="text-h6 font-weight-bold mt-6 text-center">
+          {{ company }}
+        </h1>
+        <!---TODO PUT THIS TOGGLER IN BELOW AND IN THE HEADER OF THE CONTENT PREPEND-->
+      </v-col>
+      <v-col>
+        <v-btn
+          icon
+          :elevation="0"
+          @click="store.sidebarCollapsed = !store.sidebarCollapsed"
+        >
+          <v-icon :icon="toggleIcon"></v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
 
     <v-list
       nav
-      class="justify-center pa-6"
+      class="justify-center"
       active-color="grey-darken-4"
-      density="comfortable"
+      density="compact"
     >
       <DashSidebarItem
         v-for="entry in items"
@@ -49,23 +46,30 @@ import { useDashStore } from "~~/stores/dash.store";
 const store = useDashStore();
 
 const items = sidebarItems;
-const toggleIcon = computed(() => {
-  return store.sidebarCollapsed
-    ? "mdi-chevron-double-right"
-    : "mdi-chevron-double-left";
-});
-const { mdAndDown } = useDisplay();
+const { mdAndDown, mdAndUp } = useDisplay();
 watch(mdAndDown, () => {
   if (!store.sidebarCollapsed) {
     store.sidebarCollapsed = true;
   }
 });
+const company = computed(() => {
+  return store.sidebarCollapsed ? "N" : "Nappy";
+});
+const toggleIcon = computed(() => {
+  return store.sidebarCollapsed
+    ? "mdi-chevron-double-right"
+    : "mdi-chevron-double-left";
+});
 </script>
 
-<style scoped>
-.toggle-drawer {
-  transition: 0.2s ease-out;
-  display: flex;
-  overflow: hidden;
+<style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(-100%);
 }
 </style>

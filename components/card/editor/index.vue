@@ -46,6 +46,7 @@ defineProps<{
   loading: boolean;
   mode: "create" | "edit";
 }>();
+const mode = ref("a");
 const { width } = useDisplay();
 const editorStore = useCardEditorStore();
 const isSmallScreen = computed(() => width.value < 1280);

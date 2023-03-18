@@ -1,38 +1,41 @@
 <template>
   <v-row justify="center">
-      <v-col cols="11">
-        <v-card color="background" elevation="0">
-          <v-toolbar color="background" class="pl-2 mt-4" density="compact">
-            <slot name="prepend" />
-            <v-tooltip text="Go back" location="bottom" v-if="header.canGoBack">
-              <template #activator="{ props }">
-                <v-avatar
-                  v-bind="props"
-                  color="transparent"
-                  :icon="'mdi-arrow-left'"
-                  size="48"
-                  class="ma-4"
-                  @click="$router.back()"
-                  style="cursor: pointer"
-                />
-              </template>
-            </v-tooltip>
-            <v-app-bar-nav-icon :icon="header.icon" class="bg-surface" />
-            <p
-              class="text-h5 pa-6 text-grey-subtitle font-weight-medium text-no-wrap"
-            >
-              {{ header.title }}
-            </p>
+    <v-col cols="11">
+      <v-card color="background" elevation="0">
+        <v-toolbar color="background" class="pl-2 mt-4" density="compact">
+       
+          <slot name="prepend" />
+          <v-tooltip text="Go back" location="bottom" v-if="header.canGoBack">
+            <template #activator="{ props }">
+              <v-avatar
+                v-bind="props"
+                color="transparent"
+                :icon="'mdi-arrow-left'"
+                size="48"
+                class="ma-4"
+                @click="$router.back()"
+                style="cursor: pointer"
+              />
+            </template>
+          </v-tooltip>
+          <v-app-bar-nav-icon :icon="header.icon" class="bg-surface" />
+          <p
+            class="text-h5 pa-6 text-grey-subtitle font-weight-medium text-no-wrap"
+          >
+            {{ header.title }}
+          </p>
 
-            <slot name="append" />
-          </v-toolbar>
-          <slot></slot>
-        </v-card>
-      </v-col>
-    </v-row>
+          <slot name="append" />
+        </v-toolbar>
+        <slot></slot>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
+import { useDashStore } from '~~/stores/dash.store';
+
 export interface DashPageHeader {
   title: string;
   icon: string;
@@ -41,4 +44,10 @@ export interface DashPageHeader {
 defineProps<{
   header: DashPageHeader;
 }>();
+const store = useDashStore();
+// const toggleIcon = computed(() => {
+//   return store.sidebarCollapsed
+//     ? "mdi-chevron-double-right"
+//     : "mdi-chevron-double-left";
+// });
 </script>
