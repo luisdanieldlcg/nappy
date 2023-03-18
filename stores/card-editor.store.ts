@@ -4,7 +4,7 @@ import { useCardStore } from "./card.store";
 
 export const useCardEditorStore = defineStore("card-editor", () => {
   const profilePicImage = ref<string | undefined>();
-  const editorResult = ref<CropperResult | undefined>();
+  const backgroundResult = ref<CropperResult | undefined>();
   const canvas = ref<HTMLCanvasElement | undefined>();
 
   const submit = async (card: ICardDTO) => {
@@ -12,21 +12,20 @@ export const useCardEditorStore = defineStore("card-editor", () => {
     Object.entries(card).forEach(([key, value]) => {
       form.append(key, value);
     });
-    console.log(form);
     const cardManager = useCardStore();
     await cardManager.create(form);
   };
   const updateResult = (result: CropperResult) => {
-    editorResult.value = result;
+    backgroundResult.value = result;
     canvas.value = result.canvas;
+    console.log("Got result: ", result.image);
   };
-  
 
   return {
     profilePicImage,
-    editorResult,
+    backgroundResult,
     updateResult,
     canvas,
     submit,
-  }
+  };
 });

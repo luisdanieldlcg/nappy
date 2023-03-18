@@ -4,11 +4,11 @@
     color="white"
     elevation="0"
     class="mt-0 card-shadow-light"
-    :max-width="850"
-    :width="panelWidth"
+    :min-width="200"
+    :max-width="1200"
   >
     <v-row justify="center" no-gutters class="pr-16 pl-4">
-      <v-col cols="7">
+      <v-col cols="6">
         <CardEditorPreview :card="card" />
       </v-col>
 
@@ -48,7 +48,7 @@ defineProps<{
 }>();
 const { width } = useDisplay();
 const editorStore = useCardEditorStore();
-const isSmallScreen = computed(() => width.value < 1160);
+const isSmallScreen = computed(() => width.value < 1280);
 const panelWidth = computed(() => {
   switch (true) {
     case width.value < 980:
@@ -58,12 +58,12 @@ const panelWidth = computed(() => {
     case width.value < 1400:
       return 900;
     default:
-      return 1200;
+      return 500;
   }
 });
 // Quick dirty fix for avoiding rendering Preview image component
 // after the image is chosen and the screen is reset.
-editorStore.editorResult = undefined;
+editorStore.backgroundResult = undefined;
 const editingImage = ref(false);
 const showDialog = ref(false);
 

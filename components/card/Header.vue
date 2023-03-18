@@ -1,10 +1,13 @@
 <template>
   <v-img
+    v-bind="$attrs"
     color="background"
     cover
     class="align-end"
-    :max-height="120"
-    src="https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80"
+    :src="
+      image ||
+      'https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80'
+    "
   >
   </v-img>
   <div class="d-flex flex-column justify-center align-center">

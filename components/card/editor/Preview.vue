@@ -5,7 +5,14 @@
     class="text-left card-shadow-light"
     elevation="0"
   >
-    <CardHeader :avatar-size="100" />
+    <preview
+      v-if="cardEditor.backgroundResult?.image"
+      :width="300"
+      :height="160"
+      :image="cardEditor.backgroundResult?.image"
+      :coordinates="cardEditor.backgroundResult?.coordinates"
+    />
+    <CardHeader v-else :avatar-size="100" :image="imageSrc" :max-height="160" />
 
     <v-card-text class="pl-4 pt-3">
       <div class="text-grey-subtitle text-center">
@@ -23,9 +30,19 @@
 </template>
 
 <script setup lang="ts">
+import { Preview } from "vue-advanced-cropper";
 import { ICardDTO } from "~~/api/dtos/card.dto";
+import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 defineProps<{
   card: ICardDTO;
 }>();
+const cardEditor = useCardEditorStore();
+const imageSrc = computed(() => {
+  if (cardEditor.backgroundResult?.canvas) {
+    return cardEditor.backgroundResult.canvas.toDataURL();
+  } else {
+    return "https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80";
+  }
+});
 </script>
