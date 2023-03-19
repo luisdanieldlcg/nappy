@@ -1,27 +1,47 @@
 <template>
   <div class="text-center">
-    <v-card class="container-hover" :elevation="0" :min-width="160" :border="true">
+    <v-card
+      class="container-hover"
+      color="#f9fafb"
+      :elevation="0"
+      :width="width"
+      :height="100"
+      :style="style"
+      :border="true"
+    >
       <v-container class="pa-6 text-grey-subtitle font-weight-medium">
-        <v-icon icon="mdi-plus"></v-icon>
-        <p>{{ title }}</p>
+        <v-icon icon="mdi-plus" size="small" />
+        <h5 class="font-weight-medium">{{ title }}</h5>
       </v-container>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
   },
+  rounded: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
+const width = computed(() => {
+  return props.rounded ? 105 : 160;
+});
+const style = computed(() => {
+  return {
+    "border-radius": props.rounded ? "50% !important" : "0",
+  };
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .container-hover {
   cursor: pointer;
-  background-color: #f6f8fc;
   &:hover {
     background-color: #fdfdfd;
   }

@@ -1,4 +1,5 @@
 <template>
+  <h4 class="font-weight-medium text-grey-subtitle">Label this card</h4>
   <TextField
     class="centered-input text-center align-center"
     label="Card Title"
@@ -8,7 +9,19 @@
     density="comfortable"
     variant="filled"
   />
-  <slot name="before-panels"></slot>
+  <h4 class="font-weight-medium text-grey-subtitle">Add your images</h4>
+  <v-row>
+    <v-col cols="4" class="pa-0 mr-4">
+      <ImageCard title="Cover Photo" @click="$emit('imageRequest')" />
+    </v-col>
+    <v-col cols="3" class="pa-0">
+      <ImageCard title="Profile Picture" rounded />
+    </v-col>
+    <v-col cols="2" class="pa-0">
+      <ImageCard title="Profile Logo" rounded />
+    </v-col>
+  </v-row>
+  <h4 class="font-weight-medium text-grey-subtitle">Add your details</h4>
 
   <v-row class="mt-0" style="height: 90px">
     <v-col>
@@ -46,7 +59,7 @@
 
 <script setup lang="ts">
 import { ICardDTO } from "~~/api/dtos/card.dto";
-
+defineEmits(["imageRequest"]);
 defineProps<{
   card: ICardDTO;
 }>();

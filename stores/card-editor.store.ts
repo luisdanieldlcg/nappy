@@ -6,6 +6,7 @@ export const useCardEditorStore = defineStore("card-editor", () => {
   const profilePicImage = ref<string | undefined>();
   const backgroundResult = ref<CropperResult | undefined>();
   const canvas = ref<HTMLCanvasElement | undefined>();
+  const editingImage = ref(false);
 
   const submit = async (card: ICardDTO) => {
     const form = new FormData();
@@ -27,5 +28,6 @@ export const useCardEditorStore = defineStore("card-editor", () => {
     updateResult,
     canvas,
     submit,
+    editingImage,
   };
 });
