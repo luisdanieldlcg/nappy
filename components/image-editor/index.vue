@@ -1,49 +1,66 @@
 <template>
-  <div class="mt-10 pr-10">
-    <cropper
-      ref="editor"
-      class="cropper"
-      background-class="cropper-background"
-      foreground-class=""
-      :src="editorStore.profilePicImage"
-      image-restriction="stencil"
-      :stencil-size="{
-        width: 60,
-        height: 60,
-      }"
-      :stencil-props="{
-        handlers: {},
-        movable: false,
-        resizable: false,
-        aspectRatio: 300 / 160,
-        previewClass: 'image-cropper__stencil',
-      }"
-      :resize-image="{
-        adjustStencil: false,
-      }"
-      :debounce="false"
-      @change="onCropperUpdate"
-    />
-
-    <!-- <v-slider
-      v-model="zoomController.slider"
-      thumb-label="always"
-      append-icon="mdi-magnify-plus-outline"
-      prepend-icon="mdi-magnify-minus-outline"
-      @update:model-value="onSliderUpdate"
-    >
-      <template #thumb-label>
-        <v-icon icon="mdi-magnify-expand"></v-icon>
-      </template>
-    </v-slider> -->
+  <div class="mt-3 pr-10 text-center">
+    <ImageEditorHeader />
+    <h5 class="text-grey-subtitle mt-2 font">Scroll to zoom the Cropper</h5>
+    <div class="cropper-wrapper mt-3">
+      <div
+        :style="{ backgroundImage: 'url(' + image + ')' }"
+        class="image-background"
+      />
+      <cropper
+        style="position: relative"
+        ref="editor"
+        class="cropper"
+        background-class="cropper-background"
+        foreground-class=""
+        :src="image"
+        image-restriction="stencil"
+        :stencil-size="{
+          width: 180,
+          height: 180,
+        }"
+        :stencil-props="{
+          handlers: {},
+          movable: false,
+          resizable: false,
+          aspectRatio: 300 / 160,
+          previewClass: 'image-cropper__stencil',
+        }"
+        :resize-image="{
+          adjustStencil: false,
+        }"
+        :debounce="false"
+        @change="onCropperUpdate"
+      />
+      <div class="btn-col">
+        <SquareButton
+          icon="mdi-magnify-plus-outline"
+          @click="zoom(2)"
+          tooltip="Zoom In"
+        />
+        <SquareButton
+          icon="mdi-magnify-minus-outline"
+          @click="zoom(0.5)"
+          tooltip="Zoom Out"
+        />
+        <SquareButton
+          icon="mdi-rotate-right"
+          @click="rotate(90)"
+          tooltip="Rotate Clockwise"
+        />
+        <SquareButton
+          icon="mdi-rotate-left"
+          @click="rotate(-90)"
+          tooltip="Rotate Counter-Clockwise"
+        />
+        <SquareButton
+          icon="mdi-border-radius"
+          @click="maximize()"
+          tooltip="Maximize"
+        />
+      </div>
+    </div>
   </div>
-  <!-- <v-btn
-      variant="tonal"
-      class="mb-6"
-      location="bottom center"
-      @click="onApply"
-      >Apply</v-btn
-    > -->
 </template>
 
 <script setup lang="ts">
@@ -56,10 +73,18 @@ import {
   SizeRestrictions,
   Transform,
   VisibleArea,
+  Coordinates,
 } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
+import SquareButton from "./SquareButton.vue";
 
+defineProps({
+  image: {
+    type: String,
+    required: true,
+  },
+});
 const editor = ref<ImageEditor | undefined>();
 const editorStore = useCardEditorStore();
 
@@ -68,6 +93,7 @@ type ImageEditor = {
   sizeRestrictions: SizeRestrictions;
   boundaries: Size;
   visibleArea: VisibleArea;
+  coordinates: Coordinates;
   getResult: () => CropperResult;
   setCoordinates: (transform: Transform | Transform[]) => void;
   refresh: () => void;
@@ -81,31 +107,67 @@ const onCropperUpdate = (result: CropperResult) => {
   if (!editor.value) return;
   editorStore.updateResult(result);
 };
-const onApply = () => {
+const rotate = (angle: number) => {
   if (!editor.value) return;
-  const result = editor.value.getResult();
-  editorStore.updateResult(result);
+  editor.value.rotate(angle);
+};
+
+const zoom = (factor: number) => {
+  if (!editor.value) return;
+  editor.value.zoom(factor);
+};
+
+const maximize = () => {
+  if (!editor.value) return;
+  const cropper = editor.value;
+  const center = {
+    left: cropper.coordinates.left + cropper.coordinates.width / 2,
+    top: cropper.coordinates.top + cropper.coordinates.height / 2,
+  };
+  cropper.setCoordinates([
+    ({ coordinates, imageSize }) => ({
+      width: imageSize.width,
+      height: imageSize.height,
+    }),
+    ({ coordinates, imageSize }) => ({
+      left: center.left - coordinates.width / 2,
+      top: center.top - coordinates.height / 2,
+    }),
+  ]);
 };
 </script>
 
 <style lang="scss">
-.cropper-wrapper {
-  border: solid rgb(112, 112, 112);
-  height: 306px;
+.btn-col {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .cropper {
-  width: 400px;
-  height: 244px;
+  width: 450px;
+  height: 320px;
 }
 
+.cropper-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 300px;
+  background: black;
+  border-radius: 5%;
+}
+.cropper-background {
+  background: none;
+}
 .image-background {
   position: absolute;
   width: calc(100% + 20px);
-  height: calc(100% + 20px);
+  height: calc(80% + 10px);
   left: -10px;
-  top: -10px;
+  top: 20px;
+
   background-size: cover;
   background-position: 50%;
-  filter: blur(20px);
+  filter: blur(5px);
 }
 </style>

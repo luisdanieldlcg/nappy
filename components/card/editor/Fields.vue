@@ -12,13 +12,19 @@
   <h4 class="font-weight-medium text-grey-subtitle">Add your images</h4>
   <v-row>
     <v-col cols="4" class="pa-0 mr-4">
-      <ImageCard title="Cover Photo" @click="$emit('imageRequest')" />
+      <CardEditorImageCard
+        title="Cover Photo"
+        :image="editor.coverImage"
+        @search-image="$emit('searchImage')"
+        @remove-image="editor.removeCoverImage()"
+        @edit-image="editor.openImageEditor(editor.coverImage)"
+      />
     </v-col>
     <v-col cols="3" class="pa-0">
-      <ImageCard title="Profile Picture" rounded />
+      <CardEditorImageCard title="Profile Picture" rounded />
     </v-col>
     <v-col cols="2" class="pa-0">
-      <ImageCard title="Profile Logo" rounded />
+      <CardEditorImageCard title="Profile Logo" rounded />
     </v-col>
   </v-row>
   <h4 class="font-weight-medium text-grey-subtitle">Add your details</h4>
@@ -59,17 +65,10 @@
 
 <script setup lang="ts">
 import { ICardDTO } from "~~/api/dtos/card.dto";
-defineEmits(["imageRequest"]);
+import { useCardEditorStore } from "~~/stores/card-editor.store";
+defineEmits(["searchImage"]);
 defineProps<{
   card: ICardDTO;
 }>();
+const editor = useCardEditorStore();
 </script>
-
-<style lang="scss">
-// .v-textfield input {
-//   text-align: center;
-// }
-// .v-label label {
-//   text-align: center;
-// }
-</style>

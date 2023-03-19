@@ -7,13 +7,13 @@
     :border="true"
   >
     <preview
-      v-if="cardEditor.backgroundResult?.image"
+      v-if="realtimePreview"
       :width="300"
       :height="160"
-      :image="cardEditor.backgroundResult?.image"
-      :coordinates="cardEditor.backgroundResult?.coordinates"
+      :image="cardEditor.imageCropPreview?.image"
+      :coordinates="cardEditor.imageCropPreview?.coordinates"
     />
-    <CardHeader v-else :avatar-size="100" :image="imageSrc" :max-height="160" />
+    <CardHeader v-else :avatar-size="100" :image="cover" :max-height="160" />
 
     <v-card-text class="pl-4 pt-3">
       <div class="text-grey-subtitle text-center">
@@ -37,13 +37,8 @@ import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 defineProps<{
   card: ICardDTO;
+  cover: string;
+  realtimePreview: boolean;
 }>();
 const cardEditor = useCardEditorStore();
-const imageSrc = computed(() => {
-  if (cardEditor.backgroundResult?.canvas) {
-    return cardEditor.backgroundResult.canvas.toDataURL();
-  } else {
-    return "https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80";
-  }
-});
 </script>

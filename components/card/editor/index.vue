@@ -9,16 +9,23 @@
   >
     <v-row justify="center" no-gutters class="mt-8">
       <v-col :cols="isBelowLg ? 7 : 5">
-        <CardEditorPreview :card="card" />
+        <CardEditorPreview
+          :realtime-preview="editorStore.isEditingImage"
+          :cover="editorStore.coverImage"
+          :card="card"
+        />
       </v-col>
       <v-divider
         :thickness="1"
         :vertical="!isBelowLg"
         class="mr-12 mb-7"
       ></v-divider>
-      <ImageEditor v-if="editorStore.editingImage" />
+      <ImageEditor
+        v-if="editorStore.isEditingImage"
+        :image="editorStore.selectedImageToEdit"
+      />
       <v-col :cols="isBelowLg ? 9 : 6" v-else>
-        <CardEditorFields :card="card" @image-request="showDialog = true" />
+        <CardEditorFields :card="card" @search-image="showDialog = true" />
       </v-col>
     </v-row>
 
@@ -34,17 +41,19 @@
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { ICreateCardDTO } from "~~/api/dtos/card.dto";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
+
 defineProps<{
   card: ICreateCardDTO;
   loading: boolean;
   mode: "create" | "edit";
 }>();
-const { width } = useDisplay();
 const editorStore = useCardEditorStore();
+
+const { width } = useDisplay();
 const isBelowLg = computed(() => width.value < 1340);
 // Quick dirty fix for avoiding rendering Preview image component
 // after the image is chosen and the screen is reset.
-editorStore.backgroundResult = undefined;
+editorStore.imageCropPreview = undefined;
 
 const showDialog = ref(false);
 
@@ -54,7 +63,7 @@ const closeDialog = () => {
 
 const onFilePicked = (file: string) => {
   closeDialog();
-  editorStore.profilePicImage = file;
-  editorStore.editingImage = true;
+  editorStore.coverImage = file;
+  editorStore.selectedImageToEdit = file;
 };
 </script>

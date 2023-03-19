@@ -1,6 +1,6 @@
 <template>
   <v-card width="240" height="280" class="card-shadow-light">
-    <CardHeader :max-height="115" />
+    <CardHeader :max-height="115" :image="card.coverImage" />
 
     <div class="text-center mt-12 text-grey-subtitle">
       <v-chip size="small"> {{ card.label }} </v-chip>

@@ -4,11 +4,17 @@
     color="background"
     cover
     class="align-end"
-    :src="
-      image ||
-      'https://images.unsplash.com/photo-1569817480240-41de5e7283c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80'
-    "
+    :lazy-src="image"
+    :src="image"
   >
+    <template #placeholder>
+      <div class="d-flex align-center justify-center fill-height">
+        <v-progress-circular
+          color="grey-lighten-4"
+          indeterminate
+        ></v-progress-circular>
+      </div>
+    </template>
   </v-img>
   <div class="d-flex flex-column justify-center align-center">
     <v-avatar color="white" :size="avatarSize + 8" style="position: absolute">
@@ -33,7 +39,4 @@ defineProps({
   },
 });
 
-const imageUrl = (path?: string): string => {
-  return "http://localhost:3001/images/" + path;
-};
 </script>

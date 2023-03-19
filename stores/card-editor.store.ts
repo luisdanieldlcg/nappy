@@ -2,11 +2,49 @@ import { CropperResult } from "vue-advanced-cropper";
 import { ICardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "./card.store";
 
+const DEFAULT_COVER_IMAGE =
+  "https://static.vecteezy.com/system/resources/thumbnails/006/304/595/small/white-and-silver-color-background-with-dynamic-diagonal-stripe-lines-and-halftone-texture-modern-and-simple-gray-color-template-banner-design-luxury-and-elegant-concept-eps10-vector.jpg";
+
 export const useCardEditorStore = defineStore("card-editor", () => {
-  const profilePicImage = ref<string | undefined>();
-  const backgroundResult = ref<CropperResult | undefined>();
+  // Card Editor image state
+  const coverImage = ref(DEFAULT_COVER_IMAGE);
+  const profilePicImage = ref("");
+  const profileLogoImage = ref("");
+  const selectedImageToEdit = ref("");
+  const isEditingImage = computed(() => selectedImageToEdit.value !== "");
+  const imageCropPreview = ref<CropperResult | undefined>();
   const canvas = ref<HTMLCanvasElement | undefined>();
-  const editingImage = ref(false);
+  const defaultCard = {
+    firstName: "",
+    lastName: "",
+    company: "",
+    coverImage: "",
+    jobTitle: "",
+    id: "",
+    label: "",
+  };
+  const newCard = reactive<ICardDTO>({
+    ...defaultCard,
+  });
+  const resetState = () => {
+    coverImage.value = "";
+    profileLogoImage.value = "";
+    profileLogoImage.value = "";
+    selectedImageToEdit.value = "";
+    
+  };
+
+  const openImageEditor = (image: string) => {
+    selectedImageToEdit.value = image;
+  };
+
+  const removeCoverImage = () => {
+    coverImage.value = "";
+  };
+
+  const exitImageEditor = () => {
+    selectedImageToEdit.value = "";
+  };
 
   const submit = async (card: ICardDTO) => {
     const form = new FormData();
@@ -17,17 +55,23 @@ export const useCardEditorStore = defineStore("card-editor", () => {
     await cardManager.create(form);
   };
   const updateResult = (result: CropperResult) => {
-    backgroundResult.value = result;
+    imageCropPreview.value = result;
     canvas.value = result.canvas;
-    console.log("Got result: ", result.image);
   };
 
   return {
+    coverImage,
     profilePicImage,
-    backgroundResult,
+    profileLogoImage,
+    selectedImageToEdit,
+    isEditingImage,
+    imageCropPreview,
     updateResult,
     canvas,
     submit,
-    editingImage,
+    resetState,
+    exitImageEditor,
+    removeCoverImage,
+    openImageEditor,
   };
 });
