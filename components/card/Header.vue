@@ -4,9 +4,17 @@
     color="background"
     cover
     class="align-end"
-    :lazy-src="image"
-    :src="image"
+    :lazy-src="card.coverImage"
+    :src="card.coverImage"
   >
+    <v-card
+      :color="card.color"
+      width="100%"
+      elevation="0"
+      :border="true"
+      height="160"
+      style="top: 30px; left: -32px"
+    />
     <template #placeholder>
       <div class="d-flex align-center justify-center fill-height">
         <v-progress-circular
@@ -16,6 +24,9 @@
       </div>
     </template>
   </v-img>
+
+  <!-- I need to make the card move down the elements even if its absolute -->
+
   <div class="d-flex flex-column justify-center align-center">
     <v-avatar color="white" :size="avatarSize + 8" style="position: absolute">
       <v-avatar
@@ -27,16 +38,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  image: {
-    type: String,
-    required: false,
-  },
-  avatarSize: {
-    type: Number,
-    required: false,
-    default: 70,
-  },
-});
+import { ICardDTO } from "~~/api/dtos/card.dto";
 
+defineProps<{
+  card: ICardDTO;
+  avatarSize: number;
+}>();
 </script>

@@ -43,6 +43,7 @@ const dto = reactive<ICreateCardDTO>({
   jobTitle: "",
   company: "",
   coverImage: "",
+  color: "",
 });
 const cardManager = useCardStore();
 const createCard = async () => {

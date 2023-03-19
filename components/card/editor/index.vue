@@ -9,11 +9,7 @@
   >
     <v-row justify="center" no-gutters class="mt-8">
       <v-col :cols="isBelowLg ? 7 : 5">
-        <CardEditorPreview
-          :realtime-preview="editorStore.isEditingImage"
-          :cover="editorStore.coverImage"
-          :card="card"
-        />
+        <CardEditorPreview />
       </v-col>
       <v-divider
         :thickness="1"
@@ -25,13 +21,13 @@
         :image="editorStore.selectedImageToEdit"
       />
       <v-col :cols="isBelowLg ? 9 : 6" v-else>
-        <CardEditorFields :card="card" @search-image="showDialog = true" />
+        <CardEditorFields @search-image="showFileDropDialog = true" />
       </v-col>
     </v-row>
 
     <FileDropDialog
-      v-model="showDialog"
-      @close="showDialog = false"
+      v-model="showFileDropDialog"
+      @close="showFileDropDialog = false"
       @picked="onFilePicked"
     />
   </v-card>
@@ -39,31 +35,25 @@
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { ICreateCardDTO } from "~~/api/dtos/card.dto";
+import { ICardDTO } from "~~/api/dtos/card.dto";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 defineProps<{
-  card: ICreateCardDTO;
+  card: ICardDTO;
   loading: boolean;
   mode: "create" | "edit";
 }>();
 const editorStore = useCardEditorStore();
-
+const { showFileDropDialog } = storeToRefs(editorStore);
 const { width } = useDisplay();
 const isBelowLg = computed(() => width.value < 1340);
 // Quick dirty fix for avoiding rendering Preview image component
 // after the image is chosen and the screen is reset.
 editorStore.imageCropPreview = undefined;
 
-const showDialog = ref(false);
-
-const closeDialog = () => {
-  showDialog.value = false;
-};
-
 const onFilePicked = (file: string) => {
-  closeDialog();
-  editorStore.coverImage = file;
+  editorStore.closeImagePickDialog();
+  editorStore.cardState.coverImage = file;
   editorStore.selectedImageToEdit = file;
 };
 </script>

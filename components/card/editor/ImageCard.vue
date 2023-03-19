@@ -59,9 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCardEditorStore } from "~~/stores/card-editor.store";
-
-const emit = defineEmits(["searchImage", "removeImage", "editImage"]);
+const emit = defineEmits(["pickImage", "removeImage", "editImage"]);
 const props = defineProps({
   title: {
     type: String,
@@ -87,7 +85,7 @@ const style = computed(() => {
 });
 const imageRequestHandler = () => {
   if (!props.image) {
-    emit("searchImage");
+    emit("pickImage");
   }
 };
 

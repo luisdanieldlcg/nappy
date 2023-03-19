@@ -6,5 +6,6 @@ export interface ICreateCardDTO {
   jobTitle: string;
   company: string;
   coverImage: string;
+  color: string;
 }
 export interface ICardDTO extends ICreateCardDTO {}

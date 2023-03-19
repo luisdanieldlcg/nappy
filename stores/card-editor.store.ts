@@ -5,33 +5,30 @@ import { useCardStore } from "./card.store";
 const DEFAULT_COVER_IMAGE =
   "https://static.vecteezy.com/system/resources/thumbnails/006/304/595/small/white-and-silver-color-background-with-dynamic-diagonal-stripe-lines-and-halftone-texture-modern-and-simple-gray-color-template-banner-design-luxury-and-elegant-concept-eps10-vector.jpg";
 
-export const useCardEditorStore = defineStore("card-editor", () => {
+export const useCardEditorStore = defineStore("cardEditor", () => {
   // Card Editor image state
-  const coverImage = ref(DEFAULT_COVER_IMAGE);
-  const profilePicImage = ref("");
-  const profileLogoImage = ref("");
   const selectedImageToEdit = ref("");
-  const isEditingImage = computed(() => selectedImageToEdit.value !== "");
-  const imageCropPreview = ref<CropperResult | undefined>();
   const canvas = ref<HTMLCanvasElement | undefined>();
-  const defaultCard = {
-    firstName: "",
-    lastName: "",
+  const showFileDropDialog = ref(false);
+  const defaultCard: ICardDTO = {
+    id: "",
+    firstName: "Luis",
+    lastName: "de la Cruz",
     company: "",
     coverImage: "",
     jobTitle: "",
-    id: "",
-    label: "",
+    label: "Work",
+    color: Colors.greyLight,
   };
-  const newCard = reactive<ICardDTO>({
+  const cardState = reactive<ICardDTO>({
     ...defaultCard,
   });
-  const resetState = () => {
-    coverImage.value = "";
-    profileLogoImage.value = "";
-    profileLogoImage.value = "";
+  const isEditingImage = computed(() => selectedImageToEdit.value !== "");
+  const imageCropPreview = ref<CropperResult | undefined>();
+
+  const $reset = () => {
     selectedImageToEdit.value = "";
-    
+    Object.assign(cardState, defaultCard);
   };
 
   const openImageEditor = (image: string) => {
@@ -39,16 +36,20 @@ export const useCardEditorStore = defineStore("card-editor", () => {
   };
 
   const removeCoverImage = () => {
-    coverImage.value = "";
+    cardState.coverImage = DEFAULT_COVER_IMAGE;
   };
 
   const exitImageEditor = () => {
     selectedImageToEdit.value = "";
   };
 
+  const closeImagePickDialog = () => {
+    showFileDropDialog.value = false;
+  };
+
   const submit = async (card: ICardDTO) => {
     const form = new FormData();
-    Object.entries(card).forEach(([key, value]) => {
+    Object.entries(cardState).forEach(([key, value]) => {
       form.append(key, value);
     });
     const cardManager = useCardStore();
@@ -60,18 +61,18 @@ export const useCardEditorStore = defineStore("card-editor", () => {
   };
 
   return {
-    coverImage,
-    profilePicImage,
-    profileLogoImage,
+    cardState,
+    showFileDropDialog,
     selectedImageToEdit,
     isEditingImage,
     imageCropPreview,
     updateResult,
     canvas,
     submit,
-    resetState,
+    $reset,
     exitImageEditor,
     removeCoverImage,
     openImageEditor,
+    closeImagePickDialog,
   };
 });

@@ -1,8 +1,8 @@
 <template>
   <v-card width="240" height="280" class="card-shadow-light">
-    <CardHeader :max-height="115" :image="card.coverImage" />
+    <CardHeader :height="120" :card="card" :avatarSize="70" />
 
-    <div class="text-center mt-12 text-grey-subtitle">
+    <div class="text-center text-grey-subtitle mt-12">
       <v-chip size="small"> {{ card.label }} </v-chip>
       <h3 class="mt-1">{{ card.firstName + " " + card.lastName }}</h3>
     </div>

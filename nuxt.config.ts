@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import inject from '@rollup/plugin-inject'
 export default defineNuxtConfig({
   css: ["@/assets/styles.scss", "@mdi/font/css/materialdesignicons.min.css"],
   build: {
@@ -10,13 +9,13 @@ export default defineNuxtConfig({
     [
       "@pinia/nuxt",
       {
-        autoImports: [
-          // automatically imports `defineStore`
-          "defineStore",
-        ],
+        autoImports: ["defineStore", "storeToRefs"],
       },
     ],
   ],
+  imports: {
+    dirs: ["./stores"],
+  },
   components: [
     {
       path: "~/pages/app/overview",
