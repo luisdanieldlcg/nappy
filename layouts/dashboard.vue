@@ -2,8 +2,21 @@
   <v-row justify="center">
     <v-col cols="11">
       <v-card color="background" elevation="0">
-        <v-toolbar color="background" class="pl-2 mt-4" density="compact">
-       
+        <v-toolbar class="ml-9" color="background" density="compact">
+          <v-tooltip location="bottom">
+            <template #activator="{ props }">
+              <v-avatar
+                v-bind="props"
+                color="white"
+                :icon="'mdi-menu'"
+                size="48"
+                class="ma-4"
+                @click="store.overlapSidebar = !store.overlapSidebar"
+                style="cursor: pointer"
+              />
+            </template>
+            <span>Toggle Sidebar</span>
+          </v-tooltip>
           <slot name="prepend" />
           <v-tooltip text="Go back" location="bottom" v-if="header.canGoBack">
             <template #activator="{ props }">
@@ -34,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDashStore } from '~~/stores/dash.store';
+import { useDashStore } from "~~/stores/dash.store";
 
 export interface DashPageHeader {
   title: string;

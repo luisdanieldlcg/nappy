@@ -1,27 +1,47 @@
 <template>
-  <v-expansion-panels style="width: 300px" class="mt-6">
-    <!-- <v-progress-linear
-      :indeterminate="loading"
-      :active="loading"
-    ></v-progress-linear> -->
-    <TextField
-      style="order: 0"
-      label="Card Title"
-      hint="Enter the title for this card"
-      v-model="card.label"
-    />
-    <slot name="before-panels"></slot>
-    <DashFieldExpansion title="Full Name" style="order: 2">
-      <TextField label="First Name" v-model="card.firstName" />
+  <TextField
+    class="centered-input text-center align-center"
+    label="Card Title"
+    style="text-align: center"
+    hint="Enter the title for this card"
+    v-model="card.label"
+    density="comfortable"
+    variant="filled"
+  />
+  <slot name="before-panels"></slot>
 
-      <TextField label="Last Name" v-model="card.lastName" />
-    </DashFieldExpansion>
-
-    <DashFieldExpansion title="More details" style="order: 3">
-      <TextField label="Job Title" v-model="card.jobTitle" />
-      <TextField label="Company Name" v-model="card.company" />
-    </DashFieldExpansion>
-  </v-expansion-panels>
+  <v-row class="mt-0" style="height: 90px">
+    <v-col>
+      <TextField
+        label="First Name"
+        density="comfortable"
+        v-model="card.firstName"
+      />
+    </v-col>
+    <v-col>
+      <TextField
+        label="Last Name"
+        density="comfortable"
+        v-model="card.lastName"
+      />
+    </v-col>
+  </v-row>
+  <v-row class="mt-0">
+    <v-col>
+      <TextField
+        label="Company Name"
+        density="comfortable"
+        v-model="card.company"
+      />
+    </v-col>
+    <v-col>
+      <TextField
+        label="Job Title"
+        density="comfortable"
+        v-model="card.jobTitle"
+      />
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -32,4 +52,11 @@ defineProps<{
 }>();
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+// .v-textfield input {
+//   text-align: center;
+// }
+// .v-label label {
+//   text-align: center;
+// }
+</style>

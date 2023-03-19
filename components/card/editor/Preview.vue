@@ -2,8 +2,9 @@
   <v-card
     :width="300"
     height="400"
-    class="text-left card-shadow-light"
+    class="text-left"
     elevation="0"
+    :border="true"
   >
     <preview
       v-if="cardEditor.backgroundResult?.image"

@@ -3,25 +3,32 @@
     :loading="loading"
     color="white"
     elevation="0"
-    class="mt-0 card-shadow-light"
+    class="mt-0"
     :min-width="200"
     :max-width="1200"
   >
-    <v-row justify="center" no-gutters class="pr-16 pl-4">
-      <v-col cols="6">
+    <v-row justify="center" no-gutters class="mt-8">
+      <v-col cols="5">
         <CardEditorPreview :card="card" />
       </v-col>
-
+      <v-divider :thickness="1" vertical class="mr-12"></v-divider>
       <ImageEditor v-if="editingImage" />
       <!--FIXME: get rid of this nested if-->
       <v-col cols="5" v-else-if="!isSmallScreen">
         <CardEditorFields :card="card">
           <template #before-panels>
-            <ImageCard title="Profile picture" @click="showDialog = true" />
+            <v-row>
+              <v-col cols="6">
+                <ImageCard title="Cover Photo" @click="showDialog = true" />
+              </v-col>
+              <v-col cols="6">
+                <ImageCard title="Profile Picture" />
+              </v-col>
+            </v-row>
           </template>
         </CardEditorFields>
       </v-col>
-      <v-col cols="7" v-else>
+      <v-col cols="6" v-else>
         <CardEditorFields :card="card" class="ml-8 pb-8">
           <template #before-panels>
             <ImageCard title="Profile picture" @click="showDialog = true" />
@@ -29,6 +36,7 @@
         </CardEditorFields>
       </v-col>
     </v-row>
+
     <FileDropDialog
       v-model="showDialog"
       @close="showDialog = false"

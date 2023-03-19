@@ -2,7 +2,7 @@
   <NuxtLayout name="dashboard" :header="header">
     <!--Header-->
     <template #append>
-      <v-tooltip text="Create a new Card">
+      <v-tooltip text="Create a new Card" location="bottom">
         <template #activator="{ props }">
           <v-icon
             icon="mdi-plus"

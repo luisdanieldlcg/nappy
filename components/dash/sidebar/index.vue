@@ -3,25 +3,12 @@
     class="rounded-xl"
     floating
     :rail="store.sidebarCollapsed"
+    v-model:model-value="store.overlapSidebar"
+    :permanent="smAndUp"
   >
-    <v-row>
-      <v-col>
-        <h1 class="text-h6 font-weight-bold mt-6 text-center">
-          {{ company }}
-        </h1>
-        <!---TODO PUT THIS TOGGLER IN BELOW AND IN THE HEADER OF THE CONTENT PREPEND-->
-      </v-col>
-      <v-col>
-        <v-btn
-          icon
-          :elevation="0"
-          @click="store.sidebarCollapsed = !store.sidebarCollapsed"
-        >
-          <v-icon :icon="toggleIcon"></v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
-
+    <h1 class="text-h6 font-weight-bold mt-6 text-center">
+      {{ company }}
+    </h1>
     <v-list
       nav
       class="justify-center"
@@ -36,6 +23,17 @@
         @click="entry.onClick"
       />
     </v-list>
+    <v-btn
+      :class="{
+        'rotate-180': store.sidebarCollapsed,
+      }"
+      style="position: absolute; bottom: 0"
+      icon
+      :elevation="0"
+      @click="store.sidebarCollapsed = !store.sidebarCollapsed"
+    >
+      <v-icon icon="mdi-chevron-double-left" />
+    </v-btn>
   </v-navigation-drawer>
 </template>
 
@@ -46,7 +44,7 @@ import { useDashStore } from "~~/stores/dash.store";
 const store = useDashStore();
 
 const items = sidebarItems;
-const { mdAndDown, mdAndUp } = useDisplay();
+const { mdAndDown, smAndUp } = useDisplay();
 watch(mdAndDown, () => {
   if (!store.sidebarCollapsed) {
     store.sidebarCollapsed = true;
@@ -55,21 +53,11 @@ watch(mdAndDown, () => {
 const company = computed(() => {
   return store.sidebarCollapsed ? "N" : "Nappy";
 });
-const toggleIcon = computed(() => {
-  return store.sidebarCollapsed
-    ? "mdi-chevron-double-right"
-    : "mdi-chevron-double-left";
-});
 </script>
 
-<style>
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.2s ease-out;
-}
-
-.slide-enter,
-.slide-leave-to {
-  transform: translateX(-100%);
+<style scoped>
+.rotate-180 {
+  transform: rotate(180deg);
+  transition: 0.2s linear;
 }
 </style>
