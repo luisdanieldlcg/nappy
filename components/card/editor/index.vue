@@ -17,7 +17,7 @@
         class="mr-12 mb-7"
       ></v-divider>
       <ImageEditor v-if="editorStore.editingImage" />
-      <v-col :cols="isBelowLg ? 9 : 6">
+      <v-col :cols="isBelowLg ? 9 : 6" v-else>
         <CardEditorFields :card="card" @image-request="showDialog = true" />
       </v-col>
     </v-row>
@@ -42,18 +42,6 @@ defineProps<{
 const { width } = useDisplay();
 const editorStore = useCardEditorStore();
 const isBelowLg = computed(() => width.value < 1340);
-const panelWidth = computed(() => {
-  switch (true) {
-    case width.value < 980:
-      return 550;
-    case width.value < 1160:
-      return 700;
-    case width.value < 1400:
-      return 900;
-    default:
-      return 500;
-  }
-});
 // Quick dirty fix for avoiding rendering Preview image component
 // after the image is chosen and the screen is reset.
 editorStore.backgroundResult = undefined;

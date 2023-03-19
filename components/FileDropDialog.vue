@@ -1,7 +1,7 @@
 <template>
   <v-dialog class="text-center" :max-width="600" persistent>
     <v-card class="elevation-0 pr-10 pl-10 pb-10" color="#f7fafc">
-      <div class="mt-8">
+      <div class="mt-6">
         <v-btn
           icon
           class="elevation-0"
@@ -24,7 +24,7 @@
 
       <label for="fileInput">
         <div
-          class="corner rounded-lg"
+          class="corner rounded-lg pa-3"
           @dragover.prevent="onDragOver"
           @dragleave.prevent="onDragLeave"
           @drop.prevent="onDrop"
@@ -33,7 +33,7 @@
             icon="mdi-cloud-upload-outline"
             color="grey-subtitle"
             size="40"
-          ></v-icon>
+          />
 
           <v-card-title class="text-wrap">
             Drop your image here or click to browse
@@ -125,6 +125,6 @@ const onDragLeave = () => {
 
 <style scoped>
 .corner {
-  border: 2px dotted #c5c3c3;
+  border: 1px dashed #c5c3c3;
 }
 </style>
