@@ -64,20 +64,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Cropper,
-  CropperResult,
-  ImageSize,
-  Point,
-  Size,
-  SizeRestrictions,
-  Transform,
-  VisibleArea,
-  Coordinates,
-} from "vue-advanced-cropper";
+import { Cropper, CropperResult } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
-import { useCardEditorStore } from "~~/stores/card-editor.store";
 import SquareButton from "./SquareButton.vue";
+import { ImageEditor } from "./types";
 
 defineProps({
   image: {
@@ -86,26 +76,11 @@ defineProps({
   },
 });
 const editor = ref<ImageEditor | undefined>();
-const editorStore = useCardEditorStore();
+const store = useImageEditor();
 
-type ImageEditor = {
-  imageSize: ImageSize;
-  sizeRestrictions: SizeRestrictions;
-  boundaries: Size;
-  visibleArea: VisibleArea;
-  coordinates: Coordinates;
-  getResult: () => CropperResult;
-  setCoordinates: (transform: Transform | Transform[]) => void;
-  refresh: () => void;
-  zoom: (factor: number, center?: Point) => void;
-  move: (left: number, top?: number) => void;
-  rotate: (angle: number) => void;
-  flip: (horizontal: boolean, vertical?: boolean) => void;
-  reset: () => void;
-};
 const onCropperUpdate = (result: CropperResult) => {
   if (!editor.value) return;
-  editorStore.updateResult(result);
+  store.update(result);
 };
 const rotate = (angle: number) => {
   if (!editor.value) return;

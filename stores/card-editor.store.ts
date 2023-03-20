@@ -1,15 +1,13 @@
-import { CropperResult } from "vue-advanced-cropper";
 import { ICardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "./card.store";
 
-const DEFAULT_COVER_IMAGE =
-  "https://static.vecteezy.com/system/resources/thumbnails/006/304/595/small/white-and-silver-color-background-with-dynamic-diagonal-stripe-lines-and-halftone-texture-modern-and-simple-gray-color-template-banner-design-luxury-and-elegant-concept-eps10-vector.jpg";
+export enum SelectedImageType {
+  None,
+  Cover,
+  Avatar,
+}
 
 export const useCardEditorStore = defineStore("cardEditor", () => {
-  // Card Editor image state
-  const selectedImageToEdit = ref("");
-  const canvas = ref<HTMLCanvasElement | undefined>();
-  const showFileDropDialog = ref(false);
   const defaultCard: ICardDTO = {
     id: "",
     firstName: "Luis",
@@ -18,29 +16,39 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     coverImage: "",
     jobTitle: "",
     label: "Work",
+    avatarImage: "",
     color: Colors.greyLight,
   };
   const cardState = reactive<ICardDTO>({
     ...defaultCard,
   });
-  const isEditingImage = computed(() => selectedImageToEdit.value !== "");
-  const imageCropPreview = ref<CropperResult | undefined>();
+
+  const selectImage = (file: string) => {
+    selectedImageSlot.value[1] = file;
+    switch (selectedImageSlot.value[0]) {
+      case SelectedImageType.Cover:
+        cardState.coverImage = file;
+        break;
+      case SelectedImageType.Avatar:
+        cardState.avatarImage = file;
+        break;
+      // TODO: add logo
+    }
+  };
+
+  const showFileDropDialog = ref(false);
+  // Represents the image slot to edit, and which image was selected.
+  const selectedImageSlot = ref<[SelectedImageType, string]>([
+    SelectedImageType.None,
+    "",
+  ]);
 
   const $reset = () => {
-    selectedImageToEdit.value = "";
     Object.assign(cardState, defaultCard);
   };
 
-  const openImageEditor = (image: string) => {
-    selectedImageToEdit.value = image;
-  };
-
   const removeCoverImage = () => {
-    cardState.coverImage = DEFAULT_COVER_IMAGE;
-  };
-
-  const exitImageEditor = () => {
-    selectedImageToEdit.value = "";
+    cardState.coverImage = "";
   };
 
   const closeImagePickDialog = () => {
@@ -55,24 +63,22 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     const cardManager = useCardStore();
     await cardManager.create(form);
   };
-  const updateResult = (result: CropperResult) => {
-    imageCropPreview.value = result;
-    canvas.value = result.canvas;
-  };
+  // const updateResult = (result: CropperResult) => {
+  //   imageCropPreview.value = result;
+  //   canvas.value = result.canvas;
+  // };
+
+  const selectedImage = computed(() => selectedImageSlot.value[1]);
 
   return {
     cardState,
     showFileDropDialog,
-    selectedImageToEdit,
-    isEditingImage,
-    imageCropPreview,
-    updateResult,
-    canvas,
+    selectedImageSlot,
     submit,
     $reset,
-    exitImageEditor,
     removeCoverImage,
-    openImageEditor,
     closeImagePickDialog,
+    selectedImage,
+    selectImage,
   };
 });

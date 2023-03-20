@@ -1,18 +1,22 @@
 <template>
   <v-card
-    :width="CARD_WIDTH"
+    :width="cardWidth"
     height="400"
     class="text-left"
-    elevation="0"
     :border="true"
-    style="padding: 0; overflow-x: hidden"
+    style="
+      padding: 0;
+      overflow-x: hidden;
+      box-shadow: 0 5px 15px 0 rgba(49, 49, 93, 0.13),
+        0 15px 35px 0 rgba(49, 49, 93, 0.1);
+    "
   >
     <preview
-      v-if="isEditingImage"
+      v-if="selectedImage"
       :width="300"
       :height="160"
-      :image="imageCropPreview?.image"
-      :coordinates="imageCropPreview?.coordinates"
+      :image="imageEditor.preview?.image"
+      :coordinates="imageEditor.preview?.image"
     />
     <CardHeader v-else :avatar-size="100" :height="160" :card="cardState" />
     <v-card-text class="pl-4 pt-3">
@@ -32,8 +36,8 @@
 
 <script setup lang="ts">
 import { Preview } from "vue-advanced-cropper";
-const CARD_WIDTH = 300;
+const cardWidth = 300;
 const store = useCardEditorStore();
-const { cardState, isEditingImage, imageCropPreview } = storeToRefs(store);
-
+const imageEditor = useImageEditor();
+const { cardState, selectedImage } = storeToRefs(store);
 </script>

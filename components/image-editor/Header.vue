@@ -16,7 +16,10 @@
       <v-tooltip text="Save changes" location="bottom">
         <template #activator="{ props }">
           <div v-bind="props">
-            <v-icon icon="mdi-check" @click="editor.exitImageEditor()" />
+            <v-icon
+              icon="mdi-check"
+              @click="editor.selectedImageSlot[0] = SelectedImageType.None"
+            />
           </div>
         </template>
       </v-tooltip>

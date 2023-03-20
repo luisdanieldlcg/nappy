@@ -11,20 +11,15 @@
   />
   <h4 class="font-weight-medium text-grey-subtitle">Add your images</h4>
   <v-row>
-    <v-col cols="4" class="pa-0 mr-4">
+    <v-col v-for="slot in imageSlots" :cols="slot.flex" class="pa-0 mr-7">
       <CardEditorImageCard
-        title="Cover Photo"
-        :image="cardState.coverImage"
-        @pick-image="pickImage"
-        @remove-image="removeCoverImage()"
-        @edit-image="openImageEditor(cardState.coverImage)"
+        :title="slot.title"
+        :image="slot.image"
+        @pick-image="slot.pickImage"
+        @remove-image="slot.removeImage"
+        @edit-image="slot.editImage"
+        :rounded="slot.rounded"
       />
-    </v-col>
-    <v-col cols="3" class="pa-0">
-      <CardEditorImageCard title="Profile Picture" rounded />
-    </v-col>
-    <v-col cols="2" class="pa-0">
-      <CardEditorImageCard title="Profile Logo" rounded />
     </v-col>
   </v-row>
   <h4 class="font-weight-medium text-grey-subtitle">
@@ -78,15 +73,56 @@
 
 <script setup lang="ts">
 import { useCardEditorStore } from "~~/stores/card-editor.store";
-defineEmits(["searchImage"]);
 
 const store = useCardEditorStore();
-const { openImageEditor, removeCoverImage } = store;
-const { cardState, showFileDropDialog } = storeToRefs(store);
-const pickImage = () => {
-  showFileDropDialog.value = true;
-};
+const { removeCoverImage } = store;
+const { cardState, showFileDropDialog, selectedImageSlot } = storeToRefs(store);
 
+type ImageSlot = {
+  title: string;
+  image: string;
+  pickImage: () => void;
+  removeImage?: () => void;
+  editImage?: (image: string) => void;
+  rounded: boolean;
+  flex: number;
+};
+// Will add the image slots to this array
+// and then render them in the template
+const imageSlots: ImageSlot[] = [
+  {
+    title: "Cover Photo",
+    image: cardState.value.coverImage,
+    pickImage: () => {
+      showFileDropDialog.value = true;
+      selectedImageSlot.value[0] = SelectedImageType.Cover;
+    },
+    removeImage: removeCoverImage,
+    editImage: () => {},
+    rounded: false,
+    flex: 4,
+  },
+  {
+    title: "Profile Picture",
+    image: cardState.value.avatarImage,
+    rounded: true,
+    pickImage: () => {
+      showFileDropDialog.value = true;
+      selectedImageSlot.value[0] = SelectedImageType.Avatar;
+    },
+    flex: 3,
+  },
+  {
+    title: "Profile Logo",
+    image: cardState.value.avatarImage,
+    rounded: true,
+    pickImage: () => {
+      // showFileDropDialog.value = true;
+      // selectedImageSlot.value = ImageType.Logo;
+    },
+    flex: 2,
+  },
+];
 const availableColors = [
   Colors.red,
   Colors.aqua,

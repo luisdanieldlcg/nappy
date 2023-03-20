@@ -31,22 +31,22 @@ const card = cardStore.getById(cardId);
 const header: DashPageHeader = {
   title: "Edit card",
   icon: "mdi-card-account-details-outline",
-  canGoBack: true
+  canGoBack: true,
 };
 
 const save = async (form: FormData) => {
   if (card.isJust) {
-    const editor = useCardEditorStore();
-    if (editor.canvas) {
-      editor.canvas.toBlob((blob) => {
-        if (blob) {
-          form.append("backgroundImage", blob);
-          cardStore.updateById(card.value, form, view);
-        }
-      });
-    } else {
-      cardStore.updateById(card.value, form, view);
-    }
+    // const editor = useCardEditorStore();
+    // if (editor.canvas) {
+    //   editor.canvas.toBlob((blob) => {
+    //     if (blob) {
+    //       form.append("backgroundImage", blob);
+    //       cardStore.updateById(card.value, form, view);
+    //     }
+    //   });
+    // } else {
+    //   cardStore.updateById(card.value, form, view);
+    // }
   }
 };
 </script>

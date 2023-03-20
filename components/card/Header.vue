@@ -13,7 +13,7 @@
       elevation="0"
       :border="true"
       height="160"
-      style="top: 30px; left: -32px"
+      style="top: 30px; left: -32px; border-radius: 0 !important"
     />
     <template #placeholder>
       <div class="d-flex align-center justify-center fill-height">
@@ -28,9 +28,16 @@
   <!-- I need to make the card move down the elements even if its absolute -->
 
   <div class="d-flex flex-column justify-center align-center">
-    <v-avatar color="white" :size="avatarSize + 8" style="position: absolute">
+    <v-avatar color="white" :size="avatarSize" style="position: absolute">
       <v-avatar
+        v-if="card.avatarImage"
         image="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
+        :size="avatarSize"
+      />
+      <v-icon
+        v-else
+        icon="mdi-account-circle"
+        color="grey"
         :size="avatarSize"
       />
     </v-avatar>

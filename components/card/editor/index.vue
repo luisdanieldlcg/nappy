@@ -16,18 +16,15 @@
         :vertical="!isBelowLg"
         class="mr-12 mb-7"
       ></v-divider>
-      <ImageEditor
-        v-if="editorStore.isEditingImage"
-        :image="editorStore.selectedImageToEdit"
-      />
+      <ImageEditor v-if="selectedImage" :image="selectedImage" />
       <v-col :cols="isBelowLg ? 9 : 6" v-else>
-        <CardEditorFields @search-image="showFileDropDialog = true" />
+        <CardEditorFields />
       </v-col>
     </v-row>
 
     <FileDropDialog
       v-model="showFileDropDialog"
-      @close="showFileDropDialog = false"
+      @close="onDialogClosed"
       @picked="onFilePicked"
     />
   </v-card>
@@ -36,24 +33,28 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { ICardDTO } from "~~/api/dtos/card.dto";
-import { useCardEditorStore } from "~~/stores/card-editor.store";
-
+import { SelectedImageType } from "~/stores/card-editor.store";
 defineProps<{
   card: ICardDTO;
   loading: boolean;
   mode: "create" | "edit";
 }>();
-const editorStore = useCardEditorStore();
-const { showFileDropDialog } = storeToRefs(editorStore);
+const store = useCardEditorStore();
+const { showFileDropDialog, selectedImageSlot, cardState, selectedImage } =
+  storeToRefs(store);
 const { width } = useDisplay();
 const isBelowLg = computed(() => width.value < 1340);
 // Quick dirty fix for avoiding rendering Preview image component
 // after the image is chosen and the screen is reset.
-editorStore.imageCropPreview = undefined;
+// editorStore.imageCropPreview = undefined;
 
 const onFilePicked = (file: string) => {
-  editorStore.closeImagePickDialog();
-  editorStore.cardState.coverImage = file;
-  editorStore.selectedImageToEdit = file;
+  store.closeImagePickDialog();
+  store.selectImage(file);
+};
+const onDialogClosed = () => {
+  showFileDropDialog.value = false;
+  store.selectedImageSlot[0] = SelectedImageType.None;
+  // editorStore.selectedImageSlot = undefined;
 };
 </script>
