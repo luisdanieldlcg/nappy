@@ -8,6 +8,7 @@
     :src="card.coverImage"
   >
     <v-card
+      v-if="!card.coverImage"
       :color="card.color"
       width="100%"
       elevation="0"

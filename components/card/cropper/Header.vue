@@ -18,7 +18,7 @@
           <div v-bind="props">
             <v-icon
               icon="mdi-check"
-              @click="editor.selectedImageSlot[0] = SelectedImageType.None"
+              @click="editor.isEditingImage = false"
             />
           </div>
         </template>

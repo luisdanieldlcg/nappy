@@ -9,8 +9,7 @@ import {
   Coordinates,
 } from "vue-advanced-cropper";
 
-
-export type ImageEditor = {
+export type ImageCropper = {
   imageSize: ImageSize;
   sizeRestrictions: SizeRestrictions;
   boundaries: Size;

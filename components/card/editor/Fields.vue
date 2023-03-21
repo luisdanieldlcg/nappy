@@ -14,7 +14,7 @@
     <v-col v-for="slot in imageSlots" :cols="slot.flex" class="pa-0 mr-7">
       <CardEditorImageCard
         :title="slot.title"
-        :image="slot.image"
+        :image="cardState.coverImage"
         @pick-image="slot.pickImage"
         @remove-image="slot.removeImage"
         @edit-image="slot.editImage"
@@ -75,8 +75,8 @@
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 const store = useCardEditorStore();
-const { removeCoverImage } = store;
-const { cardState, showFileDropDialog, selectedImageSlot } = storeToRefs(store);
+const { selectImageSlot } = store;
+const { cardState, showFileDropDialog } = storeToRefs(store);
 
 type ImageSlot = {
   title: string;
@@ -95,9 +95,11 @@ const imageSlots: ImageSlot[] = [
     image: cardState.value.coverImage,
     pickImage: () => {
       showFileDropDialog.value = true;
-      selectedImageSlot.value[0] = SelectedImageType.Cover;
+      selectImageSlot(ImageType.Cover);
     },
-    removeImage: removeCoverImage,
+    removeImage: () => {
+      cardState.value.coverImage = "";
+    },
     editImage: () => {},
     rounded: false,
     flex: 4,
@@ -108,7 +110,10 @@ const imageSlots: ImageSlot[] = [
     rounded: true,
     pickImage: () => {
       showFileDropDialog.value = true;
-      selectedImageSlot.value[0] = SelectedImageType.Avatar;
+      selectImageSlot(ImageType.Avatar);
+    },
+    removeImage: () => {
+      cardState.value.avatarImage = "";
     },
     flex: 3,
   },
@@ -119,6 +124,9 @@ const imageSlots: ImageSlot[] = [
     pickImage: () => {
       // showFileDropDialog.value = true;
       // selectedImageSlot.value = ImageType.Logo;
+    },
+    removeImage: () => {
+      cardState.value.avatarImage = "";
     },
     flex: 2,
   },

@@ -7,20 +7,20 @@
     :min-width="200"
     :max-width="1000"
   >
-    <v-row justify="center" no-gutters class="mt-8">
-      <v-col :cols="isBelowLg ? 7 : 5">
-        <CardEditorPreview />
-      </v-col>
-      <v-divider
-        :thickness="1"
-        :vertical="!isBelowLg"
-        class="mr-12 mb-7"
-      ></v-divider>
-      <ImageEditor v-if="selectedImage" :image="selectedImage" />
-      <v-col :cols="isBelowLg ? 9 : 6" v-else>
-        <CardEditorFields />
-      </v-col>
-    </v-row>
+    <CardEditorGrid>
+      <template #left>
+        <CardCropperPreview v-if="isEditingImage" />
+        <CardEditorPreview v-else>
+          <template #header>
+            <CardHeader :avatar-size="100" :height="160" :card="cardState" />
+          </template>
+        </CardEditorPreview>
+      </template>
+      <template #right>
+        <CardCropper v-if="isEditingImage" :image="imageToEdit" />
+        <CardEditorFields v-else />
+      </template>
+    </CardEditorGrid>
 
     <FileDropDialog
       v-model="showFileDropDialog"
@@ -31,30 +31,23 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from "vuetify/lib/framework.mjs";
 import { ICardDTO } from "~~/api/dtos/card.dto";
-import { SelectedImageType } from "~/stores/card-editor.store";
 defineProps<{
   card: ICardDTO;
   loading: boolean;
   mode: "create" | "edit";
 }>();
+
 const store = useCardEditorStore();
-const { showFileDropDialog, selectedImageSlot, cardState, selectedImage } =
+const { showFileDropDialog, cardState, isEditingImage, imageToEdit } =
   storeToRefs(store);
-const { width } = useDisplay();
-const isBelowLg = computed(() => width.value < 1340);
-// Quick dirty fix for avoiding rendering Preview image component
-// after the image is chosen and the screen is reset.
-// editorStore.imageCropPreview = undefined;
 
 const onFilePicked = (file: string) => {
   store.closeImagePickDialog();
-  store.selectImage(file);
+  store.enterImageEditMode(file);
 };
 const onDialogClosed = () => {
   showFileDropDialog.value = false;
-  store.selectedImageSlot[0] = SelectedImageType.None;
   // editorStore.selectedImageSlot = undefined;
 };
 </script>

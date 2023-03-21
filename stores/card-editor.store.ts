@@ -1,8 +1,7 @@
 import { ICardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "./card.store";
 
-export enum SelectedImageType {
-  None,
+export enum ImageType {
   Cover,
   Avatar,
 }
@@ -23,25 +22,36 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     ...defaultCard,
   });
 
-  const selectImage = (file: string) => {
-    selectedImageSlot.value[1] = file;
-    switch (selectedImageSlot.value[0]) {
-      case SelectedImageType.Cover:
+  // Whether the user is editing an image.
+  const isEditingImage = ref(false);
+  // The image to edit. This is the image that is being edited via cropper.
+  const imageToEdit = ref("");
+  // The image slot where the image to edit belongs.
+  const imageSlot = ref<ImageType | undefined>();
+
+  const selectImageSlot = (type: ImageType) => {
+    imageSlot.value = type;
+  };
+  const showFileDropDialog = ref(false);
+
+  const enterImageEditMode = (file: string) => {
+    switch (imageSlot.value) {
+      case ImageType.Cover:
         cardState.coverImage = file;
+        imageToEdit.value = file;
+        isEditingImage.value = true;
         break;
-      case SelectedImageType.Avatar:
+      case ImageType.Avatar:
         cardState.avatarImage = file;
+        imageToEdit.value = file;
+        isEditingImage.value = true;
+        break;
+      default:
+        // handle undefined case
         break;
       // TODO: add logo
     }
   };
-
-  const showFileDropDialog = ref(false);
-  // Represents the image slot to edit, and which image was selected.
-  const selectedImageSlot = ref<[SelectedImageType, string]>([
-    SelectedImageType.None,
-    "",
-  ]);
 
   const $reset = () => {
     Object.assign(cardState, defaultCard);
@@ -63,22 +73,17 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     const cardManager = useCardStore();
     await cardManager.create(form);
   };
-  // const updateResult = (result: CropperResult) => {
-  //   imageCropPreview.value = result;
-  //   canvas.value = result.canvas;
-  // };
-
-  const selectedImage = computed(() => selectedImageSlot.value[1]);
 
   return {
     cardState,
     showFileDropDialog,
-    selectedImageSlot,
+    isEditingImage,
+    imageToEdit,
     submit,
     $reset,
     removeCoverImage,
     closeImagePickDialog,
-    selectedImage,
-    selectImage,
+    enterImageEditMode,
+    selectImageSlot,
   };
 });

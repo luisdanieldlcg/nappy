@@ -11,14 +11,7 @@
         0 15px 35px 0 rgba(49, 49, 93, 0.1);
     "
   >
-    <preview
-      v-if="selectedImage"
-      :width="300"
-      :height="160"
-      :image="imageEditor.preview?.image"
-      :coordinates="imageEditor.preview?.image"
-    />
-    <CardHeader v-else :avatar-size="100" :height="160" :card="cardState" />
+    <slot name="header"></slot>
     <v-card-text class="pl-4 pt-3">
       <div class="text-grey-subtitle text-center">
         <div class="mt-14">
@@ -35,9 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { Preview } from "vue-advanced-cropper";
 const cardWidth = 300;
 const store = useCardEditorStore();
-const imageEditor = useImageEditor();
-const { cardState, selectedImage } = storeToRefs(store);
+const { cardState } = storeToRefs(store);
 </script>

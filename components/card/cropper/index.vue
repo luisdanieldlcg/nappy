@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3 pr-10 text-center">
-    <ImageEditorHeader />
+    <CardCropperHeader />
     <h5 class="text-grey-subtitle mt-2 font">Scroll to zoom the Cropper</h5>
     <div class="cropper-wrapper mt-3">
       <div
@@ -33,27 +33,27 @@
         @change="onCropperUpdate"
       />
       <div class="btn-col">
-        <SquareButton
+        <CardCropperButton
           icon="mdi-magnify-plus-outline"
           @click="zoom(2)"
           tooltip="Zoom In"
         />
-        <SquareButton
+        <CardCropperButton
           icon="mdi-magnify-minus-outline"
           @click="zoom(0.5)"
           tooltip="Zoom Out"
         />
-        <SquareButton
+        <CardCropperButton
           icon="mdi-rotate-right"
           @click="rotate(90)"
           tooltip="Rotate Clockwise"
         />
-        <SquareButton
+        <CardCropperButton
           icon="mdi-rotate-left"
           @click="rotate(-90)"
           tooltip="Rotate Counter-Clockwise"
         />
-        <SquareButton
+        <CardCropperButton
           icon="mdi-border-radius"
           @click="maximize()"
           tooltip="Maximize"
@@ -66,8 +66,7 @@
 <script setup lang="ts">
 import { Cropper, CropperResult } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
-import SquareButton from "./SquareButton.vue";
-import { ImageEditor } from "./types";
+import { ImageCropper } from "./types";
 
 defineProps({
   image: {
@@ -75,7 +74,7 @@ defineProps({
     required: true,
   },
 });
-const editor = ref<ImageEditor | undefined>();
+const editor = ref<ImageCropper | undefined>();
 const store = useImageEditor();
 
 const onCropperUpdate = (result: CropperResult) => {
