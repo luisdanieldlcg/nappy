@@ -14,7 +14,7 @@
     <v-col v-for="slot in imageSlots" :cols="slot.flex" class="pa-0 mr-7">
       <CardEditorImageCard
         :title="slot.title"
-        :image="cardState.coverImage"
+        :image="slot.image"
         @pick-image="slot.pickImage"
         @remove-image="slot.removeImage"
         @edit-image="slot.editImage"
@@ -77,7 +77,6 @@ import { useCardEditorStore } from "~~/stores/card-editor.store";
 const store = useCardEditorStore();
 const { selectImageSlot } = store;
 const { cardState, showFileDropDialog } = storeToRefs(store);
-
 type ImageSlot = {
   title: string;
   image: string;
@@ -87,12 +86,13 @@ type ImageSlot = {
   rounded: boolean;
   flex: number;
 };
+
 // Will add the image slots to this array
 // and then render them in the template
-const imageSlots: ImageSlot[] = [
+const imageSlots: ImageSlot[] = reactive([
   {
     title: "Cover Photo",
-    image: cardState.value.coverImage,
+    image: computed(() => cardState.value.coverImage),
     pickImage: () => {
       showFileDropDialog.value = true;
       selectImageSlot(ImageType.Cover);
@@ -130,7 +130,7 @@ const imageSlots: ImageSlot[] = [
     },
     flex: 2,
   },
-];
+]);
 const availableColors = [
   Colors.red,
   Colors.aqua,
