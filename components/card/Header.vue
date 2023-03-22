@@ -2,10 +2,10 @@
   <v-img
     v-bind="$attrs"
     color="background"
-    cover
     class="align-end"
     :lazy-src="card.coverImage"
     :src="card.coverImage"
+    cover
   >
     <v-card
       v-if="!card.coverImage"

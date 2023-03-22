@@ -39,6 +39,10 @@ defineProps<{
 }>();
 
 const store = useCardEditorStore();
+onMounted(() => {
+  store.$reset();
+});
+
 const { showFileDropDialog, cardState, isEditingImage, imageToEdit } =
   storeToRefs(store);
 

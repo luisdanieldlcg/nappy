@@ -55,6 +55,8 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
 
   const $reset = () => {
     Object.assign(cardState, defaultCard);
+    isEditingImage.value = false;
+    imageSlot.value = undefined;
   };
 
   const removeCoverImage = () => {

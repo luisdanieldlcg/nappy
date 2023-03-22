@@ -8,26 +8,21 @@
         class="image-background"
       />
       <cropper
+        :src="image"
         style="position: relative"
         ref="editor"
         class="cropper"
         background-class="cropper-background"
-        foreground-class=""
-        :src="image"
         image-restriction="stencil"
         :stencil-size="{
-          width: 180,
-          height: 180,
+          width: 120,
+          height: 120,
         }"
         :stencil-props="{
           handlers: {},
           movable: false,
           resizable: false,
           aspectRatio: 300 / 160,
-          previewClass: 'image-cropper__stencil',
-        }"
-        :resize-image="{
-          adjustStencil: false,
         }"
         :debounce="false"
         @change="onCropperUpdate"
@@ -78,7 +73,7 @@ const editor = ref<ImageCropper | undefined>();
 const store = useImageEditor();
 
 const onCropperUpdate = (result: CropperResult) => {
-  if (!editor.value) return;
+  console.log({ result });
   store.update(result);
 };
 const rotate = (angle: number) => {

@@ -16,10 +16,7 @@
       <v-tooltip text="Save changes" location="bottom">
         <template #activator="{ props }">
           <div v-bind="props">
-            <v-icon
-              icon="mdi-check"
-              @click="editor.isEditingImage = false"
-            />
+            <v-icon icon="mdi-check" @click="onCrop" />
           </div>
         </template>
       </v-tooltip>
@@ -31,6 +28,14 @@
 <script setup lang="ts">
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 const editor = useCardEditorStore();
+const image = useImageEditor();
+const onCrop = () => {
+  editor.isEditingImage = false;
+  const result = image.preview?.canvas?.toDataURL();
+  if (result) {
+    editor.cardState.coverImage = result;
+  }
+};
 </script>
 
 <style scoped></style>
