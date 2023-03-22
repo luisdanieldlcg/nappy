@@ -98,7 +98,6 @@ const selectCard = (card: ICardDTO) => {
 };
 const deleteCard = async () => {
   if (activeCard.value) {
-    console.log(activeCard.value.id);
     await cardStore.deleteById(activeCard.value.id);
     dialogHandler.close();
   }

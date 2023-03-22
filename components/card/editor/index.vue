@@ -52,6 +52,6 @@ const onFilePicked = (file: string) => {
 };
 const onDialogClosed = () => {
   showFileDropDialog.value = false;
-  // editorStore.selectedImageSlot = undefined;
+  // store.selectedImageSlot = undefined;
 };
 </script>

@@ -7,7 +7,7 @@
           mode="edit"
           :card="card.value"
           @on-finish="save"
-          :loading="view.isLoading()"
+          :loading="false"
         />
       </template>
       <template #fallback>
@@ -19,9 +19,7 @@
 
 <script setup lang="ts">
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
-import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
-const view = new ViewState();
 
 const params = useRoute().params;
 const cardId = params.id as string;

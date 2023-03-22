@@ -75,8 +75,8 @@
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 const store = useCardEditorStore();
-const { selectImageSlot } = store;
-const { cardState, showFileDropDialog } = storeToRefs(store);
+const { selectImageSlot, enterImageEditMode } = store;
+const { cardState, showFileDropDialog, isEditingImage } = storeToRefs(store);
 type ImageSlot = {
   title: string;
   image: string;
@@ -100,7 +100,10 @@ const imageSlots: ImageSlot[] = reactive([
     removeImage: () => {
       cardState.value.coverImage = "";
     },
-    editImage: () => {},
+    editImage: () => {
+      selectImageSlot(ImageType.Cover);
+      enterImageEditMode(cardState.value.coverImage);
+    },
     rounded: false,
     flex: 4,
   },

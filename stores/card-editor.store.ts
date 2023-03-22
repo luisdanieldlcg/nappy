@@ -35,14 +35,13 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const showFileDropDialog = ref(false);
 
   const enterImageEditMode = (file: string) => {
+    isEditingImage.value = true;
     switch (imageSlot.value) {
       case ImageType.Cover:
-        cardState.coverImage = file;
         imageToEdit.value = file;
         isEditingImage.value = true;
         break;
       case ImageType.Avatar:
-        cardState.avatarImage = file;
         imageToEdit.value = file;
         isEditingImage.value = true;
         break;
@@ -57,6 +56,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     Object.assign(cardState, defaultCard);
     isEditingImage.value = false;
     imageSlot.value = undefined;
+    useImageEditor().$reset();
   };
 
   const removeCoverImage = () => {
@@ -81,6 +81,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     showFileDropDialog,
     isEditingImage,
     imageToEdit,
+    imageSlot,
     submit,
     $reset,
     removeCoverImage,

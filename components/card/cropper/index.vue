@@ -22,7 +22,7 @@
           handlers: {},
           movable: false,
           resizable: false,
-          aspectRatio: 300 / 160,
+          aspectRatio,
         }"
         :debounce="false"
         @change="onCropperUpdate"
@@ -62,18 +62,23 @@
 import { Cropper, CropperResult } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import { ImageCropper } from "./types";
-
+// TODO: bind this to the card width and height
+const aspectRatio = computed(() => {
+  return 300 / 160;
+});
 defineProps({
   image: {
     type: String,
     required: true,
   },
 });
+
 const editor = ref<ImageCropper | undefined>();
 const store = useImageEditor();
-
+onMounted(() => {
+  store.setOriginalImage();
+});
 const onCropperUpdate = (result: CropperResult) => {
-  console.log({ result });
   store.update(result);
 };
 const rotate = (angle: number) => {
