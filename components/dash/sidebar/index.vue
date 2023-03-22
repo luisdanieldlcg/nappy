@@ -39,7 +39,6 @@
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { sidebarItems } from "~~/config/dash/sidebar";
 import { useDashStore } from "~~/stores/dash.store";
 const store = useDashStore();
 

@@ -5,7 +5,8 @@ import {
   RawAxiosRequestConfig,
 } from "axios";
 import { Result } from "true-myth";
-import { ErrorResponse } from "~~/utils/response-utils";
+import { ErrorResponse } from "../dtos/error";
+
 
 interface RequestOptions {
   endpoint: string;

@@ -1,7 +1,5 @@
 import { Maybe } from "true-myth";
-import { updateCard } from "~~/api";
 import { ICardDTO } from "~~/api/dtos/card.dto";
-import { ViewState } from "~~/utils/view-state";
 
 /**
  * CardStore definition for passing around functions
@@ -70,23 +68,19 @@ export const useCardStore = defineStore("user", () => {
     return result;
   };
 
-  const updateById = async (
-    card: ICardDTO,
-    form: FormData,
-    screen: ViewState
-  ) => {
-    loadTracker.updatingById = true;
-    const result = await screen.updateWith<ICardDTO>(() =>
-      updateCard(card.id, form)
-    );
-    loadTracker.updatingById = false;
-    if (result.isJust) {
-      const i = cards.indexOf(card);
-      if (i >= 0) {
-        cards.splice(i, 1, result.value);
-        useRouter().replace("/app/cards");
-      }
-    }
+  const updateById = async (card: ICardDTO, form: FormData) => {
+    // loadTracker.updatingById = true;
+    // const result = await screen.updateWith<ICardDTO>(() =>
+    //   updateCard(card.id, form)
+    // );
+    // loadTracker.updatingById = false;
+    // if (result.isJust) {
+    //   const i = cards.indexOf(card);
+    //   if (i >= 0) {
+    //     cards.splice(i, 1, result.value);
+    //     useRouter().replace("/app/cards");
+    //   }
+    // }
   };
   // const waitUntilFetch = async () => {
   //   return new Promise<void>((resolve) => {

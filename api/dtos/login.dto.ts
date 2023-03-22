@@ -1,5 +1,4 @@
-export class Input {}
-export class ILoginDTO extends Input {
+export class ILoginDTO {
   email: string;
   password: string;
 }
