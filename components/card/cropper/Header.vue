@@ -31,6 +31,9 @@ const onCancel = () => {
 const onCrop = () => {
   editor.isEditingImage = false;
   const result = image.preview?.canvas?.toDataURL();
+  image.preview?.canvas?.toBlob((blob) => {
+    // editor.cardState.coverImage = blob;
+  });
   if (result) {
     editor.cardState.coverImage = result;
   }

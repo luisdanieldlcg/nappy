@@ -77,6 +77,7 @@ const editor = ref<ImageCropper | undefined>();
 const store = useImageEditor();
 onMounted(() => {
   store.setOriginalImage();
+  maximize();
 });
 const onCropperUpdate = (result: CropperResult) => {
   store.update(result);
