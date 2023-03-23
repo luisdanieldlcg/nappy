@@ -5,7 +5,7 @@
     label="Card Title"
     style="text-align: center"
     hint="Enter the title for this card"
-    v-model="cardState.label"
+    v-model="store.cardState.label"
     density="comfortable"
     variant="filled"
   />
@@ -42,14 +42,14 @@
       <TextField
         label="First Name"
         density="comfortable"
-        v-model="cardState.firstName"
+        v-model="store.cardState.firstName"
       />
     </v-col>
     <v-col>
       <TextField
         label="Last Name"
         density="comfortable"
-        v-model="cardState.lastName"
+        v-model="store.cardState.lastName"
       />
     </v-col>
   </v-row>
@@ -58,14 +58,14 @@
       <TextField
         label="Company Name"
         density="comfortable"
-        v-model="cardState.company"
+        v-model="store.cardState.company"
       />
     </v-col>
     <v-col>
       <TextField
         label="Job Title"
         density="comfortable"
-        v-model="cardState.jobTitle"
+        v-model="store.cardState.jobTitle"
       />
     </v-col>
   </v-row>
@@ -76,10 +76,9 @@ import { useCardEditorStore } from "~~/stores/card-editor.store";
 
 const store = useCardEditorStore();
 const { selectImageSlot, enterImageEditMode } = store;
-const { cardState, showFileDropDialog, isEditingImage } = storeToRefs(store);
 type ImageSlot = {
   title: string;
-  image: string;
+  image: string | undefined;
   pickImage: () => void;
   removeImage?: () => void;
   editImage?: (image: string) => void;
@@ -92,47 +91,47 @@ type ImageSlot = {
 const imageSlots: ImageSlot[] = reactive([
   {
     title: "Cover Photo",
-    image: computed(() => cardState.value.coverImage),
+    image: computed(() => store.getSourceForImage(ImageType.Cover)),
     pickImage: () => {
-      showFileDropDialog.value = true;
+      store.showFileDropDialog = true;
       selectImageSlot(ImageType.Cover);
     },
     removeImage: () => {
-      cardState.value.coverImage = "";
+      store.cardState.coverImage = null;
     },
     editImage: () => {
       selectImageSlot(ImageType.Cover);
-      enterImageEditMode(cardState.value.coverImage);
+      enterImageEditMode(store.getSourceForImage(ImageType.Cover)!);
     },
     rounded: false,
     flex: 4,
   },
   {
     title: "Profile Picture",
-    image: cardState.value.avatarImage,
+    image: computed(() => store.getSourceForImage(ImageType.Avatar)),
     rounded: true,
     pickImage: () => {
-      showFileDropDialog.value = true;
+      store.showFileDropDialog = true;
       selectImageSlot(ImageType.Avatar);
     },
     removeImage: () => {
-      cardState.value.avatarImage = "";
+      store.cardState.avatarImage = null;
     },
     flex: 3,
   },
-  {
-    title: "Profile Logo",
-    image: cardState.value.avatarImage,
-    rounded: true,
-    pickImage: () => {
-      // showFileDropDialog.value = true;
-      // selectedImageSlot.value = ImageType.Logo;
-    },
-    removeImage: () => {
-      cardState.value.avatarImage = "";
-    },
-    flex: 2,
-  },
+  // {
+  //   title: "Profile Logo",
+  //   image: cardState.value.avatarImage,
+  //   rounded: true,
+  //   pickImage: () => {
+  //     // showFileDropDialog.value = true;
+  //     // selectedImageSlot.value = ImageType.Logo;
+  //   },
+  //   removeImage: () => {
+  //     cardState.value.avatarImage = null;
+  //   },
+  //   flex: 2,
+  // },
 ]);
 const availableColors = [
   Colors.red,
@@ -146,6 +145,6 @@ const availableColors = [
 
 const openColorPicker = () => {};
 const pickColor = (selection: string) => {
-  cardState.value.color = selection;
+  store.cardState.color = selection;
 };
 </script>

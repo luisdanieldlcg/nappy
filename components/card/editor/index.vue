@@ -12,7 +12,12 @@
         <CardCropperPreview v-if="isEditingImage" />
         <CardEditorPreview v-else>
           <template #header>
-            <CardHeader :avatar-size="100" :height="160" :card="cardState" />
+            <CardHeader
+              :cover-image="coverSrc"
+              :avatar-size="100"
+              :height="160"
+              :color="cardState.color"
+            />
           </template>
         </CardEditorPreview>
       </template>
@@ -31,14 +36,14 @@
 </template>
 
 <script setup lang="ts">
-import { ICardDTO } from "~~/api/dtos/card.dto";
-defineProps<{
-  card: ICardDTO;
+const props = defineProps<{
   loading: boolean;
   mode: "create" | "edit";
 }>();
 
 const store = useCardEditorStore();
+const coverSrc = store.getSourceForImage(ImageType.Cover);
+
 onMounted(() => {
   store.$reset();
 });

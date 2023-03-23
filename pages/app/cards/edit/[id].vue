@@ -2,13 +2,7 @@
   <Suspense>
     <NuxtLayout name="dashboard" :header="header">
       <template #default>
-        <CardEditor
-          v-if="card.isJust"
-          mode="edit"
-          :card="card.value"
-          @on-finish="save"
-          :loading="false"
-        />
+        <CardEditor mode="edit" @on-finish="save" :loading="false" />
       </template>
       <template #fallback>
         <h1>loading............</h1>
@@ -24,7 +18,7 @@ import { useCardStore } from "~~/stores/card.store";
 const params = useRoute().params;
 const cardId = params.id as string;
 const cardStore = useCardStore();
-const card = cardStore.getById(cardId);
+// const card = cardStore.getById(cardId);
 
 const header: DashPageHeader = {
   title: "Edit card",
@@ -33,19 +27,19 @@ const header: DashPageHeader = {
 };
 
 const save = async (form: FormData) => {
-  if (card.isJust) {
-    // const editor = useCardEditorStore();
-    // if (editor.canvas) {
-    //   editor.canvas.toBlob((blob) => {
-    //     if (blob) {
-    //       form.append("backgroundImage", blob);
-    //       cardStore.updateById(card.value, form, view);
-    //     }
-    //   });
-    // } else {
-    //   cardStore.updateById(card.value, form, view);
-    // }
-  }
+  // if (card.isJust) {
+  //   // const editor = useCardEditorStore();
+  //   // if (editor.canvas) {
+  //   //   editor.canvas.toBlob((blob) => {
+  //   //     if (blob) {
+  //   //       form.append("backgroundImage", blob);
+  //   //       cardStore.updateById(card.value, form, view);
+  //   //     }
+  //   //   });
+  //   // } else {
+  //   //   cardStore.updateById(card.value, form, view);
+  //   // }
+  // }
 };
 </script>
 

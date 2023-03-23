@@ -15,12 +15,7 @@
         </template>
       </v-tooltip>
     </template>
-    <CardEditor
-      mode="create"
-      :card="dto"
-      @on-finish="createCard"
-      :loading="cardManager.loadTracker.creating"
-    />
+    <CardEditor mode="create" :loading="cardManager.loadTracker.creating" />
   </NuxtLayout>
 </template>
 
@@ -35,21 +30,21 @@ const header: DashPageHeader = {
   icon: "mdi-card-account-details-outline",
   canGoBack: true,
 };
-const dto = reactive<ICreateCardDTO>({
-  id: "",
-  label: "Work",
-  firstName: "Luis",
-  lastName: "de la Cruz",
-  jobTitle: "",
-  company: "",
-  coverImage: "",
-  color: "",
-  avatarImage: "",
-});
+// const dto = reactive<ICreateCardDTO>({
+//   id: "",
+//   label: "Work",
+//   firstName: "Luis",
+//   lastName: "de la Cruz",
+//   jobTitle: "",
+//   company: "",
+//   coverImage: "",
+//   color: "",
+//   avatarImage: "",
+// });
 const cardManager = useCardStore();
 const createCard = async () => {
   const store = useCardEditorStore();
-  await store.submit(dto);
+  await store.submit();
   store.$dispose(); // FIXME find a workaround to this
 };
 </script>

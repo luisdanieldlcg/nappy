@@ -1,6 +1,12 @@
 <template>
   <v-card width="240" height="280" class="card-shadow-light">
-    <CardHeader :height="120" :card="card" :avatarSize="70" />
+    <CardHeader
+      :height="120"
+      :coverImage="card.coverImage"
+      :avatarImage="card.avatarImage"
+      :color="card.color"
+      :avatarSize="70"
+    />
 
     <div class="text-center text-grey-subtitle mt-12">
       <v-chip size="small"> {{ card.label }} </v-chip>

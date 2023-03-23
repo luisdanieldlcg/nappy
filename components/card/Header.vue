@@ -3,13 +3,13 @@
     v-bind="$attrs"
     color="background"
     class="align-end"
-    :lazy-src="card.coverImage"
-    :src="card.coverImage"
+    :lazy-src="coverImage"
+    :src="coverImage"
     cover
   >
     <v-card
-      v-if="!card.coverImage"
-      :color="card.color"
+      v-if="!coverImage"
+      :color="color"
       width="100%"
       elevation="0"
       :border="true"
@@ -31,7 +31,7 @@
   <div class="d-flex flex-column justify-center align-center">
     <v-avatar color="white" :size="avatarSize" style="position: absolute">
       <v-avatar
-        v-if="card.avatarImage"
+        v-if="avatarImage"
         image="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
         :size="avatarSize"
       />
@@ -47,9 +47,12 @@
 
 <script setup lang="ts">
 import { ICardDTO } from "~~/api/dtos/card.dto";
+import { Card } from "~~/stores/card-editor.store";
 
 defineProps<{
-  card: ICardDTO;
+  coverImage?: string;
+  avatarImage?: string;
+  color: string;
   avatarSize: number;
 }>();
 </script>
