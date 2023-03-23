@@ -10,16 +10,18 @@
     <CardEditorGrid>
       <template #left>
         <CardCropperPreview v-if="isEditingImage" />
-        <CardEditorPreview v-else>
-          <template #header>
+        <CardContainer v-else :card="card" />
+
+        <!-- <CardEditorPreview v-else>
+           <template #header>
             <CardHeader
               :cover-image="coverSrc"
               :avatar-size="100"
               :height="160"
               :color="cardState.color"
             />
-          </template>
-        </CardEditorPreview>
+          </template> -->
+        <CardEditorPreview />
       </template>
       <template #right>
         <CardCropper v-if="isEditingImage" :image="imageToEdit" />
@@ -36,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { ICardDTO } from "~~/api/dtos/card.dto";
+
 const props = defineProps<{
   loading: boolean;
   mode: "create" | "edit";
@@ -43,7 +47,17 @@ const props = defineProps<{
 
 const store = useCardEditorStore();
 const coverSrc = store.getSourceForImage(ImageType.Cover);
-
+const card: ICardDTO = {
+  avatarImage: "",
+  coverImage: "",
+  color: "red",
+  firstName: "John",
+  lastName: "Doe",
+  jobTitle: "CEO",
+  company: "Google",
+  label: "Friend",
+  id: "",
+};
 onMounted(() => {
   store.$reset();
 });

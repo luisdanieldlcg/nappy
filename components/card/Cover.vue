@@ -1,6 +1,6 @@
 <template>
   <v-card width="240" height="280" class="card-shadow-light">
-    <CardHeader
+    <!-- <CardHeader
       :height="120"
       :coverImage="card.coverImage"
       :avatarImage="card.avatarImage"
@@ -11,7 +11,7 @@
     <div class="text-center text-grey-subtitle mt-12">
       <v-chip size="small"> {{ card.label }} </v-chip>
       <h3 class="mt-1">{{ card.firstName + " " + card.lastName }}</h3>
-    </div>
+    </div> -->
 
     <v-card-actions class="pt-0">
       <v-spacer></v-spacer>
