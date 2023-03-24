@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <CardHeader :card="card" :avatar-size="80" />
+    <CardHeader :card="card" :avatar-size="80" :height="imageHeight" />
 
     <v-card-text class="pl-4 pt-3">
       <div class="text-grey-subtitle text-center">
@@ -22,6 +22,7 @@ import { ICardDTO } from "~~/api/dtos/card.dto";
 
 defineProps<{
   card: ICardDTO;
+  imageHeight: number;
 }>();
 </script>
 

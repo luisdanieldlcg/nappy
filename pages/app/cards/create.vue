@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <template #append>
+    <!-- <template #append>
       <v-tooltip text="Save changes" location="bottom">
         <template #activator="{ props }">
           <v-avatar
@@ -15,7 +15,8 @@
         </template>
       </v-tooltip>
     </template>
-    <CardEditor mode="create" :loading="cardManager.loadTracker.creating" />
+    <CardEditor mode="create" :loading="cardManager.loadTracker.creating" /> -->
+    <card-editor-sample />
   </NuxtLayout>
 </template>
 

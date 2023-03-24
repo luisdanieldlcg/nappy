@@ -10,7 +10,7 @@
     <CardEditorGrid>
       <template #left>
         <CardCropperPreview v-if="isEditingImage" />
-        <CardContainer v-else :card="card" />
+        <!-- <CardContainer v-else :card="card" /> -->
 
         <!-- <CardEditorPreview v-else>
            <template #header>
