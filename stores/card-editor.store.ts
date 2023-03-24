@@ -1,4 +1,3 @@
-import { ICardDTO } from "~~/api/dtos/card.dto";
 import { useCardStore } from "./card.store";
 
 export enum ImageType {
@@ -7,7 +6,7 @@ export enum ImageType {
 }
 // Same as CardDTO but with custom fields
 // for the card editor.
-export type Card = {
+export type CreateCard = {
   firstName: string;
   lastName: string;
   company: string;
@@ -19,7 +18,7 @@ export type Card = {
 };
 
 export const useCardEditorStore = defineStore("cardEditor", () => {
-  const defaultCard: Card = {
+  const defaultCard: CreateCard = {
     firstName: "Luis",
     lastName: "de la Cruz",
     company: "",
@@ -29,58 +28,52 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     avatarImage: null,
     color: Colors.greyLight,
   };
-  const cardState = reactive<Card>({
+  const card = reactive<CreateCard>({
     ...defaultCard,
   });
 
   // Whether the user is editing an image.
   const isEditingImage = ref(false);
-  // The image to edit. This is the image that is being edited via cropper.
-  const imageToEdit = ref("");
+
   // The image slot where the image to edit belongs.
   const imageSlot = ref<ImageType | undefined>();
 
-  const selectImageSlot = (type: ImageType) => {
-    imageSlot.value = type;
-  };
-  const showFileDropDialog = ref(false);
 
-  const enterImageEditMode = (file: string) => {
-    isEditingImage.value = true;
-    switch (imageSlot.value) {
-      case ImageType.Cover:
-        imageToEdit.value = file;
-        isEditingImage.value = true;
-        break;
-      case ImageType.Avatar:
-        imageToEdit.value = file;
-        isEditingImage.value = true;
-        break;
-      default:
-        // handle undefined case
-        break;
-      // TODO: add logo
-    }
-  };
+  const imageDropDialog = ref(false);
+
+  // const enterImageEditMode = (file: string) => {
+  //   isEditingImage.value = true;
+  //   switch (imageSlot.value) {
+  //     case ImageType.Cover:
+  //       imageToEdit.value = file;
+  //       isEditingImage.value = true;
+  //       break;
+  //     case ImageType.Avatar:
+  //       imageToEdit.value = file;
+  //       isEditingImage.value = true;
+  //       break;
+  //     default:
+  //       // handle undefined case
+  //       break;
+  //     // TODO: add logo
+  //   }
+  // };
 
   const $reset = () => {
-    Object.assign(cardState, defaultCard);
+    Object.assign(card, defaultCard);
     isEditingImage.value = false;
     imageSlot.value = undefined;
     useImageEditor().$reset();
   };
 
   const removeCoverImage = () => {
-    cardState.coverImage = null;
+    card.coverImage = null;
   };
 
-  const closeImagePickDialog = () => {
-    showFileDropDialog.value = false;
-  };
 
   const submit = async () => {
     const form = new FormData();
-    Object.entries(cardState).forEach(([key, value]) => {
+    Object.entries(card).forEach(([key, value]) => {
       if (value) {
         form.append(key, value);
       }
@@ -93,10 +86,10 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     let blob = null;
     switch (type) {
       case ImageType.Cover:
-        blob = cardState.coverImage;
+        blob = card.coverImage;
         break;
       case ImageType.Avatar:
-        blob = cardState.avatarImage;
+        blob = card.avatarImage;
         break;
     }
     if (blob != null) {
@@ -110,17 +103,13 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   };
 
   return {
-    cardState,
-    showFileDropDialog,
+    card,
     isEditingImage,
-    imageToEdit,
     imageSlot,
+    imageDropDialog,
     submit,
     $reset,
     removeCoverImage,
-    closeImagePickDialog,
-    enterImageEditMode,
-    selectImageSlot,
     getSourceForImage,
   };
 });

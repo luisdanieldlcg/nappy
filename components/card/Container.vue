@@ -1,6 +1,14 @@
 <template>
-  <v-card>
-    <CardHeader :card="card" :avatar-size="80" :height="imageHeight" />
+  <v-card class="shadow">
+    <CardHeader
+      :header="{
+        avatarImage: '',
+        coverImage: '',
+        color: card.color,
+      }"
+      :avatar-size="avatarSize || 80"
+      :height="imageHeight"
+    />
 
     <v-card-text class="pl-4 pt-3">
       <div class="text-grey-subtitle text-center">
@@ -18,12 +26,18 @@
 </template>
 
 <script setup lang="ts">
-import { ICardDTO } from "~~/api/dtos/card.dto";
-
 defineProps<{
-  card: ICardDTO;
   imageHeight: number;
+  avatarSize?: number;
 }>();
+
+const { card } = storeToRefs(useCardEditorStore());
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.shadow {
+  overflow-x: hidden;
+  box-shadow: 0 5px 15px 0 rgba(49, 49, 93, 0.13),
+    0 15px 35px 0 rgba(49, 49, 93, 0.1);
+}
+</style>

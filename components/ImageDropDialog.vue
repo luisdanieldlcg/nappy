@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="text-center" :max-width="600" persistent>
+  <v-dialog class="text-center" :max-width="600" persistent no-click-animation>
     <v-card class="elevation-0 pr-10 pl-10 pb-10" color="#f7fafc">
       <div class="mt-6">
         <v-btn
@@ -7,7 +7,7 @@
           class="elevation-0"
           size="small-x"
           location="center center"
-          @click="$emit('close')"
+          @click="onClose"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -15,7 +15,7 @@
       <v-text-field
         type="file"
         name="file"
-        ref="file"
+        ref="input"
         id="fileInput"
         @change="onChange"
         accept=".png,.jpg,.jpeg"
@@ -57,23 +57,27 @@
 import { isValidImage } from "~~/utils/file-upload";
 
 const emit = defineEmits<{
-  (e: "close"): void;
+  (e: "update:modelValue", value: boolean): void;
   (e: "picked", file: string): void;
 }>();
 
 const isDragging = ref(false);
-const file = ref<undefined | HTMLInputElement>();
+const input = ref<undefined | HTMLInputElement>();
 const selectedFile = ref<undefined | File>();
 const fileError = ref("");
 const snackbar = ref(false);
-
+// Close event
+const onClose = () => {
+  emit("update:modelValue", false);
+};
 const onChange = () => {
-  const input = file.value;
-  if (!input || !input.files) {
+  const inputElement = input.value;
+  if (!inputElement || !inputElement.files) {
     return;
   }
-  const target = input.files[0];
+  const target = inputElement.files[0];
   checkFile(target);
+  onClose();
 };
 
 const onDrop = (e: DragEvent) => {
@@ -87,6 +91,7 @@ const onDrop = (e: DragEvent) => {
   }
   const target = droppedFiles[0];
   checkFile(target);
+  onClose();
 };
 
 const checkFile = async (file: File) => {
@@ -94,9 +99,9 @@ const checkFile = async (file: File) => {
   validation.match({
     Ok() {
       selectedFile.value = file;
-      const thumbnail = generateThumbnail();
-      if (thumbnail) {
-        emit("picked", thumbnail);
+      const url = makeImageUrl();
+      if (url) {
+        emit("picked", url);
       }
     },
     Err(err) {
@@ -105,7 +110,7 @@ const checkFile = async (file: File) => {
     },
   });
 };
-const generateThumbnail = () => {
+const makeImageUrl = () => {
   if (selectedFile.value) {
     let fileSrc = URL.createObjectURL(selectedFile.value);
     setTimeout(() => {
@@ -113,9 +118,10 @@ const generateThumbnail = () => {
     }, 1000);
     return fileSrc;
   }
+  return undefined;
 };
 
-const onDragOver = () => {
+  const onDragOver = () => {
   isDragging.value = true;
 };
 const onDragLeave = () => {

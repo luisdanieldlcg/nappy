@@ -19,10 +19,10 @@ export const useImageEditor = defineStore("imageEditor", () => {
     const editor = useCardEditorStore();
     switch (editor.imageSlot) {
       case ImageType.Cover:
-        originalImage.value = editor.cardState.coverImage;
+        // originalImage.value = editor.card.coverImage;
         break;
       case ImageType.Avatar:
-        originalImage.value = editor.cardState.avatarImage;
+       // originalImage.value = editor.card.avatarImage;
         break;
     }
   };

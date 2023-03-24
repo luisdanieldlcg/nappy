@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
     <!-- <template #append>
-      <v-tooltip text="Save changes" location="bottom">
-        <template #activator="{ props }">
+    <v-tooltip text="Save changes" location="bottom">
+      <template #activator="{ props }">
           <v-avatar
             @click="createCard"
             v-bind="props"
@@ -16,12 +16,12 @@
       </v-tooltip>
     </template>
     <CardEditor mode="create" :loading="cardManager.loadTracker.creating" /> -->
-    <card-editor-sample />
+    <CardEditor :loading="false" mode="create" :card="dto"> </CardEditor>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import { ICreateCardDTO } from "~~/api/dtos/card.dto";
+import { ICardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
 import { useCardEditorStore } from "~~/stores/card-editor.store";
 import { useCardStore } from "~~/stores/card.store";
@@ -31,17 +31,18 @@ const header: DashPageHeader = {
   icon: "mdi-card-account-details-outline",
   canGoBack: true,
 };
-// const dto = reactive<ICreateCardDTO>({
-//   id: "",
-//   label: "Work",
-//   firstName: "Luis",
-//   lastName: "de la Cruz",
-//   jobTitle: "",
-//   company: "",
-//   coverImage: "",
-//   color: "",
-//   avatarImage: "",
-// });
+
+const dto = reactive<ICardDTO>({
+  id: "",
+  label: "Work",
+  firstName: "Luis",
+  lastName: "de la Cruz",
+  jobTitle: "",
+  company: "",
+  coverImage: "",
+  color: "red",
+  avatarImage: "",
+});
 const cardManager = useCardStore();
 const createCard = async () => {
   const store = useCardEditorStore();

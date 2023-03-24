@@ -4,11 +4,11 @@
     <h5 class="text-grey-subtitle mt-2 font">Scroll to zoom the Cropper</h5>
     <div class="cropper-wrapper mt-3">
       <div
-        :style="{ backgroundImage: 'url(' + image + ')' }"
+        :style="{ backgroundImage: 'url(' + store.image + ')' }"
         class="image-background"
       />
       <cropper
-        :src="image"
+        :src="store.image"
         style="position: relative"
         ref="editor"
         class="cropper"
@@ -65,12 +65,6 @@ import { ImageCropper } from "./types";
 // TODO: bind this to the card width and height
 const aspectRatio = computed(() => {
   return 300 / 160;
-});
-defineProps({
-  image: {
-    type: String,
-    required: true,
-  },
 });
 
 const editor = ref<ImageCropper | undefined>();

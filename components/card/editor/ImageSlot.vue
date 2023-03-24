@@ -75,6 +75,7 @@ const props = defineProps({
     required: false,
   },
 });
+
 const width = computed(() => {
   return props.rounded ? 105 : 160;
 });
@@ -83,9 +84,10 @@ const style = computed(() => {
     "border-radius": props.rounded ? "50% !important" : "0",
   };
 });
+const cardEditor = useCardEditorStore();
 const imageRequestHandler = () => {
   if (!props.image) {
-    emit("pickImage");
+    cardEditor.imageDropDialog = true;
   }
 };
 

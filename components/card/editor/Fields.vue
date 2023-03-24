@@ -5,20 +5,30 @@
     label="Card Title"
     style="text-align: center"
     hint="Enter the title for this card"
-    v-model="store.cardState.label"
+    v-model="card.label"
     density="comfortable"
     variant="filled"
   />
   <h4 class="font-weight-medium text-grey-subtitle">Add your images</h4>
   <v-row>
-    <v-col v-for="slot in imageSlots" :cols="slot.flex" class="pa-0 mr-7">
-      <CardEditorImageCard
-        :title="slot.title"
-        :image="slot.image"
-        @pick-image="slot.pickImage"
-        @remove-image="slot.removeImage"
-        @edit-image="slot.editImage"
-        :rounded="slot.rounded"
+    <v-col :cols="4" class="pa-0 mr-7">
+      <CardEditorImageSlot
+        title="Cover Photo"
+        @click="selectedSlot = ImageType.Cover"
+      />
+    </v-col>
+    <v-col :cols="3" class="pa-0 mr-7">
+      <CardEditorImageSlot
+        rounded
+        title="Profile Picture"
+        @click="selectedSlot = ImageType.Avatar"
+      />
+    </v-col>
+    <v-col :cols="2" class="pa-0 mr-7">
+      <CardEditorImageSlot
+        rounded
+        title="Profile Logo"
+        @click="selectedSlot = 2"
       />
     </v-col>
   </v-row>
@@ -42,14 +52,14 @@
       <TextField
         label="First Name"
         density="comfortable"
-        v-model="store.cardState.firstName"
+        v-model="card.firstName"
       />
     </v-col>
     <v-col>
       <TextField
         label="Last Name"
         density="comfortable"
-        v-model="store.cardState.lastName"
+        v-model="card.lastName"
       />
     </v-col>
   </v-row>
@@ -58,81 +68,36 @@
       <TextField
         label="Company Name"
         density="comfortable"
-        v-model="store.cardState.company"
+        v-model="card.company"
       />
     </v-col>
     <v-col>
       <TextField
         label="Job Title"
         density="comfortable"
-        v-model="store.cardState.jobTitle"
+        v-model="card.jobTitle"
       />
     </v-col>
   </v-row>
+  <teleport to="body">
+    <ImageDropDialog
+      v-model="editorStore.imageDropDialog"
+      @picked="onFilePicked"
+    />
+  </teleport>
 </template>
 
 <script setup lang="ts">
-import { useCardEditorStore } from "~~/stores/card-editor.store";
+import { ImageType, useCardEditorStore } from "~~/stores/card-editor.store";
 
-const store = useCardEditorStore();
-const { selectImageSlot, enterImageEditMode } = store;
-type ImageSlot = {
-  title: string;
-  image: string | undefined;
-  pickImage: () => void;
-  removeImage?: () => void;
-  editImage?: (image: string) => void;
-  rounded: boolean;
-  flex: number;
+const { card } = storeToRefs(useCardEditorStore());
+const selectedSlot = ref<ImageType | undefined>(undefined);
+const editorStore = useCardEditorStore();
+
+const onFilePicked = (image: string) => {
+  editorStore.isEditingImage = true;
+  useImageEditor().image = image;
 };
-
-// Will add the image slots to this array
-// and then render them in the template
-const imageSlots: ImageSlot[] = reactive([
-  {
-    title: "Cover Photo",
-    image: computed(() => store.getSourceForImage(ImageType.Cover)),
-    pickImage: () => {
-      store.showFileDropDialog = true;
-      selectImageSlot(ImageType.Cover);
-    },
-    removeImage: () => {
-      store.cardState.coverImage = null;
-    },
-    editImage: () => {
-      selectImageSlot(ImageType.Cover);
-      enterImageEditMode(store.getSourceForImage(ImageType.Cover)!);
-    },
-    rounded: false,
-    flex: 4,
-  },
-  {
-    title: "Profile Picture",
-    image: computed(() => store.getSourceForImage(ImageType.Avatar)),
-    rounded: true,
-    pickImage: () => {
-      store.showFileDropDialog = true;
-      selectImageSlot(ImageType.Avatar);
-    },
-    removeImage: () => {
-      store.cardState.avatarImage = null;
-    },
-    flex: 3,
-  },
-  // {
-  //   title: "Profile Logo",
-  //   image: cardState.value.avatarImage,
-  //   rounded: true,
-  //   pickImage: () => {
-  //     // showFileDropDialog.value = true;
-  //     // selectedImageSlot.value = ImageType.Logo;
-  //   },
-  //   removeImage: () => {
-  //     cardState.value.avatarImage = null;
-  //   },
-  //   flex: 2,
-  // },
-]);
 const availableColors = [
   Colors.red,
   Colors.aqua,
@@ -145,6 +110,6 @@ const availableColors = [
 
 const openColorPicker = () => {};
 const pickColor = (selection: string) => {
-  store.cardState.color = selection;
+  card.value.color = selection;
 };
 </script>
