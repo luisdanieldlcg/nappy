@@ -7,6 +7,16 @@
     :src="header.coverImage"
     cover
   >
+    <template #error>
+      <v-card
+        :color="header.color"
+        width="100%"
+        elevation="0"
+        :border="true"
+        height="160"
+        style="top: -32px; left: -32px; border-radius: 0 !important"
+      />
+    </template>
     <v-card
       v-if="!header.coverImage"
       :color="header.color"
@@ -51,7 +61,7 @@ type CardHeader = {
   coverImage: string;
   color: string;
 };
-defineProps<{
+const props = defineProps<{
   header: CardHeader;
   avatarSize: number;
 }>();

@@ -1,9 +1,11 @@
 <template>
   <v-card class="shadow">
+    <slot name="header"></slot>
     <CardHeader
+      v-if="$slots['header'] === undefined"
       :header="{
         avatarImage: '',
-        coverImage: '',
+        coverImage,
         color: card.color,
       }"
       :avatar-size="avatarSize || 80"
@@ -32,6 +34,17 @@ defineProps<{
 }>();
 
 const { card } = storeToRefs(useCardEditorStore());
+// I need to convert the card blob into a URL for the image
+const coverImage = computed(() => {
+  if (card.value.coverImage) {
+    return URL.createObjectURL(card.value.coverImage);
+  }
+  // Now i need to revoke the URL
+  setTimeout(() => {
+    URL.revokeObjectURL(coverImage.value);
+  }, 1000);
+  return "";
+});
 </script>
 
 <style lang="scss" scoped>

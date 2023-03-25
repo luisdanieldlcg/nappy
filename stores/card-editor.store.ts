@@ -31,7 +31,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const card = reactive<CreateCard>({
     ...defaultCard,
   });
-
+  
   // Whether the user is editing an image.
   const isEditingImage = ref(false);
 
@@ -41,24 +41,10 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
 
   const imageDropDialog = ref(false);
 
-  // const enterImageEditMode = (file: string) => {
-  //   isEditingImage.value = true;
-  //   switch (imageSlot.value) {
-  //     case ImageType.Cover:
-  //       imageToEdit.value = file;
-  //       isEditingImage.value = true;
-  //       break;
-  //     case ImageType.Avatar:
-  //       imageToEdit.value = file;
-  //       isEditingImage.value = true;
-  //       break;
-  //     default:
-  //       // handle undefined case
-  //       break;
-  //     // TODO: add logo
-  //   }
-  // };
-
+  const openImageEditor = (image: string) => {
+    useImageEditor().image = image;
+    isEditingImage.value = true;
+  };
   const $reset = () => {
     Object.assign(card, defaultCard);
     isEditingImage.value = false;
@@ -69,7 +55,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const removeCoverImage = () => {
     card.coverImage = null;
   };
-
 
   const submit = async () => {
     const form = new FormData();
@@ -111,5 +96,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     $reset,
     removeCoverImage,
     getSourceForImage,
+    openImageEditor
   };
 });

@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["pickImage", "removeImage", "editImage"]);
+const emit = defineEmits(["pickImage", "removeImage"]);
 const props = defineProps({
   title: {
     type: String,
@@ -95,7 +95,9 @@ const removeImageHandler = () => {
   emit("removeImage");
 };
 const editImageHandler = () => {
-  emit("editImage");
+  if (props.image) {
+    cardEditor.openImageEditor(props.image);
+  }
 };
 </script>
 

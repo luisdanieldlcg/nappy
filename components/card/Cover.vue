@@ -1,17 +1,19 @@
 <template>
   <v-card width="240" height="280" class="card-shadow-light">
-    <!-- <CardHeader
+    <CardHeader
+      :header="{
+        avatarImage: card.avatarImage,
+        coverImage: coverImageSrc,
+        color: card.color,
+      }"
       :height="120"
-      :coverImage="card.coverImage"
-      :avatarImage="card.avatarImage"
-      :color="card.color"
       :avatarSize="70"
     />
 
     <div class="text-center text-grey-subtitle mt-12">
       <v-chip size="small"> {{ card.label }} </v-chip>
       <h3 class="mt-1">{{ card.firstName + " " + card.lastName }}</h3>
-    </div> -->
+    </div>
 
     <v-card-actions class="pt-0">
       <v-spacer></v-spacer>
@@ -43,6 +45,11 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "menuClicked", card: ICardDTO): void;
 }>();
+
+const coverImageSrc = computed(() => {
+  return `http://localhost:3001/images/${props.card.coverImage}`;
+});
+console.log(coverImageSrc);
 
 interface MenuItem {
   title: string;

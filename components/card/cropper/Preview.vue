@@ -1,5 +1,10 @@
 <template>
-  <CardEditorPreview>
+  <CardContainer
+    :height="400"
+    :width="300"
+    :imageHeight="160"
+    :avatar-size="100"
+  >
     <template #header>
       <preview
         :width="300"
@@ -8,7 +13,7 @@
         :coordinates="imageEditor.preview?.coordinates"
       />
     </template>
-  </CardEditorPreview>
+  </CardContainer>
 </template>
 
 <script setup lang="ts">

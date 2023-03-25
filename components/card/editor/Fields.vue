@@ -13,8 +13,10 @@
   <v-row>
     <v-col :cols="4" class="pa-0 mr-7">
       <CardEditorImageSlot
+        :image="coverImage"
         title="Cover Photo"
         @click="selectedSlot = ImageType.Cover"
+        @remove-image="editorStore.card.coverImage = null"
       />
     </v-col>
     <v-col :cols="3" class="pa-0 mr-7">
@@ -82,7 +84,7 @@
   <teleport to="body">
     <ImageDropDialog
       v-model="editorStore.imageDropDialog"
-      @picked="onFilePicked"
+      @picked="editorStore.openImageEditor"
     />
   </teleport>
 </template>
@@ -93,11 +95,17 @@ import { ImageType, useCardEditorStore } from "~~/stores/card-editor.store";
 const { card } = storeToRefs(useCardEditorStore());
 const selectedSlot = ref<ImageType | undefined>(undefined);
 const editorStore = useCardEditorStore();
+const coverImage = computed(() => {
+  if (card.value.coverImage) {
+    return URL.createObjectURL(card.value.coverImage);
+  }
+  // Now i need to revoke the URL
+  // setTimeout(() => {
+  //   URL.revokeObjectURL(coverImage.value);
+  // }, 1000);
+  return "";
+});
 
-const onFilePicked = (image: string) => {
-  editorStore.isEditingImage = true;
-  useImageEditor().image = image;
-};
 const availableColors = [
   Colors.red,
   Colors.aqua,

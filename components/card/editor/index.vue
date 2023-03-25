@@ -6,8 +6,27 @@
     :min-width="200"
     :max-width="1000"
   >
-    <CardCropperGrid v-if="isEditingImage" />
-    <CardEditorGrid  v-else />
+    <DividedGrid v-if="isEditingImage">
+      <template #left>
+        <CardCropperPreview />
+      </template>
+      <template #right>
+        <CardCropper />
+      </template>
+    </DividedGrid>
+    <DividedGrid v-else>
+      <template #left>
+        <CardContainer
+          :height="400"
+          :width="300"
+          :imageHeight="160"
+          :avatar-size="100"
+        />
+      </template>
+      <template #right>
+        <CardEditorFields />
+      </template>
+    </DividedGrid>
   </v-card>
 </template>
 
@@ -19,8 +38,4 @@ const { isEditingImage } = storeToRefs(useCardEditorStore());
 defineProps<{
   card: ICardDTO;
 }>();
-
-
 </script>
-
-<style scoped></style>

@@ -32,7 +32,7 @@ const onCrop = () => {
   editor.isEditingImage = false;
   image.preview?.canvas?.toBlob((blob) => {
     // TODO: handle more than just cover image
-    editor.cardState.coverImage = blob;
+    editor.card.coverImage = blob;
   });
 };
 </script>

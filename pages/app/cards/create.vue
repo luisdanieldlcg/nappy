@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
-    <!-- <template #append>
-    <v-tooltip text="Save changes" location="bottom">
-      <template #activator="{ props }">
+    <template #append>
+      <v-tooltip text="Save changes" location="bottom">
+        <template #activator="{ props }">
           <v-avatar
             @click="createCard"
             v-bind="props"
@@ -15,8 +15,11 @@
         </template>
       </v-tooltip>
     </template>
-    <CardEditor mode="create" :loading="cardManager.loadTracker.creating" /> -->
-    <CardEditor :loading="false" mode="create" :card="dto"> </CardEditor>
+    <CardEditor
+      :loading="cardManager.loadTracker.creating"
+      mode="create"
+      :card="dto"
+    />
   </NuxtLayout>
 </template>
 
@@ -31,7 +34,7 @@ const header: DashPageHeader = {
   icon: "mdi-card-account-details-outline",
   canGoBack: true,
 };
-
+useCardEditorStore().$reset();
 const dto = reactive<ICardDTO>({
   id: "",
   label: "Work",
