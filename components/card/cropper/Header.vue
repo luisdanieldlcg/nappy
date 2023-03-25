@@ -17,6 +17,7 @@
     </v-col>
   </v-row>
   <v-divider></v-divider>
+  <h5 class="text-grey-subtitle mt-2 font">Scroll to zoom the Cropper</h5>
 </template>
 
 <script setup lang="ts">
@@ -31,8 +32,14 @@ const onCancel = () => {
 const onCrop = () => {
   editor.isEditingImage = false;
   image.preview?.canvas?.toBlob((blob) => {
-    // TODO: handle more than just cover image
-    editor.card.coverImage = blob;
+    switch (image.imageSlot) {
+      case ImageType.Cover:
+        editor.card.coverImage = blob;
+        break;
+      case ImageType.Avatar:
+        editor.card.avatarImage = blob;
+        break;
+    }
   });
 };
 </script>

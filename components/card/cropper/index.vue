@@ -1,94 +1,90 @@
 <template>
-  <div class="mt-3 pr-10 text-center">
-    <CardCropperHeader />
-    <h5 class="text-grey-subtitle mt-2 font">Scroll to zoom the Cropper</h5>
-    <div class="cropper-wrapper mt-3">
-      <div
-        :style="{ backgroundImage: 'url(' + store.image + ')' }"
-        class="image-background"
+  <CardCropperContainer>
+    <cropper
+      :src="imageEditorStore.image"
+      style="position: relative"
+      ref="imageCropper"
+      class="cropper"
+      background-class="cropper-background"
+      image-restriction="stencil"
+      :stencil-component="stencilComponent"
+      :stencil-size="{
+        width: 120,
+        height: 120,
+      }"
+      :stencil-props="{
+        handlers: {},
+        movable: false,
+        resizable: false,
+        aspectRatio,
+      }"
+      :debounce="false"
+      @change="onCropperUpdate"
+    />
+    <div class="btn-col">
+      <CardCropperButton
+        v-for="btn in cropperButtons"
+        :icon="btn.icon"
+        :tooltip="btn.tooltip"
+        @click="btn.action"
       />
-      <cropper
-        :src="store.image"
-        style="position: relative"
-        ref="editor"
-        class="cropper"
-        background-class="cropper-background"
-        image-restriction="stencil"
-        :stencil-size="{
-          width: 120,
-          height: 120,
-        }"
-        :stencil-props="{
-          handlers: {},
-          movable: false,
-          resizable: false,
-          aspectRatio,
-        }"
-        :debounce="false"
-        @change="onCropperUpdate"
-      />
-      <div class="btn-col">
-        <CardCropperButton
-          icon="mdi-magnify-plus-outline"
-          @click="zoom(2)"
-          tooltip="Zoom In"
-        />
-        <CardCropperButton
-          icon="mdi-magnify-minus-outline"
-          @click="zoom(0.5)"
-          tooltip="Zoom Out"
-        />
-        <CardCropperButton
-          icon="mdi-rotate-right"
-          @click="rotate(90)"
-          tooltip="Rotate Clockwise"
-        />
-        <CardCropperButton
-          icon="mdi-rotate-left"
-          @click="rotate(-90)"
-          tooltip="Rotate Counter-Clockwise"
-        />
-        <CardCropperButton
-          icon="mdi-border-radius"
-          @click="maximize()"
-          tooltip="Maximize"
-        />
-      </div>
     </div>
-  </div>
+  </CardCropperContainer>
 </template>
 
 <script setup lang="ts">
-import { Cropper, CropperResult } from "vue-advanced-cropper";
+import {
+  Cropper,
+  CropperResult,
+  CircleStencil,
+  RectangleStencil,
+} from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import { ImageCropper } from "./types";
+
+const imageCropper = ref<ImageCropper | undefined>();
+const imageEditorStore = useImageEditor();
+
+const stencilComponent = computed(() => {
+  if (imageEditorStore.imageSlot === ImageType.Cover) {
+    return RectangleStencil;
+  }
+  return CircleStencil;
+});
+
 // TODO: bind this to the card width and height
 const aspectRatio = computed(() => {
   return 300 / 160;
 });
-
-const editor = ref<ImageCropper | undefined>();
-const store = useImageEditor();
+onUnmounted(() => {
+  imageEditorStore.$reset();
+});
 onMounted(() => {
-  store.setOriginalImage();
+  // imageEditorStore.setOriginalImage();
   maximize();
 });
 const onCropperUpdate = (result: CropperResult) => {
-  store.update(result);
+  imageEditorStore.update(result);
 };
 const rotate = (angle: number) => {
-  if (!editor.value) return;
-  editor.value.rotate(angle);
+  if (!imageCropper.value) return;
+  imageCropper.value.rotate(angle);
 };
 
 const zoom = (factor: number) => {
-  if (!editor.value) return;
-  editor.value.zoom(factor);
+  if (!imageCropper.value) return;
+  imageCropper.value.zoom(factor);
 };
 
+/**
+ * This function will maximize the cropper.
+ * It will take the center of the cropper and set the width and height to the image size
+ * It will also set the left and top to the center of the cropper
+ * After all that the cropper will be maximized
+ */
 const maximize = () => {
-  if (!editor.value) return;
-  const cropper = editor.value;
+  if (!imageCropper.value) return;
+  const cropper = imageCropper.value;
   const center = {
     left: cropper.coordinates.left + cropper.coordinates.width / 2,
     top: cropper.coordinates.top + cropper.coordinates.height / 2,
@@ -104,6 +100,34 @@ const maximize = () => {
     }),
   ]);
 };
+
+const cropperButtons = [
+  {
+    icon: "mdi-magnify-plus-outline",
+    tooltip: "Zoom In",
+    action: () => zoom(2),
+  },
+  {
+    icon: "mdi-magnify-minus-outline",
+    tooltip: "Zoom Out",
+    action: () => zoom(0.5),
+  },
+  {
+    icon: "mdi-rotate-right",
+    tooltip: "Rotate Clockwise",
+    action: () => rotate(90),
+  },
+  {
+    icon: "mdi-rotate-left",
+    tooltip: "Rotate Counter-Clockwise",
+    action: () => rotate(-90),
+  },
+  {
+    icon: "mdi-border-radius",
+    tooltip: "Maximize",
+    action: () => maximize(),
+  },
+];
 </script>
 
 <style lang="scss">
@@ -118,25 +142,7 @@ const maximize = () => {
   height: 320px;
 }
 
-.cropper-wrapper {
-  overflow: hidden;
-  position: relative;
-  height: 300px;
-  background: black;
-  border-radius: 5%;
-}
 .cropper-background {
   background: none;
-}
-.image-background {
-  position: absolute;
-  width: calc(100% + 20px);
-  height: calc(80% + 10px);
-  left: -10px;
-  top: 20px;
-
-  background-size: cover;
-  background-position: 50%;
-  filter: blur(5px);
 }
 </style>

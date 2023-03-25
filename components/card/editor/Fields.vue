@@ -15,22 +15,23 @@
       <CardEditorImageSlot
         :image="coverImage"
         title="Cover Photo"
-        @click="selectedSlot = ImageType.Cover"
+        @click="imageEditor.imageSlot = ImageType.Cover"
         @remove-image="editorStore.card.coverImage = null"
       />
     </v-col>
     <v-col :cols="3" class="pa-0 mr-7">
       <CardEditorImageSlot
+        :image="avatarImage"
         rounded
         title="Profile Picture"
-        @click="selectedSlot = ImageType.Avatar"
+        @click="imageEditor.imageSlot = ImageType.Avatar"
       />
     </v-col>
     <v-col :cols="2" class="pa-0 mr-7">
       <CardEditorImageSlot
         rounded
         title="Profile Logo"
-        @click="selectedSlot = 2"
+        @click="imageEditor.imageSlot = 2"
       />
     </v-col>
   </v-row>
@@ -68,16 +69,16 @@
   <v-row class="mt-0">
     <v-col>
       <TextField
-        label="Company Name"
+        label="Job Title"
         density="comfortable"
-        v-model="card.company"
+        v-model="card.jobTitle"
       />
     </v-col>
     <v-col>
       <TextField
-        label="Job Title"
+        label="Company Name"
         density="comfortable"
-        v-model="card.jobTitle"
+        v-model="card.company"
       />
     </v-col>
   </v-row>
@@ -93,17 +94,22 @@
 import { ImageType, useCardEditorStore } from "~~/stores/card-editor.store";
 
 const { card } = storeToRefs(useCardEditorStore());
-const selectedSlot = ref<ImageType | undefined>(undefined);
+const imageEditor = useImageEditor();
 const editorStore = useCardEditorStore();
 const coverImage = computed(() => {
   if (card.value.coverImage) {
     return URL.createObjectURL(card.value.coverImage);
   }
-  // Now i need to revoke the URL
-  // setTimeout(() => {
-  //   URL.revokeObjectURL(coverImage.value);
-  // }, 1000);
+  // TODO: Revoke URL?
+  // If i revoke it, the image editor will not be able to load the image
+  // unless i reopen it.
   return "";
+});
+
+const avatarImage = computed(() => {
+  if (card.value.avatarImage) {
+    return URL.createObjectURL(card.value.avatarImage);
+  }
 });
 
 const availableColors = [

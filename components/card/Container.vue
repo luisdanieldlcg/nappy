@@ -4,7 +4,6 @@
     <CardHeader
       v-if="$slots['header'] === undefined"
       :header="{
-        avatarImage: '',
         coverImage,
         color: card.color,
       }"
@@ -12,6 +11,22 @@
       :height="imageHeight"
     />
 
+    <div class="d-flex flex-column justify-center align-center">
+      <!-- I need to make the card move down the elements even if its absolute -->
+      <v-avatar color="white" :size="avatarSize" style="position: absolute">
+        <slot name="avatar"></slot>
+
+        <template v-if="$slots['avatar'] === undefined">
+          <v-avatar v-if="avatarImage" :image="avatarImage" :size="84" />
+          <v-icon
+            v-else
+            icon="mdi-account-circle"
+            color="grey"
+            :size="avatarSize"
+          />
+        </template>
+      </v-avatar>
+    </div>
     <v-card-text class="pl-4 pt-3">
       <div class="text-grey-subtitle text-center">
         <div class="mt-14">
@@ -39,10 +54,12 @@ const coverImage = computed(() => {
   if (card.value.coverImage) {
     return URL.createObjectURL(card.value.coverImage);
   }
-  // Now i need to revoke the URL
-  setTimeout(() => {
-    URL.revokeObjectURL(coverImage.value);
-  }, 1000);
+  return "";
+});
+const avatarImage = computed(() => {
+  if (card.value.avatarImage) {
+    return URL.createObjectURL(card.value.avatarImage);
+  }
   return "";
 });
 </script>

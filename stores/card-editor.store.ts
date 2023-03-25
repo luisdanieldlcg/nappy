@@ -35,9 +35,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   // Whether the user is editing an image.
   const isEditingImage = ref(false);
 
-  // The image slot where the image to edit belongs.
-  const imageSlot = ref<ImageType | undefined>();
-
 
   const imageDropDialog = ref(false);
 
@@ -48,7 +45,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const $reset = () => {
     Object.assign(card, defaultCard);
     isEditingImage.value = false;
-    imageSlot.value = undefined;
     useImageEditor().$reset();
   };
 
@@ -90,7 +86,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   return {
     card,
     isEditingImage,
-    imageSlot,
     imageDropDialog,
     submit,
     $reset,

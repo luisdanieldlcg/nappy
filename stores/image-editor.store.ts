@@ -1,4 +1,5 @@
 import { CropperResult } from "vue-advanced-cropper";
+import { ImageType } from "./card-editor.store";
 
 export const useImageEditor = defineStore("imageEditor", () => {
   // The image being edited
@@ -11,20 +12,22 @@ export const useImageEditor = defineStore("imageEditor", () => {
   const canvas = ref<HTMLCanvasElement | undefined>();
   // A realtime preview of the image.
   const preview = ref<CropperResult | undefined>();
+  // The image slot where the image to edit belongs.
+  const imageSlot = ref<ImageType | undefined>();
 
   const resetImage = () => {
     image.value = originalImage.value;
   };
   const setOriginalImage = () => {
-    const editor = useCardEditorStore();
-    switch (editor.imageSlot) {
-      case ImageType.Cover:
-        // originalImage.value = editor.card.coverImage;
-        break;
-      case ImageType.Avatar:
-       // originalImage.value = editor.card.avatarImage;
-        break;
-    }
+    // const editor = useCardEditorStore();
+    // switch (editor.imageSlot) {
+    //   case ImageType.Cover:
+    //     // originalImage.value = editor.card.coverImage;
+    //     break;
+    //   case ImageType.Avatar:
+    //    // originalImage.value = editor.card.avatarImage;
+    //     break;
+    // }
   };
 
   const update = (update: CropperResult) => {
@@ -43,6 +46,7 @@ export const useImageEditor = defineStore("imageEditor", () => {
     originalImage,
     canvas,
     preview,
+    imageSlot,
     update,
     $reset,
     setOriginalImage,

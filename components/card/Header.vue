@@ -35,34 +35,14 @@
       </div>
     </template>
   </v-img>
-
-  <!-- I need to make the card move down the elements even if its absolute -->
-
-  <div class="d-flex flex-column justify-center align-center">
-    <v-avatar color="white" :size="avatarSize" style="position: absolute">
-      <v-avatar
-        v-if="header.avatarImage"
-        image="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
-        :size="avatarSize"
-      />
-      <v-icon
-        v-else
-        icon="mdi-account-circle"
-        color="grey"
-        :size="avatarSize"
-      />
-    </v-avatar>
-  </div>
 </template>
 
 <script setup lang="ts">
 type CardHeader = {
-  avatarImage: string;
   coverImage: string;
   color: string;
 };
-const props = defineProps<{
+defineProps<{
   header: CardHeader;
-  avatarSize: number;
 }>();
 </script>
