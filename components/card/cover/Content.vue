@@ -4,10 +4,10 @@
       <div :class="labelMargin">
         <v-chip :size="labelSize"> {{ card.label }} </v-chip>
       </div>
-      <h3 v-if="small" class="mt-2 text-no-wrap">
+      <h3 v-if="small" :class="classes">
         {{ fullName }}
       </h3>
-      <h1 class="mt-2 text-no-wrap" v-else>
+      <h1 :class="classes" v-else style="line-height: 32px">
         {{ fullName }}
       </h1>
       <p v-if="card.jobTitle" class="text-h6 mt-2">{{ card.jobTitle }}</p>
@@ -29,6 +29,12 @@ const props = defineProps({
     default: false,
   },
 });
+const classes = computed(() => {
+  return {
+    "text-truncate": props.small,
+    "mt-2": true,
+  };
+});
 const fullName = computed(() => {
   return props.card.firstName + " " + props.card.lastName;
 });
@@ -40,4 +46,3 @@ const labelSize = computed(() => {
   return props.small ? "small" : "default";
 });
 </script>
-

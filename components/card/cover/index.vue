@@ -2,7 +2,8 @@
   <v-card
     :class="classes"
     :width="containerSize.width"
-    :height="containerSize.height"
+    :min-height="containerSize.height"
+    :max-height="mini ? containerSize.height : 'auto'"
   >
     <slot name="header" />
     <CardCoverBackground
@@ -54,6 +55,7 @@ const classes = computed(() => {
   return {
     "card-shadow-light": props.lightShadow,
     shadow: !props.lightShadow,
+    "pb-4": true,
   };
 });
 </script>
