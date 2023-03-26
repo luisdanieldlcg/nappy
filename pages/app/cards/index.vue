@@ -30,7 +30,26 @@
           v-for="card in cardStore.cards"
           :key="card.id"
         >
-          <CardCover :card="card" @menu-clicked="selectCard" />
+          <CardCover
+            :card="{
+              label: card.label,
+              firstName: card.firstName,
+              lastName: card.lastName,
+              coverImage: lookupImage(card.coverImage),
+              avatarImage: lookupImage(card.avatarImage),
+            }"
+            :light-shadow="true"
+            :mini="true"
+          >
+            <template #actions>
+              <CardMenu
+                :card="{
+                  ...card,
+                }"
+                @menu-clicked="selectCard"
+              />
+            </template>
+          </CardCover>
         </v-col>
       </v-row>
     </v-card>
@@ -58,7 +77,9 @@ import { ICardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
 import { useCardStore } from "~~/stores/card.store";
 import { useDialogStore } from "~~/stores/dialog-store";
-
+const lookupImage = (image: string) => {
+  return "http://localhost:3001/images/" + image;
+};
 const header: DashPageHeader = {
   title: "Cards",
   icon: "mdi-card-account-details-outline",

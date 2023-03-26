@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3 pr-10 text-center">
-    <CardCropperHeader />
+    <CropperHeader />
     <div class="cropper-wrapper mt-3">
       <div
         :style="{ backgroundImage: 'url(' + imageEditor.image + ')' }"

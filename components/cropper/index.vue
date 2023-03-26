@@ -1,5 +1,5 @@
 <template>
-  <CardCropperContainer>
+  <CropperContainer>
     <cropper
       :src="imageEditorStore.image"
       style="position: relative"
@@ -29,7 +29,7 @@
         @click="btn.action"
       />
     </div>
-  </CardCropperContainer>
+  </CropperContainer>
 </template>
 
 <script setup lang="ts">

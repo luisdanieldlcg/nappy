@@ -8,20 +8,15 @@
   >
     <DividedGrid v-if="isEditingImage">
       <template #left>
-        <CardCropperPreview />
+        <CropperPreview />
       </template>
       <template #right>
-        <CardCropper />
+        <Cropper />
       </template>
     </DividedGrid>
     <DividedGrid v-else>
       <template #left>
-        <CardContainer
-          :height="400"
-          :width="300"
-          :imageHeight="160"
-          :avatar-size="100"
-        />
+        <CardCover :card="cardMapper" :light-shadow="true" />
       </template>
       <template #right>
         <CardEditorFields />
@@ -33,9 +28,21 @@
 <script setup lang="ts">
 import { ICardDTO } from "~~/api/dtos/card.dto";
 
-const { isEditingImage } = storeToRefs(useCardEditorStore());
-
+const { isEditingImage, card } = storeToRefs(useCardEditorStore());
 defineProps<{
   card: ICardDTO;
 }>();
+
+const cardMapper = computed(() => {
+  return {
+    ...card.value,
+    // handle undefined coverImage and avartarImage error with URL.createObjectURL
+    coverImage: card.value.coverImage
+      ? URL.createObjectURL(card.value.coverImage)
+      : "",
+    avatarImage: card.value.avatarImage
+      ? URL.createObjectURL(card.value.avatarImage)
+      : "",
+  };
+});
 </script>
