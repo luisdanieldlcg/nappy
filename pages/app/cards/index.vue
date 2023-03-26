@@ -35,8 +35,13 @@
               label: card.label,
               firstName: card.firstName,
               lastName: card.lastName,
-              coverImage: lookupImage(card.coverImage),
-              avatarImage: lookupImage(card.avatarImage),
+              color: card.color,
+              coverImage: card.coverImage
+                ? lookupImage(card.coverImage)
+                : undefined,
+              avatarImage: card.avatarImage
+                ? lookupImage(card.avatarImage)
+                : undefined,
             }"
             :light-shadow="true"
             :mini="true"

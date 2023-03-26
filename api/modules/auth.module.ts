@@ -1,9 +1,8 @@
 import { ILoginDTO, ILoginResponse } from "../dtos/login.dto";
 import { ISignupDTO, ISignupResponse } from "../dtos/signup.dto";
-import { ApiModule  } from "./module";
+import { ApiModule } from "./module";
 
 export class AuthModule extends ApiModule {
-
   private static RESOURCE = "auth";
 
   protected getResource(): string {
@@ -21,6 +20,13 @@ export class AuthModule extends ApiModule {
     return await this.post<ISignupResponse>({
       data: dto,
       endpoint: "/signup",
+    });
+  }
+
+  public async verify() {
+    return await this.post({
+      endpoint: "/verify",
+      data: {},
     });
   }
 }

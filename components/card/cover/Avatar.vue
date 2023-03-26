@@ -6,7 +6,7 @@
         <v-icon
           icon="mdi-account-circle"
           color="grey"
-          :size="innerSize + 20"
+          :size="innerSize + 14"
           v-else
         />
       </slot>
@@ -20,11 +20,11 @@ const props = defineProps({
     type: Number,
     default: 90,
   },
-  // I need to declare an optional string
   image: {
     type: String,
     default: undefined,
   },
 });
+console.log(props.image);
 const innerSize = computed(() => props.size - 10);
 </script>

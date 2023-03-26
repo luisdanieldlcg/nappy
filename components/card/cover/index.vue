@@ -11,9 +11,12 @@
       :fallback-color="card.color"
       :height="coverHeight"
     />
-    <CardCoverAvatar :image="card.avatarImage" :size="avatarSize">
-      <slot name="avatar" v-if="$slots['avatar']" />
-    </CardCoverAvatar>
+    <slot name="avatar" />
+    <CardCoverAvatar
+      v-if="!$slots['avatar']"
+      :image="card.avatarImage"
+      :size="avatarSize"
+    />
     <CardCoverContent :card="card" :small="mini" />
     <slot name="actions" />
   </v-card>
@@ -36,7 +39,6 @@ const props = defineProps({
     default: false,
   },
 });
-console.log(props.card.avatarImage);
 const containerSize = computed(() => {
   return {
     width: props.mini ? 240 : 300,

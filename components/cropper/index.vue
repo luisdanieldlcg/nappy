@@ -22,7 +22,7 @@
       @change="onCropperUpdate"
     />
     <div class="btn-col">
-      <CardCropperButton
+      <CropperButton
         v-for="btn in cropperButtons"
         :icon="btn.icon"
         :tooltip="btn.tooltip"

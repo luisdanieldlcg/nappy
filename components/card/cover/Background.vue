@@ -1,7 +1,13 @@
 <template>
-  <v-img :src="image" :lazy-src="image" width="100%" cover>
+  <v-img
+    :src="image"
+    :lazy-src="image"
+    width="100%"
+    cover
+    @error="showBanner = true"
+  >
     <v-card
-      v-if="!image"
+      v-if="showBanner || !image"
       v-bind="$attrs"
       :color="fallbackColor"
       width="100%"
@@ -23,4 +29,5 @@ defineProps({
     default: undefined,
   },
 });
+const showBanner = ref(false);
 </script>

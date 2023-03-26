@@ -9,14 +9,16 @@
       />
     </template>
     <template #avatar v-if="imageSlot === ImageType.Avatar">
-      <v-avatar size="100">
-        <Preview
-          :width="120"
-          :height="120"
-          :image="preview?.image"
-          :coordinates="preview?.coordinates"
-        />
-      </v-avatar>
+      <CardCoverAvatar :size="112">
+        <v-avatar :size="100">
+          <Preview
+            :width="120"
+            :height="120"
+            :image="preview?.image"
+            :coordinates="preview?.coordinates"
+          />
+        </v-avatar>
+      </CardCoverAvatar>
     </template>
   </CardCover>
 </template>
