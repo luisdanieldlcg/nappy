@@ -77,7 +77,6 @@ const onChange = () => {
   }
   const target = inputElement.files[0];
   checkFile(target);
-  onClose();
 };
 
 const onDrop = (e: DragEvent) => {
@@ -91,7 +90,6 @@ const onDrop = (e: DragEvent) => {
   }
   const target = droppedFiles[0];
   checkFile(target);
-  onClose();
 };
 
 const checkFile = async (file: File) => {
@@ -102,6 +100,7 @@ const checkFile = async (file: File) => {
       const url = makeImageUrl();
       if (url) {
         emit("picked", url);
+        onClose();
       }
     },
     Err(err) {
@@ -121,7 +120,7 @@ const makeImageUrl = () => {
   return undefined;
 };
 
-  const onDragOver = () => {
+const onDragOver = () => {
   isDragging.value = true;
 };
 const onDragLeave = () => {
