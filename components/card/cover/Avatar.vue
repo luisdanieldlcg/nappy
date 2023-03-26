@@ -2,7 +2,14 @@
   <div class="d-flex flex-column justify-center align-center">
     <v-avatar color="white" :size="size" style="position: absolute">
       <slot>
-        <v-avatar :image="image" :size="innerSize" v-if="image" />
+        <v-avatar v-if="tryDisplayImage" :size="innerSize">
+          <v-img
+            cover
+            style="object-fit: cover; border-radius: 50%"
+            :src="image"
+            @error="failedToLoad = true"
+          />
+        </v-avatar>
         <v-icon
           icon="mdi-account-circle"
           color="grey"
@@ -25,6 +32,15 @@ const props = defineProps({
     default: undefined,
   },
 });
-console.log(props.image);
+const tryDisplayImage = computed(() => {
+  return (
+    props.image != undefined && props.image.length > 0 && !failedToLoad.value
+  );
+});
+const onError = () => {
+  console.log("er");
+  failedToLoad.value = true;
+};
+const failedToLoad = ref(false);
 const innerSize = computed(() => props.size - 10);
 </script>

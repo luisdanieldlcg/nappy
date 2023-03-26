@@ -6,10 +6,9 @@
         class="container-hover"
         color="#f9fafb"
         :elevation="0"
-        :width="width"
-        :height="100"
+        :width="size.width"
+        :height="size.height"
         :style="style"
-        :border="true"
         :image="image"
       >
         <v-overlay
@@ -76,12 +75,16 @@ const props = defineProps({
   },
 });
 
-const width = computed(() => {
-  return props.rounded ? 105 : 160;
+const size = computed(() => {
+  return {
+    width: props.rounded ? 120 : 160,
+    height: props.rounded ? 120 : 105,
+  };
 });
 const style = computed(() => {
   return {
     "border-radius": props.rounded ? "50% !important" : "0",
+    top: props.rounded ? "-5px" : "0",
   };
 });
 const cardEditor = useCardEditorStore();
@@ -104,6 +107,7 @@ const editImageHandler = () => {
 <style lang="scss">
 .container-hover {
   cursor: pointer;
+  border: 1px solid rgb(211, 211, 211);
   &:hover {
     background-color: #fdfdfd;
   }

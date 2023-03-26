@@ -6,4 +6,5 @@ export class Colors {
   static purple = "#4A148C";
   static black = "#212121";
   static greyLight = "#B0BEC5";
+  static brownLight = "#8D6E63";
 }
