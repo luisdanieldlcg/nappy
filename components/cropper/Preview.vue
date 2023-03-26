@@ -9,11 +9,11 @@
       />
     </template>
     <template #avatar v-if="imageSlot === ImageType.Avatar">
-      <CardCoverAvatar :size="112">
+      <CardCoverAvatar :size="110">
         <v-avatar :size="100">
           <Preview
-            :width="120"
-            :height="120"
+            :width="100"
+            :height="100"
             :image="preview?.image"
             :coordinates="preview?.coordinates"
           />
@@ -25,17 +25,16 @@
 
 <script setup lang="ts">
 import { Preview } from "vue-advanced-cropper";
-const { preview, image, imageSlot } = storeToRefs(useImageEditor());
-const { card } = storeToRefs(useCardEditorStore());
+const { preview, imageSlot } = storeToRefs(useImageEditor());
+const { card, coverImagePreview, avatarImagePreview } = storeToRefs(
+  useCardEditorStore()
+);
+
 const cardObj = computed(() => {
   return {
     ...card.value,
-    coverImage: card.value.coverImage
-      ? URL.createObjectURL(card.value.coverImage)
-      : undefined,
-    avatarImage: card.value.avatarImage
-      ? URL.createObjectURL(card.value.avatarImage)
-      : undefined,
+    coverImage: coverImagePreview.value,
+    avatarImage: avatarImagePreview.value,
   };
 });
 </script>

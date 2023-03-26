@@ -43,7 +43,6 @@
                 ? lookupImage(card.avatarImage)
                 : undefined,
             }"
-            :light-shadow="true"
             :mini="true"
           >
             <template #actions>

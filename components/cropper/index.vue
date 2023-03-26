@@ -54,13 +54,14 @@ const stencilComponent = computed(() => {
 
 // TODO: bind this to the card width and height
 const aspectRatio = computed(() => {
-  return 300 / 160;
+  if (imageEditorStore.imageSlot === ImageType.Cover) {
+    return 300 / 160;
+  } else {
+    return 1;
+  }
 });
-onUnmounted(() => {
-  imageEditorStore.$reset();
-});
+
 onMounted(() => {
-  // imageEditorStore.setOriginalImage();
   maximize();
 });
 const onCropperUpdate = (result: CropperResult) => {

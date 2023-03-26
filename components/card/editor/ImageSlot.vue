@@ -99,7 +99,7 @@ const removeImageHandler = () => {
 };
 const editImageHandler = () => {
   if (props.image) {
-    cardEditor.openImageEditor(props.image);
+    useImageEditor().onOpen(props.image);
   }
 };
 </script>

@@ -2,9 +2,9 @@
   <div class="mt-3 pr-10 text-center">
     <CropperHeader />
     <div class="cropper-wrapper mt-3">
-      <div
-        :style="{ backgroundImage: 'url(' + imageEditor.image + ')' }"
+      <v-img
         class="image-background"
+        :style="{ backgroundImage: 'url(' + imageEditor.image + ')' }"
       />
       <slot></slot>
     </div>
@@ -27,8 +27,8 @@ const imageEditor = useImageEditor();
   position: absolute;
   width: calc(100% + 20px);
   height: calc(80% + 10px);
-  left: -10px;
-  top: 20px;
+  left: 0px;
+  top: 25px;
 
   background-size: cover;
   background-position: 50%;

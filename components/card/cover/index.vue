@@ -31,15 +31,12 @@ const props = defineProps({
     type: Object as PropType<Partial<ICardDTO>>,
     required: true,
   },
-  lightShadow: {
-    type: Boolean,
-    default: false,
-  },
   mini: {
     type: Boolean,
     default: false,
   },
 });
+
 const containerSize = computed(() => {
   return {
     width: props.mini ? 240 : 300,
@@ -53,8 +50,8 @@ const avatarSize = computed(() => (props.mini ? 85 : 110));
 
 const classes = computed(() => {
   return {
-    "card-shadow-light": props.lightShadow,
-    shadow: !props.lightShadow,
+    "card-shadow-light": props.mini,
+    shadow: !props.mini,
     "pb-4": true,
   };
 });

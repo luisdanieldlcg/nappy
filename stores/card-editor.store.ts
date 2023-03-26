@@ -4,9 +4,8 @@ export enum ImageType {
   Cover,
   Avatar,
 }
-// Same as CardDTO but with custom fields
-// for the card editor.
-export type CreateCard = {
+
+type Card = {
   firstName: string;
   lastName: string;
   company: string;
@@ -18,7 +17,7 @@ export type CreateCard = {
 };
 
 export const useCardEditorStore = defineStore("cardEditor", () => {
-  const defaultCard: CreateCard = {
+  const defaultCard: Card = {
     firstName: "Luis",
     lastName: "de la Cruz",
     company: "",
@@ -28,24 +27,23 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     avatarImage: null,
     color: Colors.greyLight,
   };
-  const card = reactive<CreateCard>({
+  const coverImagePreview = ref("");
+  const avatarImagePreview = ref("");
+
+  const card = reactive<Card>({
     ...defaultCard,
   });
-  
+
   // Whether the user is editing an image.
   const isEditingImage = ref(false);
-
-
   const imageDropDialog = ref(false);
 
-  const openImageEditor = (image: string) => {
-    useImageEditor().image = image;
-    isEditingImage.value = true;
-  };
   const $reset = () => {
     Object.assign(card, defaultCard);
     isEditingImage.value = false;
     useImageEditor().$reset();
+    coverImagePreview.value = "";
+    avatarImagePreview.value = "";
   };
 
   const removeCoverImage = () => {
@@ -87,10 +85,11 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     card,
     isEditingImage,
     imageDropDialog,
+    coverImagePreview,
+    avatarImagePreview,
     submit,
     $reset,
     removeCoverImage,
     getSourceForImage,
-    openImageEditor
   };
 });

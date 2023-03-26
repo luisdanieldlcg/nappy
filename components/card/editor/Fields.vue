@@ -75,7 +75,7 @@
   </CardEditorSection>
   <ImageDropDialog
     v-model="editorStore.imageDropDialog"
-    @picked="editorStore.openImageEditor"
+    @picked="imagePicked"
   />
 </template>
 
@@ -85,39 +85,29 @@ import { ImageType, useCardEditorStore } from "~~/stores/card-editor.store";
 const { card } = storeToRefs(useCardEditorStore());
 const imageEditor = useImageEditor();
 const editorStore = useCardEditorStore();
-const coverImage = computed(() => {
-  if (card.value.coverImage) {
-    return URL.createObjectURL(card.value.coverImage);
-  }
-  // TODO: Revoke URL?
-  // If i revoke it, the image editor will not be able to load the image
-  // unless i reopen it.
-  return "";
-});
 
-const avatarImage = computed(() => {
-  if (card.value.avatarImage) {
-    return URL.createObjectURL(card.value.avatarImage);
-  }
-});
+const imagePicked = (image: string) => {
+  imageEditor.onOpen(image);
+};
 
 // The image slots are the images that can be edited and appended to the card
 // in the card editor. This is the list of available slots.
 const imageSlots = reactive([
   {
-    image: coverImage,
+    image: computed(() => editorStore.coverImagePreview),
     title: "Cover Photo",
     onClick: () => {
       imageEditor.imageSlot = ImageType.Cover;
     },
     onRemoveImage: () => {
       editorStore.card.coverImage = null;
+      editorStore.coverImagePreview = "";
     },
     flex: 4,
     margin: "pa-0 mr-7",
   },
   {
-    image: avatarImage,
+    image: computed(() => editorStore.avatarImagePreview),
     title: "Profile Picture",
     rounded: true,
     onClick: () => {
@@ -127,6 +117,7 @@ const imageSlots = reactive([
     margin: "pa-0 mr-5",
     onRemoveImage: () => {
       editorStore.card.avatarImage = null;
+      editorStore.avatarImagePreview = "";
     },
   },
   {

@@ -27,17 +27,19 @@ const image = useImageEditor();
 
 const onCancel = () => {
   editor.isEditingImage = false;
-  image.resetImage();
 };
 const onCrop = () => {
   editor.isEditingImage = false;
   image.preview?.canvas?.toBlob((blob) => {
+    if (!blob) return;
     switch (image.imageSlot) {
       case ImageType.Cover:
         editor.card.coverImage = blob;
+        editor.coverImagePreview = URL.createObjectURL(blob);
         break;
       case ImageType.Avatar:
         editor.card.avatarImage = blob;
+        editor.avatarImagePreview = URL.createObjectURL(blob);
         break;
     }
   });

@@ -35,6 +35,7 @@ const header: DashPageHeader = {
   canGoBack: true,
 };
 useCardEditorStore().$reset();
+useImageEditor().$reset();
 const dto = reactive<ICardDTO>({
   id: "",
   label: "Work",

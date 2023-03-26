@@ -26,18 +26,14 @@
 </template>
 
 <script setup lang="ts">
-const { isEditingImage, card } = storeToRefs(useCardEditorStore());
+const { isEditingImage, card, coverImagePreview, avatarImagePreview } =
+  storeToRefs(useCardEditorStore());
 
 const cardMapper = computed(() => {
   return {
     ...card.value,
-    // handle undefined coverImage and avartarImage error with URL.createObjectURL
-    coverImage: card.value.coverImage
-      ? URL.createObjectURL(card.value.coverImage)
-      : "",
-    avatarImage: card.value.avatarImage
-      ? URL.createObjectURL(card.value.avatarImage)
-      : "",
+    coverImage: coverImagePreview.value,
+    avatarImage: avatarImagePreview.value,
   };
 });
 </script>
