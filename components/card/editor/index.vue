@@ -16,7 +16,7 @@
     </DividedGrid>
     <DividedGrid v-else>
       <template #left>
-        <CardCover :card="cardMapper" :light-shadow="true" />
+        <CardCover :card="cardMapper" />
       </template>
       <template #right>
         <CardEditorFields />

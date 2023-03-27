@@ -28,16 +28,7 @@
     </v-row>
   </CardEditorSection>
   <CardEditorSection title="Pick your favorite theme">
-    <v-row>
-      <v-col cols="1">
-        <div>
-          <ColorCard :multi-color="true" @click="openColorPicker" />
-        </div>
-      </v-col>
-      <v-col v-for="color in availableColors" cols="1">
-        <ColorCard :color="color" @click="pickColor(color)" />
-      </v-col>
-    </v-row>
+    <CardEditorColorPicker />
   </CardEditorSection>
   <CardEditorSection title="Add your details">
     <v-row class="mt-0" style="height: 90px">
@@ -128,20 +119,4 @@ const imageSlots = reactive([
     margin: "pa-0",
   },
 ]);
-
-const availableColors = [
-  Colors.red,
-  Colors.aqua,
-  Colors.blue,
-  Colors.green,
-  Colors.purple,
-  Colors.brownLight,
-  Colors.black,
-  Colors.greyLight,
-];
-
-const openColorPicker = () => {};
-const pickColor = (selection: string) => {
-  card.value.color = selection;
-};
 </script>
