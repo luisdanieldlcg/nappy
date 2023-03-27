@@ -13,7 +13,7 @@
     <v-color-picker
       show-swatches
       v-model="store.card.color"
-      class="mx-auto "
+      class="mx-auto"
     ></v-color-picker>
   </v-dialog>
 </template>
