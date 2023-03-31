@@ -34,6 +34,7 @@ const header: DashPageHeader = {
   icon: "mdi-card-account-details-outline",
   canGoBack: true,
 };
+const editorStore = useCardEditorStore();
 useCardEditorStore().$reset();
 useImageEditor().$reset();
 const dto = reactive<ICardDTO>({
@@ -49,8 +50,8 @@ const dto = reactive<ICardDTO>({
 });
 const cardManager = useCardStore();
 const createCard = async () => {
-  const store = useCardEditorStore();
-  await store.submit();
-  store.$dispose(); // FIXME find a workaround to this
+  const form = editorStore.createForm();
+  await cardManager.create(form);
+  // store.$dispose(); // FIXME find a workaround to this
 };
 </script>

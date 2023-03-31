@@ -61,9 +61,9 @@ export const useCardStore = defineStore("user", () => {
     }
   };
 
-  const getById = (id: string): Maybe<ICardDTO> => {
+  const getById = (id: string): ICardDTO | undefined => {
     loadTracker.gettingById = true;
-    const result = Maybe.of(cards.find((dto) => dto.id === id));
+    const result = cards.find((dto) => dto.id === id);
     loadTracker.gettingById = false;
     return result;
   };

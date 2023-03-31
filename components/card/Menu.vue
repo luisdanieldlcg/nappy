@@ -6,11 +6,7 @@
         <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
       </template>
       <v-list class="elevation-2">
-        <v-list-item
-          v-for="item in items"
-          :to="item.navigateTo"
-          @click="onMenuClicked(item)"
-        >
+        <v-list-item v-for="item in items" @click="onMenuClicked(item)">
           <v-list-item-title> {{ item.title }} </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -48,6 +44,9 @@ const onMenuClicked = (item: MenuItem) => {
   emit("menuClicked", props.card);
   if (item.action === "delete") {
     useDialogStore().open();
+  }
+  if (item.action === "edit") {
+    navigateTo(item.navigateTo);
   }
 };
 </script>

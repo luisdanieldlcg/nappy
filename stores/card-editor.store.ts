@@ -11,8 +11,8 @@ type Card = {
   company: string;
   jobTitle: string;
   label: string;
-  coverImage: Blob | null;
-  avatarImage: Blob | null;
+  coverImage: Blob | string | null;
+  avatarImage: Blob | string | null;
   color: string;
 };
 
@@ -50,35 +50,18 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     card.coverImage = null;
   };
 
-  const submit = async () => {
+  const createForm = () => {
     const form = new FormData();
     Object.entries(card).forEach(([key, value]) => {
       if (value) {
         form.append(key, value);
       }
     });
-    const cardManager = useCardStore();
-    await cardManager.create(form);
+    return form;
   };
 
-  const getSourceForImage = (type: ImageType) => {
-    let blob = null;
-    switch (type) {
-      case ImageType.Cover:
-        blob = card.coverImage;
-        break;
-      case ImageType.Avatar:
-        blob = card.avatarImage;
-        break;
-    }
-    if (blob != null) {
-      const src = URL.createObjectURL(blob);
-      setTimeout(() => {
-        URL.revokeObjectURL(src);
-      }, 1000);
-      return src;
-    }
-    return undefined;
+  const setCard = (newCard: Card) => {
+    Object.assign(card, newCard);
   };
 
   return {
@@ -87,9 +70,9 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     imageDropDialog,
     coverImagePreview,
     avatarImagePreview,
-    submit,
+    createForm,
     $reset,
     removeCoverImage,
-    getSourceForImage,
+    setCard,
   };
 });

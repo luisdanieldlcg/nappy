@@ -26,8 +26,17 @@
 </template>
 
 <script setup lang="ts">
+import { ICardDTO } from "~~/api/dtos/card.dto";
+
+const props = defineProps<{
+  card: ICardDTO;
+}>();
+const editor = useCardEditorStore();
+onMounted(() => {
+  editor.setCard(props.card);
+});
 const { isEditingImage, card, coverImagePreview, avatarImagePreview } =
-  storeToRefs(useCardEditorStore());
+  storeToRefs(editor);
 
 const cardMapper = computed(() => {
   return {

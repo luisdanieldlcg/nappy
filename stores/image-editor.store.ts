@@ -17,7 +17,6 @@ export const useImageEditor = defineStore("imageEditor", () => {
     useCardEditorStore().isEditingImage = true;
   };
   const $reset = () => {
-    console.log("resetting");
     image.value = "";
     preview.value = undefined;
   };
