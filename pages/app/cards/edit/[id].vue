@@ -1,10 +1,20 @@
 <template>
-  <NuxtLayout name="dashboard" :header="header">
-    <template #append>
-      <ActionDone @done="save" />
+  <Suspense>
+    <template #default>
+      <NuxtLayout name="dashboard" :header="header">
+        <template #append>
+          <ActionDone @done="save" />
+        </template>
+        <CardEditor
+          :card="card!"
+          :loading="cardStore.loadTracker.updatingById"
+        />
+      </NuxtLayout>
     </template>
-    <CardEditor :card="card" :loading="cardStore.loadTracker.updatingById" />
-  </NuxtLayout>
+    <template #fallback>
+      <h1>xx</h1>
+    </template>
+  </Suspense>
 </template>
 
 <script setup lang="ts">
@@ -15,17 +25,14 @@ const params = useRoute().params;
 const cardId = params.id as string;
 const editor = useCardEditorStore();
 const cardStore = useCardStore();
-const card = cardStore.getById(cardId);
-
-if (card === undefined) {
-  throw "Card not found";
-}
 
 const header: DashPageHeader = {
   title: "Edit card",
   icon: "mdi-card-account-details-outline",
   canGoBack: true,
 };
+
+const card = cardStore.getById(cardId);
 
 const save = async () => {
   const form = editor.createForm();

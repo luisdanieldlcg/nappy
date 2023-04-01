@@ -17,6 +17,14 @@
     <DividedGrid v-else>
       <template #left>
         <CardCover :card="cardMapper" />
+        <v-row justify="center">
+          <v-col cols="6">
+            <v-btn class="text-capitalize" variant="outlined">
+              View Card
+              <v-icon class="ml-3" icon="mdi-export" />
+            </v-btn>
+          </v-col>
+        </v-row>
       </template>
       <template #right>
         <CardEditorFields />
@@ -26,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { ICardDTO } from "~~/api/dtos/card.dto";
 import { Card } from "~~/stores/card-editor.store";
 
 const props = defineProps<{

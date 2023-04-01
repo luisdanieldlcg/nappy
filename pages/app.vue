@@ -19,7 +19,4 @@ definePageMeta({
   middleware: "auth",
 });
 const card = useCardStore();
-onMounted(async () => {
-  await card.getAll();
-});
 </script>

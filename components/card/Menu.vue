@@ -3,11 +3,18 @@
     <v-spacer></v-spacer>
     <v-menu>
       <template #activator="{ props }">
-        <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
+        <v-btn icon="mdi-dots-vertical" v-bind="props" :ripple="false"></v-btn>
       </template>
-      <v-list class="elevation-2">
-        <v-list-item v-for="item in items" @click="onMenuClicked(item)">
-          <v-list-item-title> {{ item.title }} </v-list-item-title>
+      <v-list class="elevation-0 card-shadow-light rounded-lg">
+        <v-list-item
+          v-for="item in items"
+          @click="onMenuClicked(item)"
+          :ripple="false"
+        >
+          <v-list-item-title>
+            {{ item.title }}
+            <v-icon class="ml-3" :icon="item.icon" />
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -26,27 +33,41 @@ const props = defineProps<{
 interface MenuItem {
   title: string;
   navigateTo?: string;
-  action: "delete" | "edit";
+  action: "delete" | "edit" | "view";
+  icon: string;
 }
 const items: MenuItem[] = [
+  {
+    title: "View",
+    navigateTo: `/${props.card.id}`,
+    action: "view",
+    icon: "mdi-eye",
+  },
   {
     title: "Edit",
     navigateTo: `cards/edit/${props.card.id}`,
     action: "edit",
+    icon: "mdi-pencil",
   },
   {
     title: "Delete",
     action: "delete",
+    icon: "mdi-delete",
   },
 ];
 
 const onMenuClicked = (item: MenuItem) => {
   emit("menuClicked", props.card);
-  if (item.action === "delete") {
-    useDialogStore().open();
-  }
-  if (item.action === "edit") {
-    navigateTo(item.navigateTo);
+  switch (item.action) {
+    case "delete":
+      useDialogStore().open();
+      break;
+    case "edit":
+      navigateTo(item.navigateTo);
+      break;
+    case "view":
+      navigateTo(item.navigateTo);
+      break;
   }
 };
 </script>

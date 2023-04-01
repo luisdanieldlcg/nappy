@@ -32,12 +32,8 @@
               firstName: card.firstName,
               lastName: card.lastName,
               color: card.color,
-              coverImage: card.coverImage
-                ? lookupImage(card.coverImage)
-                : undefined,
-              avatarImage: card.avatarImage
-                ? lookupImage(card.avatarImage)
-                : undefined,
+              coverImage: card.coverImage,
+              avatarImage: card.avatarImage,
             }"
             :mini="true"
           >
@@ -72,9 +68,7 @@ import { ICardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
 import { useCardStore } from "~~/stores/card.store";
 import { useDialogStore } from "~~/stores/dialog-store";
-const lookupImage = (image: string) => {
-  return "http://localhost:3001/images/" + image;
-};
+
 const header: DashPageHeader = {
   title: "Cards",
   icon: "mdi-card-account-details-outline",

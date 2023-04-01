@@ -16,6 +16,10 @@ export const useCardStore = defineStore("user", () => {
   const cards: ICardDTO[] = reactive([]);
   const cardModule = useNuxtApp().$api.card;
 
+  onMounted(async () => {
+    await getAll();
+    console.log("Awating");
+  });
   // Keeps track of all the loading states.
   const loadTracker = reactive({
     creating: false,
@@ -71,10 +75,18 @@ export const useCardStore = defineStore("user", () => {
   };
 
   const getById = (id: string): ICardDTO | undefined => {
-    loadTracker.gettingById = true;
     const result = cards.find((dto) => dto.id === id);
-    loadTracker.gettingById = false;
     return result;
+  };
+
+  const fetchById = async (id: string) => {
+    loadTracker.gettingById = true;
+    const result = await cardModule.getById(id);
+    loadTracker.gettingById = false;
+    if (result.isOk) {
+      return result.value;
+    }
+    return undefined;
   };
 
   const updateById = async (cardId: string, form: FormData) => {
@@ -109,6 +121,7 @@ export const useCardStore = defineStore("user", () => {
     create,
     deleteById,
     getById,
+    fetchById,
     updateById,
     deleteAll,
     loadTracker,
