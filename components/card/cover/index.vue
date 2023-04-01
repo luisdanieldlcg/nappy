@@ -43,7 +43,6 @@ const containerSize = computed(() => {
     height: props.mini ? 280 : 400,
   };
 });
-
 const coverHeight = computed(() => (props.mini ? 120 : 160));
 
 const avatarSize = computed(() => (props.mini ? 85 : 110));
