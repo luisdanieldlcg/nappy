@@ -7,7 +7,6 @@ import {
 import { Result } from "true-myth";
 import { ErrorResponse } from "../dtos/error";
 
-
 interface RequestOptions {
   endpoint: string;
   data: object;
@@ -37,10 +36,23 @@ export abstract class ApiModule {
     return ApiModule.tryCatchResult<T>(result);
   }
 
+  protected async patch<T>(opts: RequestOptions): ApiResponse<T> {
+    const result = this.http.patch<T>(
+      this.getResource() + opts.endpoint,
+      opts.data,
+      opts.opts
+    );
+    return ApiModule.tryCatchResult<T>(result);
+  }
+
   protected async put<T>() {}
 
-  protected async delete<T>(id: string) {
+  public async deleteById<T>(id: string) {
     const targetRoute = this.getResource() + `/${id}`;
+    return ApiModule.tryCatchResult(this.http.delete<T>(targetRoute));
+  }
+  public async deleteAll<T>() {
+    const targetRoute = this.getResource() + `/`;
     return ApiModule.tryCatchResult(this.http.delete<T>(targetRoute));
   }
 

@@ -27,9 +27,10 @@
 
 <script setup lang="ts">
 import { ICardDTO } from "~~/api/dtos/card.dto";
+import { Card } from "~~/stores/card-editor.store";
 
 const props = defineProps<{
-  card: ICardDTO;
+  card: Card;
 }>();
 const editor = useCardEditorStore();
 onMounted(() => {

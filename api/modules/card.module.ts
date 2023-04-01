@@ -18,11 +18,14 @@ export class CardModule extends ApiModule {
     });
   }
 
-  public async getById(id: string) {
-    return this.get<ICardDTO>(`/${id}`);
+  public async updateById(id: string, card: FormData) {
+    return this.patch<ICardDTO>({
+      endpoint: `/${id}`,
+      data: card,
+    });
   }
 
-  public async deleteById(cardId: string) {
-    return this.delete<void>(cardId);
+  public async getById(id: string) {
+    return this.get<ICardDTO>(`/${id}`);
   }
 }

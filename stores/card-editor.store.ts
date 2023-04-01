@@ -5,7 +5,7 @@ export enum ImageType {
   Avatar,
 }
 
-type Card = {
+export type Card = {
   firstName: string;
   lastName: string;
   company: string;
@@ -62,6 +62,19 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
 
   const setCard = (newCard: Card) => {
     Object.assign(card, newCard);
+    const cover = newCard.coverImage;
+    const avatar = newCard.avatarImage;
+    if (!cover) {
+      coverImagePreview.value = "";
+    } else {
+      coverImagePreview.value = "http://localhost:3001/images/" + cover;
+    }
+
+    if (!avatar) {
+      avatarImagePreview.value = "";
+    } else {
+      avatarImagePreview.value = "http://localhost:3001/images/" + avatar;
+    }
   };
 
   return {

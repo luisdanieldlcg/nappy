@@ -69,6 +69,7 @@ const snackbar = ref(false);
 // Close event
 const onClose = () => {
   emit("update:modelValue", false);
+  
 };
 const onChange = () => {
   const inputElement = input.value;

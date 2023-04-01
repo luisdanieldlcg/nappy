@@ -4,14 +4,10 @@
     <template #append>
       <v-tooltip text="Create a new Card" location="bottom">
         <template #activator="{ props }">
-          <v-icon
-            icon="mdi-plus"
-            style="cursor: pointer"
-            v-bind="props"
-            @click="goToCreateCardPage"
-          />
+          <v-icon icon="mdi-plus" v-bind="props" @click="goToCreateCardPage" />
         </template>
       </v-tooltip>
+      <ActionDeleteCard />
     </template>
     <!--Content-->
     <v-card
@@ -59,17 +55,12 @@
     </v-card>
     <teleport to="body">
       <ConfirmDialog
-        title="Are you sure?"
         subtitle="This card will be permanently deleted and cannot be restored."
         v-model="dialogHandler.show"
-        @close="dialogHandler.close()"
         :loading="cardStore.loadTracker.deletingById"
+        default-action-title="Delete Card"
+        @default-action="deleteCard"
       >
-        <template #actions>
-          <v-btn class="text-capitalize bg-primary" @click="deleteCard">
-            Delete Card</v-btn
-          >
-        </template>
       </ConfirmDialog>
     </teleport>
   </NuxtLayout>
@@ -95,6 +86,7 @@ const header: DashPageHeader = {
 const goToCreateCardPage = () => {
   navigateTo("/app/cards/create");
 };
+
 const { name } = useDisplay();
 
 const maxWidth = computed(() => {
@@ -121,6 +113,7 @@ const dialogHandler = useDialogStore();
 const selectCard = (card: ICardDTO) => {
   activeCard.value = card;
 };
+
 const deleteCard = async () => {
   if (activeCard.value) {
     await cardStore.deleteById(activeCard.value.id);

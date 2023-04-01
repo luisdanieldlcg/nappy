@@ -61,6 +61,15 @@ export const useCardStore = defineStore("user", () => {
     }
   };
 
+  const deleteAll = async () => {
+    loadTracker.deletingById = true;
+    const result = await cardModule.deleteAll();
+    loadTracker.deletingById = false;
+    if (result.isOk) {
+      cards.splice(0, cards.length);
+    }
+  };
+
   const getById = (id: string): ICardDTO | undefined => {
     loadTracker.gettingById = true;
     const result = cards.find((dto) => dto.id === id);
@@ -68,19 +77,20 @@ export const useCardStore = defineStore("user", () => {
     return result;
   };
 
-  const updateById = async (card: ICardDTO, form: FormData) => {
-    // loadTracker.updatingById = true;
+  const updateById = async (cardId: string, form: FormData) => {
+    loadTracker.updatingById = true;
+    const result = await cardModule.updateById(cardId, form);
     // const result = await screen.updateWith<ICardDTO>(() =>
     //   updateCard(card.id, form)
     // );
-    // loadTracker.updatingById = false;
-    // if (result.isJust) {
-    //   const i = cards.indexOf(card);
-    //   if (i >= 0) {
-    //     cards.splice(i, 1, result.value);
-    //     useRouter().replace("/app/cards");
-    //   }
-    // }
+    loadTracker.updatingById = false;
+    if (result.isOk) {
+      const i = cards.findIndex((entry) => entry.id === cardId);
+      if (i >= 0) {
+        cards.splice(i, 1, result.value);
+        useRouter().replace("/app/cards");
+      }
+    }
   };
   // const waitUntilFetch = async () => {
   //   return new Promise<void>((resolve) => {
@@ -100,6 +110,7 @@ export const useCardStore = defineStore("user", () => {
     deleteById,
     getById,
     updateById,
+    deleteAll,
     loadTracker,
     // waitUntilFetch,
   };

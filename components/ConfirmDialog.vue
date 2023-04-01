@@ -24,11 +24,17 @@
             <v-btn
               class="text-capitalize mr-1"
               variant="outlined"
-              @click="$emit('close')"
+              @click="onClose"
               >Cancel
             </v-btn>
-
             <slot name="actions"></slot>
+            <v-btn
+              class="text-capitalize bg-primary"
+              @click="$emit('defaultAction')"
+              v-if="!$slots['actions']"
+            >
+              {{ defaultActionTitle }}</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -37,7 +43,11 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(["close"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", value: boolean): void;
+  (e: "close"): void;
+  (e: "defaultAction"): void;
+}>();
 defineProps({
   loading: {
     type: Boolean,
@@ -45,11 +55,21 @@ defineProps({
   },
   title: {
     type: String,
-    required: true,
+    required: false,
+    default: "Are you sure?",
   },
   subtitle: {
     type: String,
     required: true,
   },
+  defaultActionTitle: {
+    type: String,
+    required: false,
+    default: "Delete",
+  },
 });
+const onClose = () => {
+  emit("close");
+  emit("update:modelValue", false);
+};
 </script>
