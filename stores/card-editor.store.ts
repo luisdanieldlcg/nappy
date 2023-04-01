@@ -53,9 +53,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const createForm = () => {
     const form = new FormData();
     Object.entries(card).forEach(([key, value]) => {
-      if (value) {
-        form.append(key, value);
-      }
+      form.append(key, value ? value : "");
     });
     return form;
   };

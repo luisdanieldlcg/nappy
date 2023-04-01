@@ -36,16 +36,14 @@ export abstract class ApiModule {
     return ApiModule.tryCatchResult<T>(result);
   }
 
-  protected async patch<T>(opts: RequestOptions): ApiResponse<T> {
-    const result = this.http.patch<T>(
+  protected async put<T>(opts: RequestOptions): ApiResponse<T> {
+    const result = this.http.put<T>(
       this.getResource() + opts.endpoint,
       opts.data,
       opts.opts
     );
     return ApiModule.tryCatchResult<T>(result);
   }
-
-  protected async put<T>() {}
 
   public async deleteById<T>(id: string) {
     const targetRoute = this.getResource() + `/${id}`;

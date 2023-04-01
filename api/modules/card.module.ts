@@ -19,7 +19,7 @@ export class CardModule extends ApiModule {
   }
 
   public async updateById(id: string, card: FormData) {
-    return this.patch<ICardDTO>({
+    return this.put<ICardDTO>({
       endpoint: `/${id}`,
       data: card,
     });

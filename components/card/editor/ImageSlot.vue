@@ -4,7 +4,7 @@
       <v-card
         v-bind="props"
         class="container-hover"
-        color="#f9fafb"
+        color="background"
         :elevation="0"
         :width="size.width"
         :height="size.height"
@@ -107,7 +107,7 @@ const editImageHandler = () => {
 <style lang="scss">
 .container-hover {
   cursor: pointer;
-  border: 1px solid rgb(211, 211, 211);
+  border: 1px solid #eff1f4;
   &:hover {
     background-color: #fdfdfd;
   }
