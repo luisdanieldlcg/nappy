@@ -18,7 +18,6 @@ export const useCardStore = defineStore("user", () => {
 
   onMounted(async () => {
     await getAll();
-    console.log("Awating");
   });
   // Keeps track of all the loading states.
   const loadTracker = reactive({
@@ -92,9 +91,6 @@ export const useCardStore = defineStore("user", () => {
   const updateById = async (cardId: string, form: FormData) => {
     loadTracker.updatingById = true;
     const result = await cardModule.updateById(cardId, form);
-    // const result = await screen.updateWith<ICardDTO>(() =>
-    //   updateCard(card.id, form)
-    // );
     loadTracker.updatingById = false;
     if (result.isOk) {
       const i = cards.findIndex((entry) => entry.id === cardId);
@@ -104,16 +100,7 @@ export const useCardStore = defineStore("user", () => {
       }
     }
   };
-  // const waitUntilFetch = async () => {
-  //   return new Promise<void>((resolve) => {
-  //     const loop = setInterval(() => {
-  //       if (!isFetching.value) {
-  //         clearInterval(loop);
-  //         resolve();
-  //       }
-  //     }, 150);
-  //   });
-  // };
+
 
   return {
     cards,
@@ -125,6 +112,5 @@ export const useCardStore = defineStore("user", () => {
     updateById,
     deleteAll,
     loadTracker,
-    // waitUntilFetch,
   };
 });

@@ -13,7 +13,12 @@
 <script setup lang="ts">
 import { PropType } from "vue";
 
-type TextFieldType = "email" | "password" | "passwordConfirm" | "default";
+type TextFieldType =
+  | "email"
+  | "password"
+  | "passwordConfirm"
+  | "not-empty"
+  | "none";
 
 const props = defineProps({
   withEye: {
@@ -67,8 +72,10 @@ const applyRules = () => {
       return passwordRules;
     case "passwordConfirm":
       return passwordConfirmRules(props.mustMatch!);
-    default:
+    case "not-empty":
       return defaultRules;
+    default:
+      return [];
   }
 };
 </script>

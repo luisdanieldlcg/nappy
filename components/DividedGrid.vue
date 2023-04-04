@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" no-gutters class="mt-8">
+  <v-row justify="center" no-gutters class="mt-6">
     <v-col :cols="isBelowLg ? 7 : 5">
       <slot name="left"></slot>
     </v-col>

@@ -16,6 +16,7 @@
     "sass": "^1.57.1",
     "true-myth": "^6.2.0",
     "vue-advanced-cropper": "^2.8.8",
+    "vuedraggable": "^4.1.0",
     "vuetify": "^3.1.11"
   },
   "devDependencies": {

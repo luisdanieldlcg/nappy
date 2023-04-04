@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" class="mt-16">
-    <v-col cols="2">
+    <v-col cols="3">
       <CardCover :card="card!" />
     </v-col>
   </v-row>

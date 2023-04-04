@@ -1,8 +1,14 @@
+import { LinkDefinition, LinkType } from "~~/api/dtos/card.dto";
+
 export enum ImageType {
   Cover,
   Avatar,
 }
-
+export interface LinkListTile {
+  title: string;
+  subtitle: string;
+  type: LinkType;
+}
 export type Card = {
   firstName: string;
   lastName: string;
@@ -12,8 +18,8 @@ export type Card = {
   coverImage: Blob | string | null;
   avatarImage: Blob | string | null;
   color: string;
+  links: LinkListTile[];
 };
-
 export const useCardEditorStore = defineStore("cardEditor", () => {
   const defaultCard: Card = {
     firstName: "Luis",
@@ -24,6 +30,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     coverImage: null,
     avatarImage: null,
     color: Colors.greyLight,
+    links: [],
   };
   const coverImagePreview = ref("");
   const avatarImagePreview = ref("");
@@ -36,14 +43,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const isEditingImage = ref(false);
   const imageDropDialog = ref(false);
 
-  const $reset = () => {
-    Object.assign(card, defaultCard);
-    isEditingImage.value = false;
-    useImageEditor().$reset();
-    coverImagePreview.value = "";
-    avatarImagePreview.value = "";
-  };
-
   const removeCoverImage = () => {
     card.coverImage = null;
   };
@@ -51,7 +50,15 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const createForm = () => {
     const form = new FormData();
     Object.entries(card).forEach(([key, value]) => {
-      form.append(key, value ? value : "");
+      if (!value) {
+        form.append(key, "");
+        return;
+      }
+      if (Array.isArray(value)) {
+        form.append(key, JSON.stringify(value));
+        return;
+      }
+      form.append(key, value);
     });
     return form;
   };
@@ -69,7 +76,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     coverImagePreview,
     avatarImagePreview,
     createForm,
-    $reset,
     removeCoverImage,
     setCard,
   };
