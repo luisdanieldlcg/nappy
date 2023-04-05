@@ -54,12 +54,12 @@
 </template>
 
 <script setup lang="ts">
-import { LinkType } from "~~/api/dtos/card.dto";
+import { CardLink } from "~~/api/dtos/card.dto";
 
 export interface LinkData {
   label: string;
   icon: string;
-  type: LinkType;
+  type: CardLink;
 }
 const emit = defineEmits(["exit"]);
 const props = defineProps<{

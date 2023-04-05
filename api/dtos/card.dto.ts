@@ -15,15 +15,35 @@ export interface ICardDTO extends ICreateCardDTO {}
 export interface LinkDefinition {
   title: string;
   subtitle: string;
-  type: LinkType;
+  type: CardLink;
 }
 
-export enum LinkType {
-  Facebook = "facebook",
-  Twitter = "twitter",
-  Instagram = "instagram",
-  LinkedIn = "linkedin",
-  YouTube = "youtube",
-  Email = "email",
-  
-}
+export type CardLink = SocialLink | CommunicationLink;
+export type SocialLink =
+  | "instagram"
+  | "twitter"
+  | "snapchat"
+  | "linkedin"
+  | "facebook";
+export type CommunicationLink =
+  | "email"
+  | "phone"
+  | "whatsapp"
+  | "skype"
+  | "discord";
+
+export const socialLinks = [
+  "instagram",
+  "twitter",
+  "snapchat",
+  "linkedin",
+  "facebook",
+];
+export const communicationLinks = [
+  "email",
+  "phone",
+  "whatsapp",
+  "skype",
+  "discord",
+];
+export const allLinks = [...socialLinks, ...communicationLinks];

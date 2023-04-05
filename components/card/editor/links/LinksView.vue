@@ -9,11 +9,17 @@
     </template>
     <template v-else>
       <CardEditorDraggableLinks v-if="card.links.length > 0" />
-      <DashNote title="Click a field below to add a new link" centered> </DashNote>
+      <DashNote title="Click a field below to add a new link" centered>
+      </DashNote>
+      <p style="font-size: 13px; font-weight: bold" class="text-center ma-2">
+        {{ "Social Links" }}
+      </p>
+      <CardEditorLinkList :fields="socialLinks" @field-click="onFieldClick" />
+      <p style="font-size: 13px; font-weight: bold" class="text-center ma-2">
+        {{ "Communication Links" }}
+      </p>
       <CardEditorLinkList
-        v-for="entry in allFields"
-        :title="entry.name"
-        :fields="entry.fields"
+        :fields="communicationLinks"
         @field-click="onFieldClick"
       />
     </template>
@@ -21,56 +27,57 @@
 </template>
 
 <script setup lang="ts">
-import { LinkType } from "~~/api/dtos/card.dto";
+import { allLinks, socialLinks } from "~~/api/dtos/card.dto";
 import { LinkData } from "./CardEditorLinkForm.vue";
+import { communicationLinks } from "~~/api/dtos/card.dto";
 const { card } = storeToRefs(useCardEditorStore());
 const selectedField = ref<LinkData | undefined>(undefined);
 const onFieldClick = (field: LinkData) => {
   selectedField.value = field;
 };
 
-const socialFields: LinkData[] = [
-  {
-    label: "Facebook",
-    icon: "mdi-facebook",
-    type: LinkType.Facebook,
-  },
-  {
-    label: "Twitter",
-    icon: "mdi-twitter",
-    type: LinkType.Twitter,
-  },
-  {
-    label: "Instagram",
-    icon: "mdi-instagram",
-    type: LinkType.Instagram,
-  },
-  {
-    label: "LinkedIn",
-    icon: "mdi-linkedin",
-    type: LinkType.LinkedIn,
-  },
-  {
-    label: "YouTube",
-    icon: "mdi-youtube",
-    type: LinkType.YouTube,
-  },
-];
-const communicationFields: LinkData[] = [
-  {
-    label: "Email",
-    icon: "mdi-email",
-    type: LinkType.Email,
-  },
-];
-const allFields = [
-  {
-    name: "Social",
-    fields: socialFields,
-  },
-  {
-    name: "Communication",
-    fields: communicationFields,
-  },
-];
+// const socialFields: LinkData[] = [
+//   {
+//     label: "Facebook",
+//     icon: "mdi-facebook",
+//     type: LinkType.Facebook,
+//   },
+//   {
+//     label: "Twitter",
+//     icon: "mdi-twitter",
+//     type: LinkType.Twitter,
+//   },
+//   {
+//     label: "Instagram",
+//     icon: "mdi-instagram",
+//     type: LinkType.Instagram,
+//   },
+//   {
+//     label: "LinkedIn",
+//     icon: "mdi-linkedin",
+//     type: LinkType.LinkedIn,
+//   },
+//   {
+//     label: "YouTube",
+//     icon: "mdi-youtube",
+//     type: LinkType.YouTube,
+//   },
+// ];
+// const communicationFields: LinkData[] = [
+//   {
+//     label: "Email",
+//     icon: "mdi-email",
+//     type: LinkType.Email,
+//   },
+// ];
+// const allFields = [
+//   {
+//     name: "Social",
+//     fields: socialFields,
+//   },
+//   {
+//     name: "Communication",
+//     fields: communicationFields,
+//   },
+// ];
 </script>
