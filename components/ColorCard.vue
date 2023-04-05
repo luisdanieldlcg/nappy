@@ -1,6 +1,5 @@
 <template>
   <v-card
-    class="rounded-0"
     :class="{
       'multi-color': multiColor,
     }"

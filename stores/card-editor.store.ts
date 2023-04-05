@@ -38,6 +38,8 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const card = reactive<Card>({
     ...defaultCard,
   });
+  // Controls the view of the card editor.
+  const view = ref(0);
 
   // Whether the user is editing an image.
   const isEditingImage = ref(false);
@@ -78,5 +80,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     createForm,
     removeCoverImage,
     setCard,
+    view,
   };
 });

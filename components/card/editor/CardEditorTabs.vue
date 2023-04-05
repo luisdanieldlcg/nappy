@@ -1,11 +1,11 @@
 <template>
-  <v-tabs v-model="view" class="mb-5">
+  <v-tabs v-model="editor.view" class="mb-5" grow>
     <v-tab v-for="(tab, i) in tabs" :value="i" class="text-capitalize">
       <p class="font-weight-bold" style="font-size: 15px">{{ tab.label }}</p>
-      <v-icon class="ml-4" :icon="tab.icon" />
+      <v-icon class="ml-2" :icon="tab.icon" />
     </v-tab>
   </v-tabs>
-  <v-window v-model="view">
+  <v-window v-model="editor.view">
     <v-window-item v-for="tab in tabs">
       <component :is="tab.component" />
     </v-window-item>
@@ -13,21 +13,21 @@
 </template>
 
 <script setup lang="ts">
-const view = ref(null);
+const editor = useCardEditorStore();
 const tabs = [
   {
     label: "General",
-    component: defineAsyncComponent(
-      () =>
-        import("~~/components/card/editor/general/CardEditorGeneralView.vue")
-    ),
-    icon: "mdi-format-list-bulleted",
+    component: resolveComponent("CardEditorGeneralView"),
+    icon: "mdi-account-outline",
+  },
+  {
+    label: "Visuals",
+    component: resolveComponent("CardEditorVisualsView"),
+    icon: "mdi-palette-outline",
   },
   {
     label: "Links",
-    component: defineAsyncComponent(
-      () => import("~~/components/card/editor/links/LinksView.vue")
-    ),
+    component: resolveComponent("LinksView"),
     icon: "mdi-link-variant",
   },
 ];

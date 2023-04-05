@@ -8,38 +8,8 @@
       />
     </template>
     <template v-else>
-      <div class="mb-3 mt-2">
-        <v-card
-          class="elevation-0 pa-2"
-          color="background"
-          max-width="290"
-          style="margin: 0 auto !important"
-        >
-          <p class="ml-6">
-            Drag each link to re-order it
-            <v-icon color="primary" class="mb-1 ml-2"
-              >mdi-information-outline</v-icon
-            >
-          </p>
-        </v-card>
-      </div>
-      <CardEditorDraggableLinks v-if="card.links" />
-
-      <div class="mb-4 mt-4g">
-        <v-card
-          class="elevation-0 pa-2"
-          color="background"
-          max-width="350"
-          style="margin: 0 auto !important"
-        >
-          <p class="ml-6">
-            Click a field below to add a new link
-            <v-icon color="primary" class="mb-1 ml-2"
-              >mdi-information-outline</v-icon
-            >
-          </p>
-        </v-card>
-      </div>
+      <CardEditorDraggableLinks v-if="card.links.length > 0" />
+      <DashNote title="Click a field below to add a new link" centered> </DashNote>
       <CardEditorLinkList
         v-for="entry in allFields"
         :title="entry.name"

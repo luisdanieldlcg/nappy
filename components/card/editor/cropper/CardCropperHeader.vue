@@ -27,9 +27,11 @@ const image = useImageEditor();
 
 const onCancel = () => {
   editor.isEditingImage = false;
+  editor.view = 1;
 };
 const onCrop = () => {
   editor.isEditingImage = false;
+  editor.view = 1;
   image.preview?.canvas?.toBlob((blob) => {
     if (!blob) return;
     switch (image.imageSlot) {

@@ -2,7 +2,9 @@
   <v-row>
     <v-col cols="1">
       <div>
-        <ColorCard :multi-color="true" @click="openColorPicker" />
+        <ColorWrapper>
+          <ColorCard :multi-color="true" @click="openColorPicker" />
+        </ColorWrapper>
       </div>
     </v-col>
     <v-col v-for="color in availableColors" cols="1">
