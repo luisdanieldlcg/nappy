@@ -18,9 +18,8 @@ export default defineNuxtConfig({
   },
   components: [
     {
-      path: "~/pages/app/overview",
-      pattern: "*/components/**",
+      path: "~/components",
+      pathPrefix: false,
     },
-    "~/components",
   ],
 });

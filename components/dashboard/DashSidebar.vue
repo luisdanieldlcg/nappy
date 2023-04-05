@@ -15,13 +15,15 @@
       active-color="grey-darken-4"
       density="compact"
     >
-      <DashSidebarItem
+      <v-list-item
+        active-class="active-item"
         v-for="entry in items"
         :prepend-icon="entry.icon"
-        :title="entry.title"
-        :to="entry.navigateTo"
         @click="entry.onClick"
-      />
+        :to="entry.navigateTo"
+      >
+        <v-list-item-title v-text="entry.title" class="text-subtitle-2" />
+      </v-list-item>
     </v-list>
     <v-btn
       :class="{

@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3 pr-10 text-center">
-    <CropperHeader />
+    <CardCropperHeader />
     <div class="cropper-wrapper mt-3">
       <v-img
         class="image-background"

@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="dashboard" :header="header">
     <template #append>
-      <ActionDone @done="createCard" />
+      <DoneAction @done="createCard" />
     </template>
     <CardEditor
       :loading="cardManager.loadTracker.creating"
@@ -32,7 +32,7 @@ const dto = reactive<Card>({
   color: Colors.greyLight,
   avatarImage: null,
   coverImage: null,
-  links: [],  
+  links: [],
 });
 const cardManager = useCardStore();
 const createCard = async () => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex justify-center">
     <v-list>
       <draggable v-model="editor.card.links" item-key="title">
         <template #item="{ element: link }">

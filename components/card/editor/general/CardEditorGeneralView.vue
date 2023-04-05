@@ -1,5 +1,5 @@
 <template>
-  <CardEditorSection title="Label this card">
+  <CardEditorFormBlock title="Label this card">
     <TextField
       label="Card Title"
       style="text-align: center"
@@ -8,8 +8,8 @@
       density="comfortable"
       variant="filled"
     />
-  </CardEditorSection>
-  <CardEditorSection title="Add your images">
+  </CardEditorFormBlock>
+  <CardEditorFormBlock title="Add your images">
     <v-row>
       <v-col
         v-for="slot in imageSlots"
@@ -26,11 +26,11 @@
         />
       </v-col>
     </v-row>
-  </CardEditorSection>
-  <CardEditorSection title="Pick your favorite theme">
+  </CardEditorFormBlock>
+  <CardEditorFormBlock title="Pick your favorite theme">
     <CardEditorColorPicker />
-  </CardEditorSection>
-  <CardEditorSection title="Add your details">
+  </CardEditorFormBlock>
+  <CardEditorFormBlock title="Add your details">
     <v-row class="mt-0" style="height: 90px">
       <v-col>
         <TextField
@@ -63,7 +63,7 @@
         />
       </v-col>
     </v-row>
-  </CardEditorSection>
+  </CardEditorFormBlock>
   <ImageDropDialog
     v-model="editorStore.imageDropDialog"
     @picked="imagePicked"

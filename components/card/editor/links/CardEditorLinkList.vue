@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { LinkData } from "../editor/LinkForm.vue";
+import { LinkData } from "./CardEditorLinkForm.vue";
 
 defineEmits<{
   (e: "field-click", field: LinkData): void;

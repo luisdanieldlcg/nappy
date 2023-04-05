@@ -1,7 +1,7 @@
 <template>
   <v-tabs v-model="view" class="mb-5">
     <v-tab v-for="(tab, i) in tabs" :value="i" class="text-capitalize">
-      <p class="font-weight-bold" style="font-size: 15px;">{{ tab.label }}</p>
+      <p class="font-weight-bold" style="font-size: 15px">{{ tab.label }}</p>
       <v-icon class="ml-4" :icon="tab.icon" />
     </v-tab>
   </v-tabs>
@@ -18,14 +18,15 @@ const tabs = [
   {
     label: "General",
     component: defineAsyncComponent(
-      () => import("~/components/card/editor/Fields.vue")
+      () =>
+        import("~~/components/card/editor/general/CardEditorGeneralView.vue")
     ),
     icon: "mdi-format-list-bulleted",
   },
   {
     label: "Links",
     component: defineAsyncComponent(
-      () => import("~~/components/card/editor/section/LinksSection.vue")
+      () => import("~~/components/card/editor/links/LinksView.vue")
     ),
     icon: "mdi-link-variant",
   },

@@ -8,10 +8,10 @@
   >
     <DividedGrid v-if="isEditingImage">
       <template #left>
-        <CropperPreview />
+        <CardCropperPreview />
       </template>
       <template #right>
-        <Cropper />
+        <CardCropper />
       </template>
     </DividedGrid>
     <DividedGrid v-else>

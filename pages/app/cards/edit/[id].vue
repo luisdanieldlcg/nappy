@@ -3,7 +3,7 @@
     <template #default>
       <NuxtLayout name="dashboard" :header="header">
         <template #append>
-          <ActionDone @done="save" />
+          <DoneAction @done="save" />
         </template>
         <CardEditor
           :card="card!"

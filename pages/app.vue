@@ -7,7 +7,6 @@
     </v-row>
   </template>
   <template v-else>
-    <!-- <DashAppbar /> -->
     <DashSidebar />
     <DashContent />
   </template>

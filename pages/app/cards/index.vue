@@ -7,7 +7,7 @@
           <v-icon icon="mdi-plus" v-bind="props" @click="goToCreateCardPage" />
         </template>
       </v-tooltip>
-      <ActionDeleteCard />
+      <DeleteAction />
     </template>
     <!--Content-->
     <v-card
@@ -38,7 +38,7 @@
             :mini="true"
           >
             <template #actions>
-              <CardMenu
+              <CardCoverMenu
                 :card="{
                   ...card,
                 }"

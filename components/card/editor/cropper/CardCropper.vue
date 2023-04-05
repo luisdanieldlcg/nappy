@@ -1,5 +1,5 @@
 <template>
-  <CropperContainer>
+  <CardCropperContainer>
     <cropper
       :src="imageEditorStore.image"
       style="position: relative"
@@ -22,14 +22,14 @@
       @change="onCropperUpdate"
     />
     <div class="btn-col">
-      <CropperButton
+      <CardCropperButton
         v-for="btn in cropperButtons"
         :icon="btn.icon"
         :tooltip="btn.tooltip"
         @click="btn.action"
       />
     </div>
-  </CropperContainer>
+  </CardCropperContainer>
 </template>
 
 <script setup lang="ts">
