@@ -34,6 +34,9 @@ const editor = useCardEditorStore();
 onMounted(() => {
   editor.setCard(props.card);
 });
+onUnmounted(() => {
+  editor.onEditorClosed();
+});
 const { isEditingImage, card, coverImagePreview, avatarImagePreview } =
   storeToRefs(editor);
 

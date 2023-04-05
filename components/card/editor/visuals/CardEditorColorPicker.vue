@@ -1,14 +1,18 @@
 <template>
-  <v-row>
-    <v-col cols="1">
-      <div>
-        <ColorWrapper>
-          <ColorCard :multi-color="true" @click="openColorPicker" />
-        </ColorWrapper>
-      </div>
+  <v-row >
+    <v-col cols="1" class="pa-0">
+      <ColorCard
+        :multi-color="true"
+        @click="openColorPicker"
+        :outline="!availableColors.includes(store.card.color)"
+      />
     </v-col>
-    <v-col v-for="color in availableColors" cols="1">
-      <ColorCard :color="color" @click="pickColor(color)" />
+    <v-col v-for="color in availableColors" cols="1" class="pa-0">
+      <ColorCard
+        :color="color"
+        @click="pickColor(color)"
+        :outline="store.card.color === color"
+      />
     </v-col>
   </v-row>
   <v-dialog v-model="showColorPicker" class="text-center">
@@ -23,6 +27,7 @@
 <script setup lang="ts">
 // I need to remove the v-dialog overlay from the color picker
 const store = useCardEditorStore();
+
 const showColorPicker = ref(false);
 const availableColors = [
   Colors.red,

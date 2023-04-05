@@ -11,9 +11,7 @@
         />
       </NuxtLayout>
     </template>
-    <template #fallback>
-      <h1>xx</h1>
-    </template>
+    <template #fallback> </template>
   </Suspense>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <DashNote title="Add your images" icon="mdi-wallpaper"/>
+  <DashNote title="Add your images" icon="mdi-wallpaper" />
   <v-row>
     <v-col
       v-for="slot in imageSlots"
@@ -16,7 +16,7 @@
       />
     </v-col>
   </v-row>
-  <DashNote title="Pick your favorite theme" icon="mdi-eyedropper-variant"/>
+  <DashNote title="Pick your favorite theme" icon="mdi-eyedropper-variant" />
   <CardEditorColorPicker />
 
   <ImageDropDialog

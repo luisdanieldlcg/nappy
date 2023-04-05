@@ -71,6 +71,11 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     avatarImagePreview.value = card.avatarImage as string;
   };
 
+  // Called when the editor is closed.
+  // This can be used to reset card editor values.
+  const onEditorClosed = () => {
+    view.value = 0;
+  };
   return {
     card,
     isEditingImage,
@@ -80,6 +85,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     createForm,
     removeCoverImage,
     setCard,
+    onEditorClosed,
     view,
   };
 });
