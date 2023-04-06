@@ -22,20 +22,21 @@ export type CardLink = SocialLink | CommunicationLink;
 export type SocialLink =
   | "instagram"
   | "twitter"
-  | "snapchat"
+  | "tiktok"
   | "linkedin"
   | "facebook";
+
 export type CommunicationLink =
   | "email"
   | "phone"
   | "whatsapp"
-  | "skype"
-  | "discord";
+  | "discord"
+  | "telegram";
 
 export const socialLinks = [
   "instagram",
   "twitter",
-  "snapchat",
+  "tiktok",
   "linkedin",
   "facebook",
 ];
@@ -43,7 +44,7 @@ export const communicationLinks = [
   "email",
   "phone",
   "whatsapp",
-  "skype",
   "discord",
+  "telegram",
 ];
 export const allLinks = [...socialLinks, ...communicationLinks];

@@ -1,15 +1,5 @@
 <template>
-  <DashNote title="Label this card" icon="mdi-account-tag-outline" />
-  <!--I want the title to be centered aligned-->
-
-  <!-- <TextField
-    class="centered-input"
-    label="Card Title"
-    hint="Enter the title for this card"
-    v-model="card.label"
-    density="comfortable"
-    variant="underlined"
-  /> -->
+  <DashNote title="Label this card" icon="solar:tag-bold-duotone" />
   <v-text-field
     class="centered-input"
     label="Card Title"
@@ -20,7 +10,7 @@
     style="text-align: center; max-width: 360px; margin: 0 auto"
   >
   </v-text-field>
-  <DashNote title="Add your details" icon="mdi-account-outline" />
+  <DashNote title="Add your details" icon="solar:clipboard-bold-duotone" />
   <v-row class="mt-0" style="height: 90px">
     <v-col>
       <TextField

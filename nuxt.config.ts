@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ["@/assets/styles.scss", "@mdi/font/css/materialdesignicons.min.css"],
+  css: ["@/assets/styles.scss"],
   build: {
     transpile: ["vuetify"],
   },
@@ -12,6 +12,7 @@ export default defineNuxtConfig({
         autoImports: ["defineStore", "storeToRefs"],
       },
     ],
+    "nuxt-icon",
   ],
   imports: {
     dirs: ["./stores"],

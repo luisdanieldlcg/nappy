@@ -22,7 +22,15 @@
         @click="entry.onClick"
         :to="entry.navigateTo"
       >
-        <v-list-item-title v-text="entry.title" class="text-subtitle-2" />
+        <template #title>
+          <v-list-item-title
+            v-text="entry.title"
+            class="ml-7 text-subtitle-2"
+          />
+        </template>
+        <template #prepend>
+          <Icon :name="entry.icon" />
+        </template>
       </v-list-item>
     </v-list>
     <v-btn
@@ -34,7 +42,7 @@
       :elevation="0"
       @click="store.sidebarCollapsed = !store.sidebarCollapsed"
     >
-      <v-icon icon="mdi-chevron-double-left" />
+      <Icon name="solar:double-alt-arrow-left-outline" size="24" />
     </v-btn>
   </v-navigation-drawer>
 </template>

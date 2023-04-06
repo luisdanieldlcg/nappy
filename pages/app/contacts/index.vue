@@ -8,7 +8,7 @@ import { DashPageHeader } from '~~/layouts/dashboard.vue';
 
 const header: DashPageHeader = {
   title: "Contacts",
-  icon: "mdi-contacts-outline",
+  icon: "typcn:contacts",
 };
 </script>
 

@@ -3,7 +3,9 @@
     <v-spacer></v-spacer>
     <v-menu>
       <template #activator="{ props }">
-        <v-btn icon="mdi-dots-vertical" v-bind="props" :ripple="false"></v-btn>
+        <v-btn v-bind="props" icon :ripple="false">
+          <Icon name="mdi:dots-vertical" />
+        </v-btn>
       </template>
       <v-list class="elevation-0 card-shadow-light rounded-lg">
         <v-list-item
@@ -13,7 +15,7 @@
         >
           <v-list-item-title>
             {{ item.title }}
-            <v-icon class="ml-3" :icon="item.icon" />
+            <Icon class="ml-3" :name="item.icon" />
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -41,18 +43,18 @@ const items: MenuItem[] = [
     title: "View",
     navigateTo: `/${props.card.id}`,
     action: "view",
-    icon: "mdi-eye",
+    icon: "solar:eye-bold-duotone",
   },
   {
     title: "Edit",
     navigateTo: `cards/edit/${props.card.id}`,
     action: "edit",
-    icon: "mdi-pencil",
+    icon: "solar:pen-2-bold-duotone",
   },
   {
     title: "Delete",
     action: "delete",
-    icon: "mdi-delete",
+    icon: "solar:trash-bin-2-bold-duotone",
   },
 ];
 

@@ -1,5 +1,9 @@
 <template>
-  <DashNote title="Drag each link to re-order it" centered></DashNote>
+  <DashNote
+    title="Drag each link to re-order it"
+    centered
+    icon="ri:drag-drop-line"
+  ></DashNote>
   <v-list class="d-flex justify-center">
     <draggable v-model="editor.card.links" item-key="title">
       <template #item="{ element: link }">

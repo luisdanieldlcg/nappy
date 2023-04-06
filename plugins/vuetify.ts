@@ -3,7 +3,7 @@ import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import { VVirtualScroll } from "vuetify/labs/VVirtualScroll";
-import { aliases, mdi } from "vuetify/iconsets/mdi";
+
 import { ThemeDefinition } from "vuetify/lib/index";
 
 const lightTheme: ThemeDefinition = {
@@ -44,13 +44,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       themes: {
         light: lightTheme,
         dark: darkTheme,
-      },
-    },
-    icons: {
-      defaultSet: "mdi",
-      aliases,
-      sets: {
-        mdi,
       },
     },
   });

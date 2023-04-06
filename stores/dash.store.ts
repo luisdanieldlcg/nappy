@@ -21,32 +21,32 @@ export interface SidebarItem {
 export const sidebarItems: SidebarItem[] = [
   {
     title: "Overview",
-    icon: "mdi-view-dashboard-outline",
+    icon: "solar-chart-linear",
     navigateTo: "/app/overview",
   },
   {
     title: "Members",
-    icon: "mdi-account-group-outline",
+    icon: "solar-users-group-rounded-outline",
     navigateTo: "/app/members",
   },
   {
     title: "Cards",
-    icon: "mdi-card-account-details-outline",
+    icon: "solar-user-id-outline",
     navigateTo: "/app/cards",
   },
   {
     title: "Contacts",
-    icon: "mdi-contacts-outline",
+    icon: "solar-book-2-outline",
     navigateTo: "/app/contacts",
   },
   {
     title: "Settings",
-    icon: "mdi-cog-outline",
+    icon: "solar-settings-linear",
     navigateTo: "/app/settings",
   },
   {
     title: "Logout",
-    icon: "mdi-logout",
+    icon: "solar-exit-outline",
     async onClick() {
       // const controller = useAuthStore();
       // const result = await controller.logOut();

@@ -10,10 +10,10 @@
             @error="failedToLoad = true"
           />
         </v-avatar>
-        <v-icon
-          icon="mdi-account-circle"
+        <Icon
+          name="solar:user-circle-bold"
           color="grey"
-          :size="innerSize + 14"
+          :size="(innerSize + 10).toString()"
           v-else
         />
       </slot>

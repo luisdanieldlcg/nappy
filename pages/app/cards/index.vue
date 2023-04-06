@@ -4,7 +4,14 @@
     <template #append>
       <v-tooltip text="Create a new Card" location="bottom">
         <template #activator="{ props }">
-          <v-icon icon="mdi-plus" v-bind="props" @click="goToCreateCardPage" />
+          <Icon
+            class="mt-1"
+            name="solar:add-circle-linear"
+            size="32"
+            v-bind="props"
+            @click="goToCreateCardPage"
+            style="cursor: pointer"
+          />
         </template>
       </v-tooltip>
       <DeleteAction />
@@ -71,7 +78,7 @@ import { useDialogStore } from "~~/stores/dialog-store";
 
 const header: DashPageHeader = {
   title: "Cards",
-  icon: "mdi-card-account-details-outline",
+  icon: "bi:person-workspace",
 };
 
 /**

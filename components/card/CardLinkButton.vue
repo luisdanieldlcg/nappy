@@ -1,6 +1,7 @@
 <template>
   <div class="text-center mb-5">
-    <v-btn :icon="icon" elevation="0" color="background" size="large" />
+    <v-btn elevation="0" :icon="icon" color="background" size="large">
+    </v-btn>
     <p style="font-size: 12px" class="mt-2">{{ label }}</p>
   </div>
 </template>

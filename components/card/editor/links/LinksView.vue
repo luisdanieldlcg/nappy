@@ -9,14 +9,18 @@
     </template>
     <template v-else>
       <CardEditorDraggableLinks v-if="card.links.length > 0" />
-      <DashNote title="Click a field below to add a new link" centered>
+      <DashNote
+        title="Click a field below to add a new link"
+        centered
+        icon="solar:link-round-angle-bold-duotone"
+      >
       </DashNote>
       <p style="font-size: 13px; font-weight: bold" class="text-center ma-2">
-        {{ "Social Links" }}
+        Social Links
       </p>
       <CardEditorLinkList :fields="socialLinks" @field-click="onFieldClick" />
       <p style="font-size: 13px; font-weight: bold" class="text-center ma-2">
-        {{ "Communication Links" }}
+        Communication Links
       </p>
       <CardEditorLinkList
         :fields="communicationLinks"

@@ -5,11 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import { DashPageHeader } from '~~/layouts/dashboard.vue';
+import { DashPageHeader } from "~~/layouts/dashboard.vue";
 
 const header: DashPageHeader = {
   title: "Settings",
-  icon: "mdi-cog-outline",
+  icon: "solar:settings-bold-duotone",
 };
 </script>
 

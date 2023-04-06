@@ -8,30 +8,39 @@
               <v-avatar
                 v-bind="props"
                 color="white"
-                :icon="'mdi-menu'"
                 size="48"
                 class="ma-4"
                 @click="store.overlapSidebar = !store.overlapSidebar"
                 style="cursor: pointer"
-              />
+              >
+                <Icon name="mdi:arrow-collapse" />
+              </v-avatar>
             </template>
             <span>Toggle Sidebar</span>
           </v-tooltip>
           <slot name="prepend" />
+          <v-app-bar-nav-icon class="bg-surface">
+            <template #default>
+              <Icon :name="header.icon" />
+            </template>
+          </v-app-bar-nav-icon>
           <v-tooltip text="Go back" location="bottom" v-if="header.canGoBack">
             <template #activator="{ props }">
               <v-avatar
+                class="ml-5"
                 v-bind="props"
-                color="transparent"
-                :icon="'mdi-arrow-left'"
-                size="48"
-                class="ma-4"
                 @click="$router.back()"
                 style="cursor: pointer"
-              />
+              >
+                <Icon
+                  name="solar:round-arrow-left-outline"
+                  color="black"
+                  size="32"
+                />
+              </v-avatar>
             </template>
           </v-tooltip>
-          <v-app-bar-nav-icon :icon="header.icon" class="bg-surface" />
+
           <p
             class="text-h5 pa-6 text-grey-subtitle font-weight-medium text-no-wrap"
           >

@@ -1,9 +1,10 @@
 <template>
   <v-tooltip text="Delete All" location="bottom">
     <template #activator="{ props }">
-      <v-icon
-        class="ml-5"
-        icon="mdi-delete-outline"
+      <Icon
+        class="ml-5 mt-1"
+        size="32"
+        name="solar:trash-bin-minimalistic-outline"
         v-bind="props"
         @click="openModal"
       />

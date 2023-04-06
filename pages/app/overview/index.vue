@@ -20,7 +20,7 @@ import InsightCard from "../../../components/InsightCard.vue";
 
 const header: DashPageHeader = {
   title: "Overview",
-  icon: "mdi-chart-line",
+  icon: "ph:chart-line-up",
 };
 const overviewInsights = [
   {

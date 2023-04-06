@@ -10,9 +10,9 @@
       color="background"
       style="margin: 0 !important"
     >
-      <p class="ml-6" style="font-size: 14px;">
+      <p class="ml-6" style="font-size: 14px">
         {{ title }}
-        <v-icon color="primary" class="mb-1 ml-2">{{ icon }}</v-icon>
+        <Icon :name="icon" class="ml-2" color="#35393b" />
       </p>
     </v-card>
   </div>

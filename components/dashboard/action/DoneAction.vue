@@ -5,11 +5,10 @@
         @click="$emit('done')"
         style="cursor: pointer"
         v-bind="props"
-        class="ml-2"
-        icon="mdi-check"
-        color="transparent"
-        size="36"
-      />
+        class="mt-1"
+      >
+        <Icon name="charm:circle-tick" size="28" color="black" />
+      </v-avatar>
     </template>
   </v-tooltip>
 </template>
