@@ -9,6 +9,7 @@ export interface ICreateCardDTO {
   avatarImage: string;
   color: string;
   links: LinkDefinition[];
+  useNativeIcons: boolean;
 }
 export interface ICardDTO extends ICreateCardDTO {}
 

@@ -33,6 +33,7 @@ const dto = reactive<Card>({
   avatarImage: null,
   coverImage: null,
   links: [],
+  useNativeIcons: false,
 });
 const cardManager = useCardStore();
 const createCard = async () => {

@@ -16,21 +16,40 @@
       />
     </v-col>
   </v-row>
-  <DashNote title="Pick your favorite theme" icon="mingcute:color-picker-fill" />
+  <DashNote
+    title="Pick your favorite theme"
+    icon="mingcute:color-picker-fill"
+  />
   <CardEditorColorPicker />
+  <v-switch
+    class="ml-5 d-inline-block"
+    color="black"
+    v-model="editorStore.card.useNativeIcons"
+  >
+    <template #label>
+      <p style="font-size: 15px" class="mr-2">Use native link icons</p>
+      <v-tooltip
+        text="Enable this option to display social links with their native styles."
+      >
+        <template #activator="{ props }">
+          <Icon name="solar:info-circle-linear" v-bind="props" />
+        </template>
+      </v-tooltip>
+    </template>
+  </v-switch>
 
   <ImageDropDialog
     v-model="editorStore.imageDropDialog"
     @picked="imagePicked"
   />
 </template>
-
 <script setup lang="ts">
 const imageEditor = useImageEditor();
 const editorStore = useCardEditorStore();
 const imagePicked = (image: string) => {
   imageEditor.onOpen(image);
 };
+
 // The image slots are the images that can be edited and appended to the card
 // in the card editor. This is the list of available slots.
 const imageSlots = reactive([

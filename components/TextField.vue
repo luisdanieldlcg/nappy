@@ -7,7 +7,11 @@
     :append-inner-icon="getInnerIcon"
     @click:append-inner="showText = !showText"
     :rules="applyRules()"
-  />
+  >
+    <template #details>
+      <slot name="details"></slot>
+    </template>
+  </v-text-field>
 </template>
 
 <script setup lang="ts">

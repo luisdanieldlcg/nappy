@@ -3,7 +3,7 @@
     <v-col v-for="entry in fields" cols="2" class="mt-5">
       <CardLinkButton
         :label="entry"
-        :icon="findIcon(entry)"
+        :icon="nativeLinksIconMap[entry]"
         @click="$emit('field-click', entry)"
       />
     </v-col>
@@ -12,16 +12,10 @@
 <v-icon icon="fas fa-plus" />
 
 <script setup lang="ts">
-import { LinkData } from "./CardEditorLinkForm.vue";
-const findIcon = (field: string) => {
-  const icon = field.toLowerCase();
-  if (icon === "tiktok") {
-    return "fa fa-tiktok";
-  }
-  return `mdi-${icon}`;
-};
+import { CardLink } from '~~/api/dtos/card.dto';
+
 defineEmits<{
-  (e: "field-click", field: LinkData): void;
+  (e: "field-click", field: CardLink): void;
 }>();
 defineProps<{
   fields: string[];

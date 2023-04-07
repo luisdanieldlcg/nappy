@@ -2,7 +2,7 @@
   <v-tabs v-model="editor.view" class="mb-5" grow>
     <v-tab v-for="(tab, i) in tabs" :value="i" class="text-capitalize">
       <p class="font-weight-bold" style="font-size: 15px">{{ tab.label }}</p>
-      <v-icon class="ml-2" :icon="tab.icon" />
+      <Icon :name="tab.icon" class="ml-3" />
     </v-tab>
   </v-tabs>
   <v-window v-model="editor.view">
@@ -18,19 +18,17 @@ const tabs = [
   {
     label: "General",
     component: resolveComponent("CardEditorGeneralView"),
-    icon: "mdi-account-outline",
+    icon: "solar:pen-new-square-linear",
   },
   {
     label: "Visuals",
     component: resolveComponent("CardEditorVisualsView"),
-    icon: "mdi-palette-outline",
+    icon: "nimbus:color-palette",
   },
   {
     label: "Links",
     component: resolveComponent("LinksView"),
-    icon: "mdi-link-variant",
+    icon: "solar:link-bold",
   },
 ];
 </script>
-
-<style scoped></style>

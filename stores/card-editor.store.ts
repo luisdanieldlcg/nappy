@@ -1,4 +1,4 @@
-import { LinkDefinition, LinkType } from "~~/api/dtos/card.dto";
+import { CardLink } from "~~/api/dtos/card.dto";
 
 export enum ImageType {
   Cover,
@@ -7,7 +7,7 @@ export enum ImageType {
 export interface LinkListTile {
   title: string;
   subtitle: string;
-  type: LinkType;
+  type: CardLink;
 }
 export type Card = {
   firstName: string;
@@ -19,6 +19,7 @@ export type Card = {
   avatarImage: Blob | string | null;
   color: string;
   links: LinkListTile[];
+  useNativeIcons: boolean;
 };
 export const useCardEditorStore = defineStore("cardEditor", () => {
   const defaultCard: Card = {
@@ -31,6 +32,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     avatarImage: null,
     color: Colors.greyLight,
     links: [],
+    useNativeIcons: false,
   };
   const coverImagePreview = ref("");
   const avatarImagePreview = ref("");
@@ -60,7 +62,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
         form.append(key, JSON.stringify(value));
         return;
       }
-      form.append(key, value);
+      form.append(key, value.toString());
     });
     return form;
   };

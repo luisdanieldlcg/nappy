@@ -1,18 +1,10 @@
 <template>
-  <Suspense>
-    <template #default>
-      <NuxtLayout name="dashboard" :header="header">
-        <template #append>
-          <DoneAction @done="save" />
-        </template>
-        <CardEditor
-          :card="card!"
-          :loading="cardStore.loadTracker.updatingById"
-        />
-      </NuxtLayout>
+  <NuxtLayout name="dashboard" :header="header">
+    <template #append>
+      <DoneAction @done="save" />
     </template>
-    <template #fallback> </template>
-  </Suspense>
+    <CardEditor :card="card!" :loading="cardStore.loadTracker.updatingById" />
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">

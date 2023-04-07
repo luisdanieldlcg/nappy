@@ -15,22 +15,14 @@
     </div>
   </v-card-text>
   <v-list v-if="!small" nav class="pa-4 ml-2">
-    <v-list-item
+    <LinkItem
       v-for="link in card.links"
       :title="link.title"
       :subtitle="link.subtitle"
-      :key="link.title"
-    >
-      <template #prepend>
-        <v-avatar :color="card.color">
-          <v-icon
-            :icon="`mdi-${link.type.toLowerCase()}`"
-            :color="iconColor"
-            class="text-invert"
-          />
-        </v-avatar>
-      </template>
-    </v-list-item>
+      :color="card.color"
+      :link="link.type"
+      :useNativeIcons="card.useNativeIcons"
+    />
   </v-list>
 </template>
 
@@ -42,22 +34,13 @@ const props = defineProps<{
   small: boolean;
 }>();
 
-// }>({
-//   card: {
-//     type: Object as PropType<Partial<ICardDTO>>,
-//     required: true,
-//   },
-//   small: {
-//     type: Boolean,
-//     default: false,
-//   },
-// });
 const iconColor = computed(() => {
   // I need to check if the card color is darker or lighter than a certain
   // threshold, and then return a black or white to make a contrast with the
   // background color.
   const color = props.card.color;
   if (!color) return;
+
   // get rgb from hex
   const rgb = parseInt(color.replace("#", ""), 16);
   const r = (rgb >> 16) & 0xff;

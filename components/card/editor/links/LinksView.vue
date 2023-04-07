@@ -2,13 +2,18 @@
   <div>
     <template v-if="selectedField !== undefined">
       <CardEditorLinkForm
-        :data="selectedField"
+        :mode="mode"
+        :link="selectedField"
         :icon="selectedField"
         @exit="selectedField = undefined"
       />
     </template>
     <template v-else>
-      <CardEditorDraggableLinks v-if="card.links.length > 0" />
+      <CardEditorDraggableLinks
+        v-if="card.links.length > 0"
+        @edit="editLink"
+        @delete="deleteLink"
+      />
       <DashNote
         title="Click a field below to add a new link"
         centered
@@ -31,57 +36,31 @@
 </template>
 
 <script setup lang="ts">
-import { allLinks, socialLinks } from "~~/api/dtos/card.dto";
-import { LinkData } from "./CardEditorLinkForm.vue";
+import { CardLink, socialLinks } from "~~/api/dtos/card.dto";
 import { communicationLinks } from "~~/api/dtos/card.dto";
+import { LinkListTile } from "~~/stores/card-editor.store";
+
 const { card } = storeToRefs(useCardEditorStore());
-const selectedField = ref<LinkData | undefined>(undefined);
-const onFieldClick = (field: LinkData) => {
-  selectedField.value = field;
+const editor = useCardEditorStore();
+const mode = ref<"edit" | "create">("create");
+
+const selectedField = ref<LinkListTile | undefined>();
+
+const onFieldClick = (field: CardLink) => {
+  selectedField.value = {
+    title: "",
+    subtitle: "",
+    type: field,
+  };
+  mode.value = "create";
 };
 
-// const socialFields: LinkData[] = [
-//   {
-//     label: "Facebook",
-//     icon: "mdi-facebook",
-//     type: LinkType.Facebook,
-//   },
-//   {
-//     label: "Twitter",
-//     icon: "mdi-twitter",
-//     type: LinkType.Twitter,
-//   },
-//   {
-//     label: "Instagram",
-//     icon: "mdi-instagram",
-//     type: LinkType.Instagram,
-//   },
-//   {
-//     label: "LinkedIn",
-//     icon: "mdi-linkedin",
-//     type: LinkType.LinkedIn,
-//   },
-//   {
-//     label: "YouTube",
-//     icon: "mdi-youtube",
-//     type: LinkType.YouTube,
-//   },
-// ];
-// const communicationFields: LinkData[] = [
-//   {
-//     label: "Email",
-//     icon: "mdi-email",
-//     type: LinkType.Email,
-//   },
-// ];
-// const allFields = [
-//   {
-//     name: "Social",
-//     fields: socialFields,
-//   },
-//   {
-//     name: "Communication",
-//     fields: communicationFields,
-//   },
-// ];
+const editLink = (link: LinkListTile) => {
+  selectedField.value = link;
+  mode.value = "edit";
+};
+
+const deleteLink = (link: LinkListTile) => {
+  editor.card.links = editor.card.links.filter((l) => l.title !== link.title);
+};
 </script>

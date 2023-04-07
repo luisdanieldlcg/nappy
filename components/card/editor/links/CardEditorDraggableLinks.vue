@@ -7,12 +7,39 @@
   <v-list class="d-flex justify-center">
     <draggable v-model="editor.card.links" item-key="title">
       <template #item="{ element: link }">
-        <v-list-item :title="link.title" :subtitle="link.subtitle">
+        <v-list-item>
+          <template #title>
+            <v-list-item-title
+              style="font-size: 15px"
+              v-text="link.title"
+              class="text-capitalize"
+            />
+          </template>
+          <template #subtitle>
+            <v-list-item-subtitle
+              style="font-size: 13px"
+              v-text="link.subtitle"
+              class="text-capitalize"
+            />
+          </template>
+
           <template #prepend>
-            <v-btn
-              :icon="`mdi-${link.type.toLowerCase()}`"
-              class="elevation-0 mr-4"
-              color="background"
+            <v-btn icon color="background" class="elevation-0 mr-4">
+              <Icon :name="nativeLinksIconMap[link.type]" />
+            </v-btn>
+          </template>
+          <template #append>
+            <Icon
+              name="solar:pen-2-bold"
+              class="ml-5"
+              @click="$emit('edit', link)"
+              style="cursor: pointer"
+            />
+            <Icon
+              name="solar:trash-bin-trash-bold-duotone"
+              class="ml-5"
+              @click="$emit('delete', link)"
+              style="cursor: pointer"
             />
           </template>
         </v-list-item>
@@ -23,7 +50,12 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+import { LinkListTile } from "~~/stores/card-editor.store";
 
+defineEmits<{
+  (e: "edit", link: LinkListTile): void;
+  (e: "delete", link: LinkListTile): void;
+}>();
 const editor = useCardEditorStore();
 </script>
 
