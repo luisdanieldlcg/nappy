@@ -3,7 +3,7 @@
     <v-divider thickness="4" color="black"></v-divider>
     <v-list-item :subtitle="optionalLabel">
       <template #title>
-        <v-list-item-title v-text="title" class="text-capitalize" />
+        <v-list-item-title v-text="displayTitleText" class="text-capitalize" />
       </template>
       <template #subtitle>
         <v-list-item-subtitle v-text="optionalLabel" class="text-capitalize" />
@@ -37,13 +37,15 @@
     </TextField>
 
     <vue-tel-input
-      v-model="phone"
+      v-model="title"
       v-bind="phoneInputOpts"
       class="mt-5"
       @country-changed="countrySelected"
       v-if="link.type === 'phone'"
     />
-    <p class="font-italic text-grey-darken-3">{{ httpLink }}</p>
+    <p class="font-italic text-grey-darken-3 ml-1 mt-1" style="font-size: 14px">
+      {{ httpLink }}
+    </p>
 
     <TextField
       v-model="optionalLabel"
@@ -98,12 +100,19 @@ const props = defineProps<{
 // Refer to:
 // https://stackoverflow.com/questions/75056086/how-can-i-bind-saved-phone-number-to-vue-tel-input-for-the-purpose-of-editing
 // for editing.
-const phone = ref(undefined);
 const countryCode = ref(undefined);
 
 const countrySelected = (val: any) => {
   countryCode.value = val.dialCode;
 };
+
+const formattedPhoneNumber = computed(() => {
+  return `tel: +${countryCode.value} ${title.value}`;
+});
+
+const displayTitleText = computed(() => {
+  return props.link.type === "phone" ? formattedPhoneNumber.value : title;
+});
 
 const phoneInputOpts = {
   defaultCountry: "DO",
@@ -112,7 +121,7 @@ const phoneInputOpts = {
 };
 const httpLink = computed(() => {
   if (props.link.type === "phone") {
-    return `tel:${countryCode.value}${phone.value}`;
+    return formattedPhoneNumber.value;
   }
   return httpLinkMap[props.link.type] + title.value.toLocaleLowerCase();
 });
