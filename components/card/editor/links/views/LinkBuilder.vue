@@ -3,7 +3,11 @@
     <v-divider thickness="4" color="black"></v-divider>
     <LinkItem :link="link" color="black" :use-native-icons="true" />
     <v-divider thickness="4" color="black"></v-divider>
-    <slot name="content" />
+    <slot
+      name="content"
+      :link="editor.card.links.at(-1)"
+      :updateTitle="updateTitle"
+    />
     <TextField
       @input="(e) => updateLabel(e.target.value)"
       v-model="label"
@@ -31,7 +35,10 @@
     <v-divider thickness="3" class="mt-4"></v-divider>
     <v-row class="mt-3 mb-3">
       <v-col cols="6">
-        <v-btn class="elevation-0 mr-3 text-capitalize" variant="outlined"
+        <v-btn
+          @click="onCancel"
+          class="elevation-0 mr-3 text-capitalize"
+          variant="outlined"
           >Cancel</v-btn
         >
         <v-btn class="bg-black elevation-0 text-capitalize" type="submit"
@@ -45,7 +52,7 @@
 <script setup lang="ts">
 import { LinkDTO } from "~~/api/dtos/card.dto";
 
-const emit = defineEmits(["save"]);
+const emit = defineEmits(["save", "cancel"]);
 const props = defineProps({
   link: {
     type: Object as PropType<LinkDTO>,
@@ -59,15 +66,35 @@ const props = defineProps({
 const editor = useCardEditorStore();
 const form = ref<HTMLFormElement | null>(null);
 const label = ref("");
+const links = reactive(editor.card.links);
+const title = ref("");
 
+const updateTitle = (newVal: string) => {
+  title.value = newVal;
+  editor.card.links[links.length - 1].title = title.value;
+};
 onMounted(() => {
   if (props.mode === "create") {
+    // Prevent creating a link if the previous one is empty
+    // In development mode, hot reload will cause this to be called multiple times
+    if (links.length > 0) {
+      // If the last link is empty, don't create a new one
+      if (links[links.length - 1].title === "") {
+        return;
+      }
+    }
+    // Create a new link if the previous one is not empty or there are not links
     editor.card.links.push({
       type: props.link.type,
       title: "",
       subtitle: "",
       id: "",
     });
+  }
+
+  if (props.mode === "edit") {
+    label.value = props.link.subtitle;
+    updateTitle(props.link.title);
   }
 });
 
@@ -80,6 +107,14 @@ const updateLabel = (update: string) => {
       label.value;
   }
 };
+
+const onCancel = () => {
+  if (props.mode === "create") {
+    editor.card.links.pop();
+  }
+  emit("cancel");
+};
+
 const onSave = () => {
   if (props.mode === "create") {
     // Add some sort of id here to make it easier to edit
@@ -93,7 +128,7 @@ const onSave = () => {
 const generateId = () => {
   return (
     props.link.type +
-    ":" + 
+    ":" +
     Math.random().toString(36) +
     ":" +
     label.value +

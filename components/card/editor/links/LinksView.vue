@@ -2,7 +2,8 @@
   <div>
     <template v-if="selectedField !== undefined">
       <component
-        @save="selectedField = undefined"
+        @save="quitEditor"
+        @cancel="quitEditor"
         :is="selectedField.type === 'phone' ? phoneView : genericView"
         :link="selectedField"
         :mode="mode"
@@ -56,6 +57,9 @@ const onFieldClick = (field: CardLink) => {
   mode.value = "create";
 };
 
+const quitEditor = () => {
+  selectedField.value = undefined;
+};
 const editLink = (link: LinkDTO) => {
   selectedField.value = link;
   mode.value = "edit";

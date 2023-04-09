@@ -33,8 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { LinkDTO } from '~~/api/dtos/card.dto';
-
+import { LinkDTO } from "~~/api/dtos/card.dto";
 
 const props = defineProps<{
   link: LinkDTO;
@@ -46,9 +45,7 @@ const iconSize = computed(() => {
   return props.useNativeIcons ? 30 : 24;
 });
 const additionalMargin = computed(() => {
-  return {
-    "mb-1": props.useNativeIcons,
-  };
+  return {};
 });
 const iconColor = computed(() => {
   // We need to check if the card color is darker or lighter than a certain
