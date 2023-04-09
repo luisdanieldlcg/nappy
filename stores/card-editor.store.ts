@@ -1,13 +1,8 @@
-import { CardLink } from "~~/api/dtos/card.dto";
+import { CardLink, LinkDTO } from "~~/api/dtos/card.dto";
 
 export enum ImageType {
   Cover,
   Avatar,
-}
-export interface LinkListTile {
-  title: string;
-  subtitle: string;
-  type: CardLink;
 }
 export type Card = {
   firstName: string;
@@ -18,7 +13,7 @@ export type Card = {
   coverImage: Blob | string | null;
   avatarImage: Blob | string | null;
   color: string;
-  links: LinkListTile[];
+  links: LinkDTO[];
   useNativeIcons: boolean;
 };
 export const useCardEditorStore = defineStore("cardEditor", () => {

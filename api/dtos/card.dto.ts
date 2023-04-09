@@ -1,4 +1,4 @@
-export interface ICreateCardDTO {
+export interface CardDTO {
   id: string;
   label: string;
   firstName: string;
@@ -8,12 +8,11 @@ export interface ICreateCardDTO {
   coverImage: string;
   avatarImage: string;
   color: string;
-  links: LinkDefinition[];
+  links: LinkDTO[];
   useNativeIcons: boolean;
 }
-export interface ICardDTO extends ICreateCardDTO {}
-
-export interface LinkDefinition {
+export interface LinkDTO {
+  id: string;
   title: string;
   subtitle: string;
   type: CardLink;

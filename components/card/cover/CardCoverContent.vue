@@ -17,10 +17,8 @@
   <v-list v-if="!small" nav class="pa-4 ml-2">
     <LinkItem
       v-for="link in card.links"
-      :title="link.title"
-      :subtitle="link.subtitle"
+      :link="link"
       :color="card.color"
-      :link="link.type"
       :useNativeIcons="card.useNativeIcons"
     />
   </v-list>
@@ -30,26 +28,10 @@
 import { Card } from "~~/stores/card-editor.store";
 
 const props = defineProps<{
-  card: Partial<Card>;
+  card: Card;
   small: boolean;
 }>();
 
-const iconColor = computed(() => {
-  // I need to check if the card color is darker or lighter than a certain
-  // threshold, and then return a black or white to make a contrast with the
-  // background color.
-  const color = props.card.color;
-  if (!color) return;
-
-  // get rgb from hex
-  const rgb = parseInt(color.replace("#", ""), 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = (rgb >> 0) & 0xff;
-  // calculate luminance
-  const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return luma > 128 ? "black" : "white";
-});
 const classes = computed(() => {
   return {
     "text-truncate": props.small,

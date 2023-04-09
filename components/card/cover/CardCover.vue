@@ -24,18 +24,24 @@
 </template>
 
 <script setup lang="ts">
-import { ICardDTO } from "~~/api/dtos/card.dto";
+import { LinkDTO } from '~~/api/dtos/card.dto';
 
-const props = defineProps({
-  card: {
-    type: Object as PropType<Partial<ICardDTO>>,
-    required: true,
-  },
-  mini: {
-    type: Boolean,
-    default: false,
-  },
-});
+type CardPreview = {
+  color: string;
+  firstName: string;
+  lastName: string;
+  coverImage: string;
+  avatarImage: string;
+  label: string;
+  jobTitle: string;
+  company: string;
+  links: LinkDTO[];
+  useNativeIcons: boolean;
+};
+const props = defineProps<{
+  card: CardPreview;
+  mini: boolean;
+}>();
 
 const containerSize = computed(() => {
   return {

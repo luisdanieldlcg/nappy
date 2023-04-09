@@ -1,19 +1,7 @@
-<template>
+<!-- <template>
   <v-form ref="form" @submit.prevent="trySave">
     <v-divider thickness="4" color="black"></v-divider>
-    <v-list-item :subtitle="optionalLabel">
-      <template #title>
-        <v-list-item-title v-text="displayTitleText" class="text-capitalize" />
-      </template>
-      <template #subtitle>
-        <v-list-item-subtitle v-text="optionalLabel" class="text-capitalize" />
-      </template>
-      <template #prepend>
-        <v-btn elevation="0" icon color="background" class="mr-4">
-          <Icon :name="nativeLinksIconMap[link.type]" />
-        </v-btn>
-      </template>
-    </v-list-item>
+    <LinkItem :link="linkReference" color="black" :use-native-icons="true" />
     <v-divider thickness="4" color="black"></v-divider>
     <TextField
       v-if="link.type !== 'phone'"
@@ -25,7 +13,6 @@
     >
       <template #details>
         <Icon name="ph:link-simple-bold" size="15" class="mr-2" />
-        <!--Open link-->
         <nuxt-link
           :to="httpLink"
           target="_blank"
@@ -40,78 +27,74 @@
       v-model="title"
       v-bind="phoneInputOpts"
       class="mt-5"
+      @input="onTitleChange"
       @country-changed="countrySelected"
       v-if="link.type === 'phone'"
     />
-    <p class="font-italic text-grey-darken-3 ml-1 mt-1" style="font-size: 14px">
+    <p
+      class="font-italic text-grey-darken-3 ml-1 mt-1"
+      style="font-size: 14px"
+      v-if="link.type === 'phone'"
+    >
       {{ httpLink }}
     </p>
-
-    <TextField
-      v-model="optionalLabel"
-      variant="underlined"
-      label="Label (optional)"
-      @input="onOptionalLabelChange"
-      hint="This is optional, but it helps you remember what this link is for."
+    <v-switch
+      v-if="link.type === 'phone'"
+      v-model="internationalNumber"
+      color="primary"
+      label="Use International phone number"
+      hide-details
     />
-
-    <p class="font-italic mt-4">Here are some suggestions for your label:</p>
-    <div style="max-width: 400px">
-      <v-row class="mt-1">
-        <v-col v-for="suggestion in suggestionsMap[link.type]" cols="4">
-          <v-btn
-            max-width="130"
-            min-width="100"
-            class="elevation-0 text-capitalize"
-            variant="outlined"
-            rounded
-            @click="setSuggestion(suggestion)"
-          >
-            <p>{{ suggestion }}</p>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </div>
-    <v-divider thickness="3" class="mt-4"></v-divider>
-    <v-row class="mt-3 mb-3">
-      <v-col cols="6">
-        <v-btn
-          class="elevation-0 mr-3 text-capitalize"
-          @click="onCancel"
-          variant="outlined"
-          >Cancel</v-btn
-        >
-        <v-btn class="bg-black elevation-0 text-capitalize" type="submit"
-          >Save</v-btn
-        >
-      </v-col>
-    </v-row>
   </v-form>
-</template>
+</template> -->
 
+<template></template>
 <script setup lang="ts">
-import { LinkListTile } from "~~/stores/card-editor.store";
+import { LinkDTO } from "~~/api/dtos/card.dto";
 
-const emit = defineEmits(["exit"]);
 const props = defineProps<{
-  link: LinkListTile;
+  link: LinkDTO;
   mode: "edit" | "create";
 }>();
+const emit = defineEmits(["exit"]);
+const editor = useCardEditorStore();
+const title = ref("");
+
 // Refer to:
 // https://stackoverflow.com/questions/75056086/how-can-i-bind-saved-phone-number-to-vue-tel-input-for-the-purpose-of-editing
 // for editing.
 const countryCode = ref(undefined);
+const form = ref<HTMLFormElement | null>(null);
+const internationalNumber = ref(true);
+// Reference to the link that is currently being edited
+const linkReference = ref({
+  title: "",
+  subtitle: "",
+  type: props.link.type,
+  id: "",
+});
+
+onMounted(() => {
+  if (props.mode === "create") {
+    editor.card.links.push(linkReference.value); // push empty link
+  }
+  if (props.mode === "edit") {
+    title.value = props.link.title;
+    // optionalLabel.value = props.link.subtitle;
+  }
+});
 
 const countrySelected = (val: any) => {
   countryCode.value = val.dialCode;
+  linkReference.value.title = formattedPhoneNumber.value;
 };
 
 const formattedPhoneNumber = computed(() => {
-  return `tel: +${countryCode.value} ${title.value}`;
+  return `+${countryCode.value} ${title.value}`;
 });
 
 const displayTitleText = computed(() => {
-  return props.link.type === "phone" ? formattedPhoneNumber.value : title;
+  return props.link.type === "phone" ? formattedPhoneNumber.value : title.value;
 });
 
 const phoneInputOpts = {
@@ -121,57 +104,25 @@ const phoneInputOpts = {
 };
 const httpLink = computed(() => {
   if (props.link.type === "phone") {
-    return formattedPhoneNumber.value;
+    return `tel: ${formattedPhoneNumber.value}`;
   }
   return httpLinkMap[props.link.type] + title.value.toLocaleLowerCase();
 });
-onMounted(() => {
-  if (props.mode === "create") {
-    editor.card.links.push({
-      title: "",
-      subtitle: "",
-      type: props.link.type,
-    });
-  }
-  if (props.mode === "edit") {
-    title.value = props.link.title;
-    optionalLabel.value = props.link.subtitle;
-  }
-});
 
-const editor = useCardEditorStore();
-const title = ref("");
-const optionalLabel = ref("");
-
-// Suggestions for the optional label
-const suggestionsMap: { [key: string]: string[] } = {
-  instagram: ["personal", "business", "entertainment", "news"],
-  twitter: ["politics", "sports", "business", "personal"],
-  tiktok: ["dance", "comedy", "education", "entertainment"],
-  linkedin: ["professional", "networking", "recruiter"],
-  facebook: ["personal", "family", "friends", "business"],
-  email: ["personal", "work", "business", "newsletter"],
-  phone: ["personal", "work", "business", "Emergency"],
-  whatsapp: ["personal", "work", "group chat", "urgent"],
-  discord: ["community", "gaming", "study group", "friends"],
-  telegram: ["personal", "work", "group chat", "business"],
-};
-
-// Reference to the link that is currently being edited
-const linkReference = computed(() => {
-  return editor.card.links[editor.card.links.length - 1];
-});
-
-const onOptionalLabelChange = (value: string) => {
-  linkReference.value.subtitle = optionalLabel.value;
+const onLabelChange = (value: string) => {
+  // linkReference.value.subtitle = optionalLabel.value;
 };
 
 const onTitleChange = (value: string) => {
-  linkReference.value.title = title.value;
+  if (props.link.type === "phone") {
+    linkReference.value.title = formattedPhoneNumber.value;
+  } else {
+    linkReference.value.title = title.value;
+  }
 };
 
 const setSuggestion = (suggestion: string) => {
-  optionalLabel.value = suggestion;
+  // optionalLabel.value = suggestion;
   linkReference.value.subtitle = suggestion;
 };
 
@@ -196,7 +147,4 @@ const onCancel = () => {
   }
   emit("exit");
 };
-const form = ref<HTMLFormElement | null>(null);
 </script>
-
-<style scoped></style>

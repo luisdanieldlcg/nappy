@@ -33,17 +33,7 @@
           v-for="card in cardStore.cards"
           :key="card.id"
         >
-          <CardCover
-            :card="{
-              label: card.label,
-              firstName: card.firstName,
-              lastName: card.lastName,
-              color: card.color,
-              coverImage: card.coverImage,
-              avatarImage: card.avatarImage,
-            }"
-            :mini="true"
-          >
+          <CardCover :card="card" :mini="true">
             <template #actions>
               <CardCoverMenu
                 :card="{
@@ -71,7 +61,7 @@
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify/lib/framework.mjs";
-import { ICardDTO } from "~~/api/dtos/card.dto";
+import { CardDTO } from "~~/api/dtos/card.dto";
 import { DashPageHeader } from "~~/layouts/dashboard.vue";
 import { useCardStore } from "~~/stores/card.store";
 import { useDialogStore } from "~~/stores/dialog-store";
@@ -107,11 +97,11 @@ const maxWidth = computed(() => {
 // The confirm dialog has no idea of which card do we want to delete.
 // Another solution would be to move the dialog to the v-for block but that could cause
 // performance issues because it would create a new instance per card.
-const activeCard = ref<ICardDTO | null>(null);
+const activeCard = ref<CardDTO | null>(null);
 const cardStore = useCardStore();
 const dialogHandler = useDialogStore();
 
-const selectCard = (card: ICardDTO) => {
+const selectCard = (card: CardDTO) => {
   activeCard.value = card;
 };
 

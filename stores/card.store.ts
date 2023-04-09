@@ -1,5 +1,5 @@
 import { Maybe } from "true-myth";
-import { ICardDTO } from "~~/api/dtos/card.dto";
+import { CardDTO } from "~~/api/dtos/card.dto";
 
 /**
  * CardStore definition for passing around functions
@@ -8,12 +8,12 @@ export interface CardStore {
   create: (form: FormData) => Promise<void>;
   fetchAll: () => Promise<void>;
   deleteById: (id: string) => Promise<void>;
-  getById: (id: string) => Maybe<ICardDTO>;
-  updateById: (card: ICardDTO, form: FormData) => Promise<void>;
+  getById: (id: string) => Maybe<CardDTO>;
+  updateById: (card: CardDTO, form: FormData) => Promise<void>;
 }
 
 export const useCardStore = defineStore("user", () => {
-  const cards: ICardDTO[] = reactive([]);
+  const cards: CardDTO[] = reactive([]);
   const cardModule = useNuxtApp().$api.card;
 
   onMounted(async () => {
@@ -73,7 +73,7 @@ export const useCardStore = defineStore("user", () => {
     }
   };
 
-  const getById = (id: string): ICardDTO | undefined => {
+  const getById = (id: string): CardDTO | undefined => {
     const result = cards.find((dto) => dto.id === id);
     return result;
   };
@@ -100,7 +100,6 @@ export const useCardStore = defineStore("user", () => {
       }
     }
   };
-
 
   return {
     cards,

@@ -24,13 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { ICardDTO } from "~~/api/dtos/card.dto";
+import { CardDTO } from '~~/api/dtos/card.dto';
+
 const emit = defineEmits<{
-  (e: "menuClicked", card: ICardDTO): void;
+  (e: "menuClicked", card: CardDTO): void;
 }>();
 
 const props = defineProps<{
-  card: ICardDTO;
+  card: CardDTO;
 }>();
 interface MenuItem {
   title: string;

@@ -50,11 +50,11 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
-import { LinkListTile } from "~~/stores/card-editor.store";
+import { LinkDTO } from "~~/api/dtos/card.dto";
 
 defineEmits<{
-  (e: "edit", link: LinkListTile): void;
-  (e: "delete", link: LinkListTile): void;
+  (e: "edit", link: LinkDTO): void;
+  (e: "delete", link: LinkDTO): void;
 }>();
 const editor = useCardEditorStore();
 </script>
