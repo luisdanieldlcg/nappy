@@ -2,11 +2,7 @@
   <v-dialog class="text-center" :max-width="700">
     <v-card class="pa-10 font-weight-bold" elevation="0" :loading="loading">
       <div class="mb-2">
-        <v-icon
-          icon="mdi-alert-circle-outline"
-          color="grey-subtitle"
-          size="40"
-        ></v-icon>
+        <Icon name="mdi-alert-circle-outline" color="grey-subtitle" size="40" />
       </div>
       <p class="text-grey-subtitle text-h6 font-weight-bold">
         {{ title }}

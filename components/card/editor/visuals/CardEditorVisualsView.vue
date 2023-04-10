@@ -29,6 +29,7 @@
     <template #label>
       <p style="font-size: 15px" class="mr-2">Use native link icons</p>
       <v-tooltip
+      location="bottom"
         text="Enable this option to display social links with their native styles."
       >
         <template #activator="{ props }">

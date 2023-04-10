@@ -55,7 +55,7 @@ const stencilComponent = computed(() => {
 // TODO: bind this to the card width and height
 const aspectRatio = computed(() => {
   if (imageEditorStore.imageSlot === ImageType.Cover) {
-    return 300 / 160;
+    return 320 / 160;
   } else {
     return 1;
   }

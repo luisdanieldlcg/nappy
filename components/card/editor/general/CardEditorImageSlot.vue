@@ -27,7 +27,7 @@
               icon
               @click="editImageHandler"
             >
-              <v-icon size="16" icon="mdi-pencil" color="white" />
+              <Icon name="mdi-pencil" size="16" />
             </v-btn>
             <v-btn
               variant="outlined"
@@ -36,7 +36,7 @@
               icon
               @click="removeImageHandler"
             >
-              <v-icon size="16" icon="mdi-trash-can-outline" color="white" />
+              <Icon name="mdi-trash-can-outline" size="16" />
             </v-btn>
           </v-row>
           <v-row>

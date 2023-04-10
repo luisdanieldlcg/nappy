@@ -3,7 +3,7 @@
     <template #activator="{ props }">
       <div v-bind="props">
         <v-btn class="square-btn" size="42" v-bind="$attrs">
-          <v-icon color="white" :icon="icon" />
+          <Icon  color="white" :name="icon" />
         </v-btn>
       </div>
     </template>

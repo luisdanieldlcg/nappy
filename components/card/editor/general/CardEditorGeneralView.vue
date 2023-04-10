@@ -40,7 +40,6 @@
 
 <script setup lang="ts">
 import { useCardEditorStore } from "~~/stores/card-editor.store";
-const phone = ref("");
 const { card } = storeToRefs(useCardEditorStore());
 </script>
 <style lang="scss">

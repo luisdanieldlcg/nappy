@@ -10,7 +10,7 @@
     <template #subtitle>
       <v-list-item-subtitle
         style="font-size: 13px"
-        v-text="link.subtitle"
+        v-text="subtitleDisplay"
         class="text-capitalize"
       />
     </template>
@@ -40,6 +40,13 @@ const props = defineProps<{
   color: string;
   useNativeIcons: boolean;
 }>();
+
+const subtitleDisplay = computed(() => {
+  return (
+    props.link.subtitle.charAt(0).toUpperCase() +
+    props.link.subtitle.slice(1).toLowerCase()
+  );
+});
 
 const iconSize = computed(() => {
   return props.useNativeIcons ? 30 : 24;

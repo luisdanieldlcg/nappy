@@ -45,7 +45,7 @@ const props = defineProps<{
 
 const containerSize = computed(() => {
   return {
-    width: props.mini ? 240 : 300,
+    width: props.mini ? 240 : 320,
     height: props.mini ? 280 : 400,
   };
 });

@@ -25,8 +25,8 @@ const editorStore = useCardEditorStore();
 
 const dto = reactive<Card>({
   label: "Work",
-  firstName: "Luis",
-  lastName: "de la Cruz",
+  firstName: "Daniel",
+  lastName: "dlc",
   jobTitle: "",
   company: "",
   color: Colors.greyLight,

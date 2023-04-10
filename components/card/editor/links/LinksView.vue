@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="selectedField !== undefined">
-      <component
+      <LinkBuilder
         @save="quitEditor"
         @cancel="quitEditor"
         :is="selectedField.type === 'phone' ? phoneView : genericView"

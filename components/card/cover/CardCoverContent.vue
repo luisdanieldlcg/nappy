@@ -10,8 +10,10 @@
       <h1 :class="classes" v-else style="line-height: 32px">
         {{ fullName }}
       </h1>
-      <p v-if="card.jobTitle" class="text-h6 mt-2">{{ card.jobTitle }}</p>
-      <p v-if="card.company" class="text-h6">{{ card.company }}</p>
+      <template v-if="!small">
+        <p v-if="card.jobTitle" class="text-h6 mt-2">{{ card.jobTitle }}</p>
+        <p v-if="card.company" class="text-h6">{{ card.company }}</p>
+      </template>
     </div>
   </v-card-text>
   <v-list v-if="!small" nav class="pa-4 ml-2">

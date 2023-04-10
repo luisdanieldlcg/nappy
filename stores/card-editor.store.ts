@@ -49,15 +49,11 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const createForm = () => {
     const form = new FormData();
     Object.entries(card).forEach(([key, value]) => {
-      if (!value) {
-        form.append(key, "");
-        return;
-      }
       if (Array.isArray(value)) {
         form.append(key, JSON.stringify(value));
         return;
       }
-      form.append(key, value.toString());
+      form.append(key, value as string | Blob);
     });
     return form;
   };

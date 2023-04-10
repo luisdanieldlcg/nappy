@@ -2,7 +2,7 @@
   <CardCover :card="cardObj" :mini="false">
     <template #header v-if="imageSlot === ImageType.Cover">
       <Preview
-        :width="300"
+        :width="320"
         :height="160"
         :image="preview?.image"
         :coordinates="preview?.coordinates"

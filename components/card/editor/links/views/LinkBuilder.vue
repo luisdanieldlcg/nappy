@@ -3,10 +3,11 @@
     <v-divider thickness="4" color="black"></v-divider>
     <LinkItem :link="link" color="black" :use-native-icons="true" />
     <v-divider thickness="4" color="black"></v-divider>
-    <slot
-      name="content"
-      :link="editor.card.links.at(-1)"
-      :updateTitle="updateTitle"
+    <TextField
+      @input="(e) => updateTitle(e.target.value)"
+      v-model="title"
+      variant="underlined"
+      label="Username / URL"
     />
     <TextField
       @input="(e) => updateLabel(e.target.value)"
@@ -25,7 +26,7 @@
             class="elevation-0 text-capitalize"
             variant="outlined"
             rounded
-            @click="updateLabel(suggestion)"
+            @click="updateLabel(capitalizeSuggestion(suggestion))"
           >
             <p>{{ suggestion }}</p>
           </v-btn>
@@ -71,7 +72,7 @@ const title = ref("");
 
 const updateTitle = (newVal: string) => {
   title.value = newVal;
-  editor.card.links[links.length - 1].title = title.value;
+  editor.card.links[links.length - 1].title = newVal;
 };
 onMounted(() => {
   if (props.mode === "create") {
@@ -99,7 +100,7 @@ onMounted(() => {
 });
 
 const updateLabel = (update: string) => {
-  label.value = update.charAt(0).toUpperCase() + update.slice(1);
+  label.value = update;
   if (props.mode === "create") {
     editor.card.links[editor.card.links.length - 1].subtitle = label.value;
   } else {
@@ -160,5 +161,9 @@ const suggestionsMap: { [key: string]: string[] } = {
   whatsapp: ["personal", "work", "group chat", "urgent"],
   discord: ["community", "gaming", "study group", "friends"],
   telegram: ["personal", "work", "group chat", "business"],
+};
+
+const capitalizeSuggestion = (suggestion: string) => {
+  return suggestion.charAt(0).toUpperCase() + suggestion.slice(1);
 };
 </script>
