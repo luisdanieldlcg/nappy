@@ -8,6 +8,7 @@
       v-model="title"
       variant="underlined"
       label="Username / URL"
+      type="not-empty"
     />
     <TextField
       @input="(e) => updateLabel(e.target.value)"
