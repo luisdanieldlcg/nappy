@@ -3,7 +3,7 @@
     <v-col v-for="entry in fields" cols="2" class="mt-5">
       <CardLinkButton
         :label="entry"
-        :icon="nativeLinksIconMap[entry]"
+        :icon="httpLinks[entry].nativeIcon"
         @click="$emit('field-click', entry)"
       />
     </v-col>
@@ -12,7 +12,7 @@
 <v-icon icon="fas fa-plus" />
 
 <script setup lang="ts">
-import { CardLink } from '~~/api/dtos/card.dto';
+import { CardLink } from "~~/api/dtos/card.dto";
 
 defineEmits<{
   (e: "field-click", field: CardLink): void;

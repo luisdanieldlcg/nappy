@@ -15,7 +15,7 @@ export interface CardStore {
 export const useCardStore = defineStore("user", () => {
   const cards: CardDTO[] = reactive([]);
   const cardModule = useNuxtApp().$api.card;
-
+  
   onMounted(async () => {
     await getAll();
   });

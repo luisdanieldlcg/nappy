@@ -7,7 +7,7 @@
       @input="(e) => updateTitle(e.target.value)"
       v-model="title"
       variant="underlined"
-      label="Username / URL"
+      :label="httpLinks[link.type].label"
       type="not-empty"
     />
     <TextField

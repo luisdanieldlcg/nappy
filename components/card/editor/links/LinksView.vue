@@ -4,7 +4,6 @@
       <LinkBuilder
         @save="quitEditor"
         @cancel="quitEditor"
-        :is="selectedField.type === 'phone' ? phoneView : genericView"
         :link="selectedField"
         :mode="mode"
       />
@@ -42,7 +41,6 @@ import { communicationLinks } from "~~/api/dtos/card.dto";
 
 const editor = useCardEditorStore();
 const { card } = storeToRefs(editor);
-const genericView = resolveComponent("GenericLinkBuilder");
 const phoneView = resolveComponent("PhoneLinkBuilder");
 const selectedField = ref<LinkDTO | undefined>();
 const mode = ref<"edit" | "create">("create");

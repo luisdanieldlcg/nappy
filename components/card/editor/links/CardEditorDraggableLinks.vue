@@ -25,7 +25,7 @@
 
           <template #prepend>
             <v-btn icon color="background" class="elevation-0 mr-4">
-              <Icon :name="nativeLinksIconMap[link.type]" />
+              <Icon :name="httpLinks[link.type].nativeIcon" />
             </v-btn>
           </template>
           <template #append>

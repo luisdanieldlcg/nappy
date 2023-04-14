@@ -23,8 +23,8 @@
           :color="iconColor"
           :name="
             useNativeIcons
-              ? nativeLinksIconMap[link.type]
-              : customLinksIconMap[link.type]
+              ? httpLinks[link.type].nativeIcon
+              : httpLinks[link.type].customIcon
           "
         />
       </v-avatar>
