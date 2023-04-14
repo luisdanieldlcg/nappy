@@ -61,8 +61,9 @@ export const useCardStore = defineStore("user", () => {
     if (result.isOk) {
       const newArray = cards.filter((entry) => entry.id !== id);
       cards.splice(0, cards.length, ...newArray);
-    }
+    } 
   };
+
 
   const deleteAll = async () => {
     loadTracker.deletingById = true;

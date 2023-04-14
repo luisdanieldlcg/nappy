@@ -14,6 +14,9 @@
                 color="#000000"
                 closable
               >
+              <template #prepend>
+                <Icon name="mdi:alert-circle-outline"/>
+              </template>
                 <template #close>
                   <v-btn
                     density="compact"
