@@ -28,6 +28,7 @@
         Communication Links
       </p>
       <CardEditorLinkList
+        class="mb-6"
         :fields="communicationLinks"
         @field-click="onFieldClick"
       />
