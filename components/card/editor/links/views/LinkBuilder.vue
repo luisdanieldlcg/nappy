@@ -2,14 +2,38 @@
   <v-form ref="form" @submit.prevent="trySave">
     <v-divider thickness="4" color="black"></v-divider>
     <LinkItem :link="link" color="black" :use-native-icons="true" />
+
     <v-divider thickness="4" color="black"></v-divider>
+    <vue-tel-input
+      @input="(e: Event) => {
+        updateTitle((e.target as HTMLInputElement).value);
+      }"
+      v-model="title"
+      v-bind="phoneOpts"
+      v-if="isPhone"
+      @country-changed="countrySelected"
+      class="mt-4"
+    />
     <TextField
+      v-else
       @input="(e) => updateTitle(e.target.value)"
       v-model="title"
       variant="underlined"
       :label="httpLinks[link.type].label"
       type="not-empty"
-    />
+    >
+      <template #details>
+        <Icon name="ph:link-simple-bold" size="15" class="mr-2" />
+        <nuxt-link
+          :to="httpLinks[link.type].url + title"
+          target="_blank"
+          class="font-italic text-grey-darken-3"
+        >
+          {{ httpLinks[link.type].url + title }}
+        </nuxt-link>
+      </template>
+    </TextField>
+
     <TextField
       @input="(e) => updateLabel(e.target.value)"
       v-model="label"
@@ -70,7 +94,17 @@ const form = ref<HTMLFormElement | null>(null);
 const label = ref("");
 const links = reactive(editor.card.links);
 const title = ref("");
-
+const isPhone = computed(() => {
+  return props.link.type === "phone";
+});
+const countrySelected = (val: object) => {
+  console.log("===");
+  console.log({ val });
+};
+const phoneOpts = {
+  validCharactersOnly: true,
+  autoFormat: true,
+};
 const updateTitle = (newVal: string) => {
   title.value = newVal;
   editor.card.links[links.length - 1].title = newVal;
