@@ -9,10 +9,10 @@
     </template>
     <template #subtitle>
       <v-list-item-subtitle
-        style="font-size: 13px"
+        style="font-size: 13px; font-weight: 500"
         v-text="subtitleDisplay"
-        class="text-capitalize"
       />
+      <p class="text-capitalize">{{ subtitleDisplay }}</p>
     </template>
 
     <template #prepend>
