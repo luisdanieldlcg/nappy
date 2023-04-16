@@ -1,19 +1,18 @@
 <template>
   <v-form ref="form" @submit.prevent="trySave">
     <v-divider thickness="4" color="black"></v-divider>
-    <LinkItem :link="link" color="black" :use-native-icons="true" />
+    <LinkItem :link="linkPreview" color="black" :use-native-icons="true" />
 
     <v-divider thickness="4" color="black"></v-divider>
-    <vue-tel-input
-      @input="(e: Event) => {
-        updateTitle((e.target as HTMLInputElement).value);
-      }"
-      v-model="title"
-      v-bind="phoneOpts"
-      v-if="isPhone"
-      @country-changed="countrySelected"
-      class="mt-4"
-    />
+    <template v-if="isPhone">
+      <v-switch
+        class="ml-3"
+        label="Use international phone number"
+        v-model="interPhoneNumber"
+        color="black"
+        hide-details
+      ></v-switch>
+    </template>
     <TextField
       v-else
       @input="(e) => updateTitle(e.target.value)"
@@ -94,20 +93,46 @@ const form = ref<HTMLFormElement | null>(null);
 const label = ref("");
 const links = reactive(editor.card.links);
 const title = ref("");
-const isPhone = computed(() => {
-  return props.link.type === "phone";
+const linkPreview = reactive({
+  title: props.link.title,
+  subtitle: props.link.subtitle,
+  type: props.link.type,
 });
-const countrySelected = (val: object) => {
-  console.log("===");
-  console.log({ val });
+const interPhoneNumber = ref(true);
+const dialCode = ref("");
+
+const isPhone = computed(() => {
+  return props.link.type === "phone" || props.link.type === "whatsapp";
+});
+
+const phoneNumberText = computed(() => {
+  return "+" + dialCode.value + title.value;
+});
+
+const countrySelected = (val: any) => {
+  dialCode.value = val.dialCode;
+  linkPreview.title = phoneNumberText.value;
 };
 const phoneOpts = {
   validCharactersOnly: true,
-  autoFormat: true,
+  autoFormat: false,
+  showDialCode: true,
+  autocomplete: "off",
+  mode: interPhoneNumber.value ? "international" : "national",
+  dropdownOptions: {
+    showDialCodeInSelection: true,
+    showFlags: true,
+    showDialCodeInList: true,
+  },
 };
 const updateTitle = (newVal: string) => {
   title.value = newVal;
-  editor.card.links[links.length - 1].title = newVal;
+  if (props.link.title === "phone") {
+    linkPreview.title = phoneNumberText.value;
+  } else {
+    linkPreview.title = title.value;
+  }
+  editor.card.links[links.length - 1].title = linkPreview.title;
 };
 onMounted(() => {
   if (props.mode === "create") {
@@ -130,12 +155,13 @@ onMounted(() => {
 
   if (props.mode === "edit") {
     label.value = props.link.subtitle;
-    updateTitle(props.link.title);
+    title.value = props.link.title;
   }
 });
 
 const updateLabel = (update: string) => {
   label.value = update;
+  linkPreview.subtitle = label.value;
   if (props.mode === "create") {
     editor.card.links[editor.card.links.length - 1].subtitle = label.value;
   } else {
@@ -155,6 +181,9 @@ const onSave = () => {
   if (props.mode === "create") {
     // Add some sort of id here to make it easier to edit
     editor.card.links[editor.card.links.length - 1].id = generateId();
+  }
+  if (props.link.type === "phone") {
+    if (!title.value) return;
   }
   emit("save");
 };

@@ -8,10 +8,6 @@
       />
     </template>
     <template #subtitle>
-      <!-- <v-list-item-subtitle
-        style="font-size: 13px; font-weight: 500"
-        v-text="subtitleDisplay"
-      /> -->
       <p class="text-capitalize">{{ subtitleDisplay }}</p>
     </template>
 
@@ -33,10 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import { LinkDTO } from "~~/api/dtos/card.dto";
-
 const props = defineProps<{
-  link: LinkDTO;
+  link: {
+    title: string;
+    subtitle: string;
+    type: string;
+  };
   color: string;
   useNativeIcons: boolean;
 }>();

@@ -46,7 +46,7 @@ export const httpLinks: {
   },
   phone: {
     url: "tel: ",
-    nativeIcon: "solar:phone-bold-duotone",
+    nativeIcon: "noto:telephone-receiver",
     customIcon: "mdi:phone",
     label: "Phone Number",
   },

@@ -32,13 +32,13 @@
             <Icon
               name="solar:pen-2-bold"
               class="ml-5"
-              @click="$emit('edit', link)"
+              @click="editLink(link)"
               style="cursor: pointer"
             />
             <Icon
               name="solar:trash-bin-trash-bold-duotone"
               class="ml-5"
-              @click="$emit('delete', link)"
+              @click="deleteLink(link)"
               style="cursor: pointer"
             />
           </template>
@@ -52,11 +52,17 @@
 import draggable from "vuedraggable";
 import { LinkDTO } from "~~/api/dtos/card.dto";
 
-defineEmits<{
-  (e: "edit", link: LinkDTO): void;
-  (e: "delete", link: LinkDTO): void;
-}>();
 const editor = useCardEditorStore();
-</script>
+const linkEditor = useLinkEditorStore();
 
-<style scoped></style>
+const editLink = (link: LinkDTO) => {
+  linkEditor.setEditing({
+    link,
+    mode: "edit",
+  });
+};
+
+const deleteLink = (link: LinkDTO) => {
+  editor.card.links = editor.card.links.filter((l) => l.title !== link.title);
+};
+</script>

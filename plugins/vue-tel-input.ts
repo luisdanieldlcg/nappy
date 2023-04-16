@@ -1,5 +1,5 @@
-import VueTelInput from "vue-tel-input";
-import "vue-tel-input/dist/vue-tel-input.css";
+import CountryFlag from "vue-country-flag-next";
+
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(VueTelInput);
+  nuxtApp.vueApp.use(CountryFlag);
 });

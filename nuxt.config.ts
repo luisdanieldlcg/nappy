@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   css: ["@/assets/styles.scss"],
 
   build: {
-    transpile: ["vuetify", "maz-ui"],
+    transpile: ["vuetify"],
   },
   ssr: false,
   modules: [
