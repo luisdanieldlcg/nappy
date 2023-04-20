@@ -83,3 +83,7 @@ const applyRules = () => {
   }
 };
 </script>
+
+<style scoped lang="scss">
+
+</style>
