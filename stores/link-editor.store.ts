@@ -13,6 +13,8 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
     type: "email",
   });
 
+  const isValidLink = ref(false);
+
   // Get a reference to the card editor link from the cards array
   // and update it with the new values
   watch(linkPreview, () => {
@@ -40,19 +42,6 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
     }
   };
 
-  const save = async (form: HTMLFormElement | null) => {
-    if (!form || !form.value) {
-      return;
-    }
-    const { valid } = await form.value.validate();
-    // Return if this is not a valid form
-    if (!valid) {
-      return;
-    }
-    editing.value = false;
-    // save the link
-  };
-
   const addLinkToCard = () => {
     cardEditor.card.links.push({
       id: "",
@@ -65,8 +54,8 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
   return {
     editing,
     linkPreview,
+    isValidLink,
     setEditing,
     cancel,
-    save,
   };
 });
