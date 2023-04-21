@@ -32,6 +32,19 @@
           <Icon :name="entry.icon" />
         </template>
       </v-list-item>
+      <v-divider></v-divider>
+      <v-list-item to="/">
+        <template #title>
+          <v-list-item-title
+            v-text="'Upgrade plan'"
+            class="ml-7 text-subtitle-2"
+          />
+        </template>
+        <template #prepend>
+          <Icon name="emojione-v1:crown" />
+        </template>
+      </v-list-item>
+      <v-divider></v-divider>
     </v-list>
     <v-btn
       :class="{
