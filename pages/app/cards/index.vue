@@ -14,7 +14,7 @@
           />
         </template>
       </v-tooltip>
-      <DeleteAction />
+      <DeleteAction v-if="cardStore.cards.length > 0" />
     </template>
     <!--Content-->
     <v-card
@@ -23,7 +23,8 @@
       :max-width="maxWidth"
       class="pt-0 mt-0 pl-16"
     >
-      <v-row class="pl-14" no-gutters justify="center">
+      <CardDemo v-if="!cardStore.cards.length" />
+      <v-row no-gutters>
         <v-col
           cols="12"
           sm="7"

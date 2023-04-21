@@ -1,4 +1,5 @@
 <template>
+  <DashSidebar />
   <template v-if="card.loadTracker.gettingAll">
     <v-row justify="center" align="center">
       <v-progress-circular indeterminate :size="144" class="mb-16" :width="2">
@@ -6,10 +7,7 @@
       </v-progress-circular>
     </v-row>
   </template>
-  <template v-else>
-    <DashSidebar />
-    <DashContent />
-  </template>
+  <DashContent v-else />
 </template>
 
 <script lang="ts" setup>
