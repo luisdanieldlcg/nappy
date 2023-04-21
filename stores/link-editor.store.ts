@@ -1,4 +1,5 @@
-import { LinkDTO, phoneNumberLinks } from "~~/api/dtos/card.dto";
+import { Result } from "maz-ui/components/MazPhoneNumberInput";
+import { CardLink, LinkDTO, phoneNumberLinks } from "~~/api/dtos/card.dto";
 
 // type Link = Omit<LinkDTO, "id">;
 
@@ -6,6 +7,7 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
   const editing = ref(false);
   const cardEditor = useCardEditorStore();
   const mode = ref<"create" | "edit">("create");
+  const indexAtList = ref(-1);
 
   const linkPreview = reactive<LinkDTO>({
     id: "",
@@ -19,27 +21,44 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
   // Get a reference to the card editor link from the cards array
   // and update it with the new values
   watch(linkPreview, () => {
-    const len = cardEditor.card.links.length;
     if (mode.value === "create") {
-      Object.assign(cardEditor.card.links[len - 1], linkPreview);
+      Object.assign(
+        cardEditor.card.links[cardEditor.card.links.length - 1],
+        linkPreview
+      );
     }
-
     // For links that are not phone numbers type, a not empty title is enough
     if (!phoneNumberLinks.includes(linkPreview.type)) {
       isValidLink.value = linkPreview.title.length > 0;
     }
   });
 
-  const setEditing = (data: { link: LinkDTO; mode: "create" | "edit" }) => {
+  const setCreateMode = (type: CardLink) => {
+    mode.value = "create";
     editing.value = true;
-    mode.value = data.mode;
-    linkPreview.id = data.link.type + ":" + Math.random().toString(36);
-    linkPreview.title = data.link.title;
-    linkPreview.subtitle = data.link.subtitle;
-    linkPreview.type = data.link.type;
-    if (mode.value === "create") {
-      addLinkToCard();
-    }
+    setPreview({
+      id: "",
+      title: "",
+      subtitle: "",
+      type,
+    });
+    const len = cardEditor.card.links.length;
+    indexAtList.value = len - 1;
+    addLinkToCard();
+  };
+
+  const setEditingMode = (link: LinkDTO, index: number) => {
+    mode.value = "edit";
+    editing.value = true;
+    indexAtList.value = index;
+    setPreview(link);
+  };
+
+  const setPreview = (data: LinkDTO) => {
+    linkPreview.id = data.id;
+    linkPreview.title = data.title;
+    linkPreview.subtitle = data.subtitle;
+    linkPreview.type = data.type;
   };
 
   const cancel = () => {
@@ -60,11 +79,7 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
 
   const saveInternal = () => {
     if (mode.value === "edit") {
-      const i = cardEditor.card.links.findIndex(
-        (link) => link.id === linkPreview.id
-      );
-      console.log(i);
-      Object.assign(cardEditor.card.links[i], linkPreview);
+      Object.assign(cardEditor.card.links[indexAtList.value], linkPreview);
     }
   };
 
@@ -72,7 +87,8 @@ export const useLinkEditorStore = defineStore("linkEditor", () => {
     editing,
     linkPreview,
     isValidLink,
-    setEditing,
+    setCreateMode,
+    setEditingMode,
     cancel,
     saveInternal,
   };

@@ -9,7 +9,7 @@
           location="center center"
           @click="onClose"
         >
-          <v-icon>mdi-close</v-icon>
+          <Icon name="mdi-close" />
         </v-btn>
       </div>
       <v-text-field
@@ -29,8 +29,8 @@
           @dragleave.prevent="onDragLeave"
           @drop.prevent="onDrop"
         >
-          <v-icon
-            icon="mdi-cloud-upload-outline"
+          <Icon
+            name="mdi-cloud-upload-outline"
             color="grey-subtitle"
             size="40"
           />
@@ -69,7 +69,6 @@ const snackbar = ref(false);
 // Close event
 const onClose = () => {
   emit("update:modelValue", false);
-  
 };
 const onChange = () => {
   const inputElement = input.value;

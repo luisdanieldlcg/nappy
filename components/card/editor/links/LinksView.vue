@@ -36,14 +36,6 @@ const { card } = storeToRefs(editor);
 const linkEditor = useLinkEditorStore();
 
 const onFieldClick = (field: CardLink) => {
-  linkEditor.setEditing({
-    link: {
-      id: "",
-      title: "",
-      subtitle: "",
-      type: field,
-    },
-    mode: "create",
-  });
+  linkEditor.setCreateMode(field);
 };
 </script>

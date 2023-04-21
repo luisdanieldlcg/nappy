@@ -6,7 +6,7 @@
   ></DashNote>
   <v-list class="d-flex justify-center">
     <draggable v-model="editor.card.links" item-key="title">
-      <template #item="{ element: link }">
+      <template #item="{ element: link, index }">
         <v-list-item>
           <template #title>
             <v-list-item-title
@@ -24,15 +24,15 @@
           </template>
 
           <template #prepend>
-            <v-btn icon color="background" class="elevation-0 mr-4">
+            <v-avatar color="background" style="cursor: pointer">
               <Icon :name="httpLinks[link.type].nativeIcon" />
-            </v-btn>
+            </v-avatar>
           </template>
           <template #append>
             <Icon
               name="solar:pen-2-bold"
               class="ml-5"
-              @click="editLink(link)"
+              @click="editLink(link, index)"
               style="cursor: pointer"
             />
             <Icon
@@ -55,11 +55,8 @@ import { LinkDTO } from "~~/api/dtos/card.dto";
 const editor = useCardEditorStore();
 const linkEditor = useLinkEditorStore();
 
-const editLink = (link: LinkDTO) => {
-  linkEditor.setEditing({
-    link,
-    mode: "edit",
-  });
+const editLink = (link: LinkDTO, index: number) => {
+  linkEditor.setEditingMode(link, index);
 };
 
 const deleteLink = (link: LinkDTO) => {

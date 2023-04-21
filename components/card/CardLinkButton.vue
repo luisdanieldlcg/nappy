@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-const s = defineProps({
+defineProps({
   label: {
     type: String,
     required: true,
@@ -18,5 +18,4 @@ const s = defineProps({
     required: true,
   },
 });
-console.log(s.icon);
 </script>

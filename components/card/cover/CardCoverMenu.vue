@@ -7,16 +7,20 @@
           <Icon name="mdi:dots-vertical" />
         </v-btn>
       </template>
+
       <v-list class="elevation-0 card-shadow-light rounded-lg">
         <v-list-item
-          v-for="item in items"
+          v-for="(item, i) in items"
+          :key="i"
           @click="onMenuClicked(item)"
           :ripple="false"
         >
-          <v-list-item-title>
+          <template #title>
             {{ item.title }}
+          </template>
+          <template #append>
             <Icon class="ml-3" :name="item.icon" />
-          </v-list-item-title>
+          </template>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -24,21 +28,23 @@
 </template>
 
 <script setup lang="ts">
-import { CardDTO } from '~~/api/dtos/card.dto';
+import { CardDTO } from "~~/api/dtos/card.dto";
+
+const props = defineProps<{
+  card: CardDTO;
+}>();
 
 const emit = defineEmits<{
   (e: "menuClicked", card: CardDTO): void;
 }>();
 
-const props = defineProps<{
-  card: CardDTO;
-}>();
 interface MenuItem {
   title: string;
   navigateTo?: string;
   action: "delete" | "edit" | "view";
   icon: string;
 }
+
 const items: MenuItem[] = [
   {
     title: "View",
@@ -74,5 +80,3 @@ const onMenuClicked = (item: MenuItem) => {
   }
 };
 </script>
-
-<style scoped></style>
