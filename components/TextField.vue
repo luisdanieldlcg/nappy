@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
+import { defaultRules, emailRules, passwordConfirmRules, passwordRules } from "~/config/input-rules";
 
 type TextFieldType =
   | "email"
@@ -47,23 +48,6 @@ const getInnerIcon = computed(() => {
   return showText.value ? "mdi-eye" : "mdi-eye-off";
 });
 
-const defaultRules = [(text: string) => !!text || "Please fill in the field."];
-const emailRules = [
-  (text: string) => !!text || "Email is required",
-  (text: string) => /.+@.+/.test(text) || "This is not a valid email",
-];
-
-const passwordRules = [
-  (text: string) => !!text || "Password is required",
-  (text: string) =>
-    text.length >= 8 || "Your password must be at least 8 characters long.",
-];
-
-const passwordConfirmRules = (password: string) => [
-  (text: string) => !!text || "Password Confirm is required",
-  (text: string) => text === password || "Passwords do not match.",
-];
-
 if (props.mustMatch === undefined && props.type === "passwordConfirm") {
   throw "Make sure to match the password confirmation against the original one using [mustMatch]";
 }
@@ -83,7 +67,3 @@ const applyRules = () => {
   }
 };
 </script>
-
-<style scoped lang="scss">
-
-</style>

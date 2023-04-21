@@ -48,3 +48,5 @@ export const communicationLinks = [
   "telegram",
 ];
 export const allLinks = [...socialLinks, ...communicationLinks];
+
+export const phoneNumberLinks = ["phone", "whatsapp"];

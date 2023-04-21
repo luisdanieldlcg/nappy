@@ -9,13 +9,12 @@
         :success="phoneNumberResult?.isValid"
       />
     </div>
-    <TextField
+    <v-text-field
       v-else
       density="compact"
       variant="underlined"
       label="Title"
-      v-model="editor.linkPreview.title"
-      type="not-empty"
+      v-model="linkPreview.title"
     >
       <template #details v-if="canHandleURL">
         <Icon name="ph:link-simple-bold" size="15" class="mr-2" />
@@ -27,7 +26,8 @@
           {{ httpLinks[linkPreview.type].url + linkPreview.title }}
         </nuxt-link>
       </template>
-    </TextField>
+    </v-text-field>
+
     <TextField
       density="compact"
       v-model="editor.linkPreview.subtitle"
@@ -47,7 +47,6 @@ import MazPhoneNumberInput, {
 } from "maz-ui/components/MazPhoneNumberInput";
 
 import { CardLink } from "~~/api/dtos/card.dto";
-
 const editor = useLinkEditorStore();
 const { linkPreview } = storeToRefs(editor);
 
@@ -62,6 +61,7 @@ const onPhoneNumberUpdate = (event: any) => {
   phoneNumberResult.value = event;
   editor.isValidLink = event.isValid;
 };
+
 // This array contains the links that do not handle an URL
 const noURL: CardLink[] = ["phone", "email", "whatsapp"];
 

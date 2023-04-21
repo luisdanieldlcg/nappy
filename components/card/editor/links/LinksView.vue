@@ -38,6 +38,7 @@ const linkEditor = useLinkEditorStore();
 const onFieldClick = (field: CardLink) => {
   linkEditor.setEditing({
     link: {
+      id: "",
       title: "",
       subtitle: "",
       type: field,

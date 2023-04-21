@@ -23,6 +23,7 @@ const save = async () => {
   if (!valid || !editor.isValidLink) {
     return;
   }
+  editor.saveInternal();
   editor.editing = false;
 };
 </script>

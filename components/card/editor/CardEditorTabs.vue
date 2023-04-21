@@ -1,5 +1,10 @@
 <template>
-  <v-tabs v-model="editor.view" class="mb-5" grow>
+  <v-tabs
+    v-model="editor.view"
+    class="mb-5"
+    grow
+    @update:model-value="onTabUpdate"
+  >
     <v-tab v-for="(tab, i) in tabs" :value="i" class="text-capitalize">
       <p class="font-weight-bold" style="font-size: 15px">{{ tab.label }}</p>
       <Icon :name="tab.icon" class="ml-3" />
@@ -14,6 +19,9 @@
 
 <script setup lang="ts">
 const editor = useCardEditorStore();
+const onTabUpdate = () => {
+  editor.handleTabChanges();
+};
 const tabs = [
   {
     label: "General",

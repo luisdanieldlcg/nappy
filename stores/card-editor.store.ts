@@ -69,6 +69,13 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const onEditorClosed = () => {
     view.value = 0;
   };
+
+  const handleTabChanges = () => {
+    if (!card.links.at(-1)?.title) {
+      useLinkEditorStore().cancel();
+    }
+  };
+
   return {
     card,
     isEditingImage,
@@ -80,5 +87,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     setCard,
     onEditorClosed,
     view,
+    handleTabChanges,
   };
 });
