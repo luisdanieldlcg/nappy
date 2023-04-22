@@ -4,7 +4,7 @@
     elevation="0"
     class="pr-6"
     :min-width="200"
-    :max-width="1000"
+    :max-width="1100"
   >
     <DividedGrid v-if="isEditingImage">
       <template #left>

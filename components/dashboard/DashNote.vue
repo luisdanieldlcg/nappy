@@ -6,13 +6,13 @@
     }"
   >
     <v-card
-      class="elevation-0 pa-2 pr-5"
+      class="elevation-0 pt-2 pb-1 pr-5"
       color="background"
       style="margin: 0 !important"
     >
-      <p class="ml-6" style="font-size: 14px">
+      <p class="ml-5" style="font-size: 13px">
         {{ title }}
-        <Icon :name="icon" class="ml-2" color="#35393b" />
+        <Icon :name="icon" class="ml-2 mb-1" color="#35393b" />
       </p>
     </v-card>
   </div>
