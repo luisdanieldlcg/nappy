@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-for="entry in steps" :key="entry.title">
-      <div v-if="entry.id == step" class="text-center my-10 py-16">
+      <div v-if="entry.id == step" class="my-10 pt-16">
         <v-window>
           <v-window-item>
             <component :is="entry.component" />
@@ -32,14 +32,21 @@
         </v-window>
       </div>
     </div>
-    <v-btn @click="step--" :disabled="step == 0">Back</v-btn>
-    <v-btn
-      @click="step++"
-      :disabled="step == 4"
-      class="elevation-0"
-      color="black"
-      >Next</v-btn
-    >
+    <slot name="controls" :nextStep="nextStep" :prevStep="prevStep" />
+    <v-row v-if="!$slots['controls']">
+      <v-col cols="3" offset="4">
+        <v-btn @click="step--" :disabled="step == 0">Back</v-btn>
+      </v-col>
+      <v-col cols="3">
+        <v-btn
+          @click="step++"
+          :disabled="step == 4"
+          class="elevation-0"
+          color="black"
+          >Next</v-btn
+        ></v-col
+      >
+    </v-row>
   </div>
 </template>
 
@@ -54,15 +61,44 @@ interface Step {
 }
 const props = defineProps<{
   steps: Step[];
+  continue: boolean;
+}>();
+const emit = defineEmits<{
+  (event: "on-next"): void;
+  (event: "on-back"): void;
 }>();
 const step = ref(0);
+const primaryColor = ref(Colors.black);
+const secondaryColor = ref("#313131");
+const disabledColor = ref("#d5dbde");
+
+// Next and previous step
+const nextStep = () => {
+  if (isOutOfBounds(step.value + 1)) {
+    return;
+  }
+  if (!props.continue) {
+    return;
+  }
+  emit("on-next");
+  step.value++;
+};
+const prevStep = () => {
+  if (isOutOfBounds(step.value - 1)) {
+    return;
+  }
+  emit("on-back");
+  step.value--;
+};
+// Progress bar width in %
 const stepperProgress = computed(() => {
   const deltaX = props.steps.length - 1;
   return 100 * (step.value / deltaX) + "%";
 });
-const primaryColor = ref(Colors.black);
-const secondaryColor = ref("#313131");
-const disabledColor = ref("#d5dbde");
+
+const isOutOfBounds = (index: number) => {
+  return index < 0 || index > props.steps.length - 1;
+};
 </script>
 
 <style scoped lang="scss">
@@ -81,7 +117,6 @@ $transiton: all 500ms ease;
   justify-content: space-between;
   position: relative;
   z-index: 0;
-  margin-bottom: 24px;
 
   &-progress {
     position: absolute;

@@ -34,8 +34,19 @@
           autocomplete="off"
           @submit.prevent
         >
-          <Stepper :steps="steps">
-            <!-- <component :is="view.component"> </component> -->
+          <Stepper :steps="steps" :continue="isFormValid">
+            <template #controls="{ nextStep, prevStep }">
+              <v-btn
+                class="elevation-0 ml-1"
+                color="black"
+                location="center"
+                width="46%"
+                @click="onNext(nextStep)"
+                type="submit"
+              >
+                Continue
+              </v-btn>
+            </template>
           </Stepper>
           <!-- <FormWizard :customTabs="tabs">
             <v-window v-model="onboarding.step">
@@ -77,6 +88,14 @@ import { CardDTO } from "~/api/dtos/card.dto";
 
 const form = ref<HTMLFormElement | null>(null);
 const isFormValid = ref(false);
+const onboarding = useOnboardingStore();
+
+const onNext = async (nextCallback: () => void) => {
+  isFormValid.value = await onboarding.processForm();
+  if (isFormValid.value) {
+    nextCallback();
+  }
+};
 const steps = [
   {
     id: 0,
@@ -108,8 +127,6 @@ const views = [
     id: 2,
   },
 ];
-
-const onboarding = useOnboardingStore();
 
 const tabs = [
   {
