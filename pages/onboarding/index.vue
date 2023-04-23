@@ -8,7 +8,7 @@
       >
         <CardCover :card="defaultCard" mode="extended">
           <template #header>
-            <img src="~/assets/images/beautiful-garden.jpg" height="270" />
+            <img src="~/assets/images/beautiful-garden.jpg" height="255" />
           </template>
           <template #avatar>
             <CardCoverAvatar :size="130" class="mb-4">
@@ -27,24 +27,45 @@
     </v-col>
     <v-col cols="7">
       <v-sheet color="white" height="100vh">
-        <FormWizard :customTabs="tabs">
-          <v-window v-model="step">
-            <v-window-item v-for="view in views">
-              <component :is="view.component" />
-            </v-window-item>
-          </v-window>
-          <template #next>
-            <template v-if="step === 0">
-              <v-btn class="text-capitalize elevation-0" color="black">
-                Next
-                <Icon name="mdi-arrow-right" class="ml-1" size="20" />
-              </v-btn>
+        <v-form
+          v-model="isFormValid"
+          ref="form"
+          validate-on="input"
+          autocomplete="off"
+          @submit.prevent
+        >
+          <Stepper :steps="steps">
+            <!-- <component :is="view.component"> </component> -->
+          </Stepper>
+          <!-- <FormWizard :customTabs="tabs">
+            <v-window v-model="onboarding.step">
+              <v-window-item v-for="view in views">
+                <component :is="view.component">
+                  <template v-if="view.id === 0" #sub-header>
+                    <AnimatedAlert
+                      :show="o <v-window v-model="onboarding.step">
+              <v-window-item v-for="view in views">
+              </v-window-item>
+            </v-window>nboarding.showAlert"
+                      v-model="onboarding.showAlert"
+                    >
+                      <template #default>
+                        {{ onboarding.errorMessage }}
+                      </template>
+                    </AnimatedAlert>
+                  </template>
+                </component>
+              </v-window-item>
+            </v-window>
+            <template #next>
+              <OnboardingControls
+                v-model="onboarding.step"
+                :valid="Boolean(isFormValid)"
+              />
             </template>
-          </template>
-          <template #footer>
-            <OnboardingControls v-model="step" />
-          </template>
-        </FormWizard>
+
+          </FormWizard> -->
+        </v-form>
       </v-sheet>
     </v-col>
   </v-row>
@@ -52,24 +73,43 @@
 
 <script setup lang="ts">
 import { CardDTO } from "~/api/dtos/card.dto";
-import "form-wizard-vue3/dist/form-wizard-vue3.css";
-import FormWizard from "form-wizard-vue3/src/components/Wizard.vue";
-const step = ref(0);
+// import "form-wizard-vue3/dist/form-wizard-vue3.css";
 
-const views = [
+const form = ref<HTMLFormElement | null>(null);
+const isFormValid = ref(false);
+const steps = [
   {
     id: 0,
+    title: "Create an account",
+    icon: "user",
     component: resolveComponent("CreateAccount"),
   },
   {
     id: 1,
+    title: "Customize your card",
+    icon: "pencil",
     component: resolveComponent("CustomizeCard"),
   },
   {
     id: 2,
+    title: "Get started",
+    icon: "pencil",
     component: resolveComponent("GetStarted"),
   },
 ];
+const views = [
+  {
+    id: 0,
+  },
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+];
+
+const onboarding = useOnboardingStore();
 
 const tabs = [
   {

@@ -1,5 +1,8 @@
 <template>
-  <v-row justify="center">
+  <v-btn class="elevation-0" color="black" block width="100" @click="nextStep">
+    <p>Next</p>
+  </v-btn>
+  <!-- <v-row justify="center">
     <v-col cols="12" sm="7" md="6">
       <v-btn
         class="text-capitalize elevation-0"
@@ -17,12 +20,14 @@
         @click="nextStep"
         width="90%"
         height="40"
+        type="submit"
+        :loading="onboarding.loading"
       >
         <p>Next</p>
         <Icon name="mdi-arrow-right" class="ml-1" size="20" />
       </v-btn>
     </v-col>
-  </v-row>
+  </v-row> -->
 </template>
 
 <script setup lang="ts">
@@ -34,11 +39,26 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  valid: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
-const emit = defineEmits(["update:modelValue"]);
 
-const nextStep = () => {
+const emit = defineEmits<{
+  (e: "update:modelValue", value: number): void;
+}>();
+const onboarding = useOnboardingStore();
+const nextStep = async () => {
   if (outOfBounds(props.modelValue + 1)) {
+    return;
+  }
+  if (!props.valid) {
+    return;
+  }
+  const proceed = await onboarding.processForm();
+  if (!proceed) {
     return;
   }
   emit("update:modelValue", props.modelValue + 1);
@@ -48,6 +68,7 @@ const prevStep = () => {
   if (outOfBounds(props.modelValue - 1)) {
     return;
   }
+
   emit("update:modelValue", props.modelValue - 1);
 };
 

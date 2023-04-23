@@ -54,7 +54,7 @@ const determineWidth = (): number => {
     case "normal":
       return 320;
     case "extended":
-      return 400;
+      return 380;
   }
 };
 const containerSize = computed(() => {
