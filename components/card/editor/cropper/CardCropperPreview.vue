@@ -1,5 +1,5 @@
 <template>
-  <CardCover :card="cardObj" :mini="false">
+  <CardCover :card="cardObj" mode="normal">
     <template #header v-if="imageSlot === ImageType.Cover">
       <Preview
         :width="320"

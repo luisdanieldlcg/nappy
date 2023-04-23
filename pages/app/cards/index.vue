@@ -34,7 +34,7 @@
           v-for="card in cardStore.cards"
           :key="card.id"
         >
-          <CardCover :card="card" :mini="true">
+          <CardCover :card="card" mode="mini">
             <template #actions>
               <CardCoverMenu
                 :card="{

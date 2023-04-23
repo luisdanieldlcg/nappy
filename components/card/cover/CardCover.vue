@@ -3,7 +3,7 @@
     :class="classes"
     :width="containerSize.width"
     :min-height="containerSize.height"
-    :max-height="mini ? containerSize.height : 'auto'"
+    :max-height="isMini ? containerSize.height : 'auto'"
   >
     <slot name="header" />
     <CardCoverBackground
@@ -18,13 +18,15 @@
       :image="card.avatarImage"
       :size="avatarSize"
     />
-    <CardCoverContent :card="card" :small="mini" />
+    <CardCoverContent :card="card" :small="isMini" />
     <slot name="actions" />
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { LinkDTO } from '~~/api/dtos/card.dto';
+import { LinkDTO } from "~~/api/dtos/card.dto";
+
+type Mode = "mini" | "normal" | "extended";
 
 type CardPreview = {
   color: string;
@@ -40,23 +42,44 @@ type CardPreview = {
 };
 const props = defineProps<{
   card: CardPreview;
-  mini: boolean;
+  mode: Mode;
 }>();
 
+const isMini = computed(() => props.mode === "mini");
+
+const determineWidth = (): number => {
+  switch (props.mode) {
+    case "mini":
+      return 240;
+    case "normal":
+      return 320;
+    case "extended":
+      return 400;
+  }
+};
 const containerSize = computed(() => {
   return {
-    width: props.mini ? 240 : 320,
-    height: props.mini ? 280 : 400,
+    width: determineWidth(),
+    height: isMini.value ? 280 : 40,
   };
 });
-const coverHeight = computed(() => (props.mini ? 120 : 160));
+const coverHeight = computed(() => {
+  switch (props.mode) {
+    case "mini":
+      return 120;
+    case "normal":
+      return 160;
+    case "extended":
+      return 220;
+  }
+});
 
-const avatarSize = computed(() => (props.mini ? 85 : 110));
+const avatarSize = computed(() => (isMini.value ? 85 : 110));
 
 const classes = computed(() => {
   return {
-    "card-shadow-light": props.mini,
-    shadow: !props.mini,
+    "card-shadow-light": isMini.value,
+    shadow: !isMini.value,
     "pb-4": true,
   };
 });
