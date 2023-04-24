@@ -16,15 +16,15 @@
       >
         <div class="stepper-item-counter">
           <Icon name="ph:check-bold" class="icon-success" />
-          <span class="number">
-            {{ count }}
-          </span>
+          <p class="number">{{ count }}</p>
         </div>
-        <span class="stepper-item-title"> Step {{ count }} </span>
+        <p class="stepper-item-title text-no-wrap" style="font-size: 13px">
+          {{ steps[index].title }}
+        </p>
       </div>
     </div>
     <div v-for="entry in steps" :key="entry.title">
-      <div v-if="entry.id == modelValue" class="my-10 pt-3">
+      <div v-if="entry.id == modelValue" class="my-14 pt-2">
         <v-window>
           <v-window-item>
             <component :is="entry.component" />
@@ -56,7 +56,6 @@ import { ConcreteComponent } from "nuxt/dist/app/compat/capi";
 interface Step {
   id: number;
   title: string;
-  icon: string;
   component: ConcreteComponent | string;
 }
 const props = defineProps<{
@@ -71,7 +70,7 @@ const emit = defineEmits<{
 }>();
 const primaryColor = ref(Colors.black);
 const secondaryColor = ref("#313131");
-const disabledColor = ref("#d5dbde");
+const disabledColor = ref("#bdbfbf");
 
 // Next and previous step
 const nextStep = () => {
@@ -147,8 +146,8 @@ $transiton: all 500ms ease;
   transition: $transiton;
 
   &-counter {
-    height: 46px;
-    width: 46px;
+    height: 40px;
+    width: 40px;
     display: grid;
     place-items: center;
     background-color: #fff;

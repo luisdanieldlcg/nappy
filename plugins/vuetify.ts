@@ -22,7 +22,7 @@ const lightTheme: ThemeDefinition = {
 
 const darkTheme: ThemeDefinition = {
   colors: {
-    muted: "#8d97ad",
+    muted: "#6b7385",
     "card-red-icon-bg": "#FAD4D4",
     "card-red-icon": "#F94C66",
     "card-red-accent": "#F55050",
