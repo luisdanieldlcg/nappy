@@ -4,7 +4,7 @@
     <p class="text-muted text-center mt-3">Create an account to get started!</p>
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" sm="7" md="6">
+        <v-col cols="12" sm="7">
           <slot name="sub-header"></slot>
           <TextField
             v-model="accountForm.email"

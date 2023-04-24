@@ -34,15 +34,30 @@
           autocomplete="off"
           @submit.prevent
         >
-          <Stepper :steps="steps" :continue="isFormValid">
+          <v-snackbar v-model="snackbar" color="black" class="elevation-0">
+            <p>
+              {{ onboarding.errorMessage }}
+            </p>
+            <template v-slot:actions>
+              <v-btn variant="text" @click="snackbar = false" icon>
+                <Icon name="mdi-close" />
+              </v-btn>
+            </template>
+          </v-snackbar>
+          <Stepper
+            :steps="steps"
+            v-model="onboarding.step"
+            :continue="Boolean(isFormValid)"
+          >
             <template #controls="{ nextStep, prevStep }">
               <v-btn
-                class="elevation-0 ml-1"
+                class="elevation-0"
                 color="black"
                 location="center"
-                width="46%"
+                width="54%"
                 @click="onNext(nextStep)"
                 type="submit"
+                :loading="onboarding.loading"
               >
                 Continue
               </v-btn>
@@ -84,15 +99,21 @@
 
 <script setup lang="ts">
 import { CardDTO } from "~/api/dtos/card.dto";
-// import "form-wizard-vue3/dist/form-wizard-vue3.css";
-
 const form = ref<HTMLFormElement | null>(null);
+const snackbar = ref(false);
 const isFormValid = ref(false);
 const onboarding = useOnboardingStore();
 
 const onNext = async (nextCallback: () => void) => {
-  isFormValid.value = await onboarding.processForm();
   if (isFormValid.value) {
+    // only process form if it's valid
+    const proceed = await onboarding.processForm();
+    if (!proceed) {
+      snackbar.value = true;
+      return;
+    }
+    // reset snackbar in case it was shown before
+    snackbar.value = false;
     nextCallback();
   }
 };

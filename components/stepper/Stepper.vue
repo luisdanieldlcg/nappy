@@ -11,7 +11,7 @@
       <div
         v-for="(count, index) in steps.length"
         class="stepper-item"
-        :class="{ current: step == index, success: step > index }"
+        :class="{ current: modelValue == index, success: modelValue > index }"
         :key="index"
       >
         <div class="stepper-item-counter">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-for="entry in steps" :key="entry.title">
-      <div v-if="entry.id == step" class="my-10 pt-16">
+      <div v-if="entry.id == modelValue" class="my-10 pt-3">
         <v-window>
           <v-window-item>
             <component :is="entry.component" />
@@ -35,12 +35,12 @@
     <slot name="controls" :nextStep="nextStep" :prevStep="prevStep" />
     <v-row v-if="!$slots['controls']">
       <v-col cols="3" offset="4">
-        <v-btn @click="step--" :disabled="step == 0">Back</v-btn>
+        <v-btn @click="prevStep" :disabled="modelValue == 0">Back</v-btn>
       </v-col>
       <v-col cols="3">
         <v-btn
-          @click="step++"
-          :disabled="step == 4"
+          @click="nextStep"
+          :disabled="modelValue == 4"
           class="elevation-0"
           color="black"
           >Next</v-btn
@@ -62,38 +62,39 @@ interface Step {
 const props = defineProps<{
   steps: Step[];
   continue: boolean;
+  modelValue: number;
 }>();
 const emit = defineEmits<{
   (event: "on-next"): void;
   (event: "on-back"): void;
+  (e: "update:modelValue", value: number): void;
 }>();
-const step = ref(0);
 const primaryColor = ref(Colors.black);
 const secondaryColor = ref("#313131");
 const disabledColor = ref("#d5dbde");
 
 // Next and previous step
 const nextStep = () => {
-  if (isOutOfBounds(step.value + 1)) {
+  if (isOutOfBounds(props.modelValue + 1)) {
     return;
   }
   if (!props.continue) {
     return;
   }
   emit("on-next");
-  step.value++;
+  emit("update:modelValue", props.modelValue + 1);
 };
 const prevStep = () => {
-  if (isOutOfBounds(step.value - 1)) {
+  if (isOutOfBounds(props.modelValue - 1)) {
     return;
   }
   emit("on-back");
-  step.value--;
+  emit("update:modelValue", props.modelValue - 1);
 };
 // Progress bar width in %
 const stepperProgress = computed(() => {
   const deltaX = props.steps.length - 1;
-  return 100 * (step.value / deltaX) + "%";
+  return 100 * (props.modelValue / deltaX) + "%";
 });
 
 const isOutOfBounds = (index: number) => {
@@ -171,7 +172,7 @@ $transiton: all 500ms ease;
   &-title {
     position: absolute;
     font-size: 14px;
-    bottom: -24px;
+    bottom: -26px;
   }
 }
 
