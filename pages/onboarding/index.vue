@@ -18,6 +18,10 @@
           autocomplete="off"
           @submit.prevent
         >
+          <OnboardingDialog
+            v-model="onboarding.showCardFieldModal"
+            :selected="onboarding.selectedCardField"
+          />
           <v-snackbar v-model="snackbar" color="black" class="elevation-0">
             <p>
               {{ onboarding.errorMessage }}
@@ -54,7 +58,9 @@
 </template>
 
 <script setup lang="ts">
-import { CardDTO } from "~/api/dtos/card.dto";
+export type FieldType = CardLink | "name" | "job" | "company";
+
+import { CardLink } from "~/api/dtos/card.dto";
 const form = ref<HTMLFormElement | null>(null);
 const snackbar = ref(false);
 const isFormValid = ref(false);

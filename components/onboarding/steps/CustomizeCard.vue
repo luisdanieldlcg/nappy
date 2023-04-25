@@ -8,12 +8,12 @@
         <CardLinkButton
           :label="entry.label"
           :icon="entry.icon"
-          @click="$emit('field-click', entry)"
+          @click="selectItem(entry.type)"
         />
       </v-col>
     </v-row>
     <h3 class="text-grey-subtitle py-6">Add your links</h3>
-    <v-row justify="center">
+    <v-row justify="center">  
       <v-col cols="7">
         <BusinessCardLinks center-title />
       </v-col>
@@ -22,20 +22,35 @@
 </template>
 
 <script setup lang="ts">
-const personalDetailsFields = [
+import { FieldType } from "~/pages/onboarding/index.vue";
+interface Field {
+  type: FieldType;
+  label: string;
+  icon: string;
+}
+const personalDetailsFields: Field[] = [
   {
+    type: "name",
     label: "Name",
     icon: "mingcute:user-1-line",
   },
   {
+    type: "job",
     label: "Job Title",
     icon: "tabler:briefcase",
   },
   {
+    type: "company",
     label: "Company",
     icon: "solar:buildings-outline",
   },
 ];
+
+const onboarding = useOnboardingStore();
+const selectItem = (item: FieldType) => {
+  onboarding.selectedCardField = item;
+  onboarding.showCardFieldModal = true;
+};
 </script>
 
 <style scoped></style>

@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    density="default"
+    density="comfortable"
     color="primary"
     variant="outlined"
     :type="showText ? 'text' : 'password'"

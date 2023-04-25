@@ -1,6 +1,4 @@
 <template>
-  <!-- <v-btn @click="startLeaving">show</v-btn> -->
-
   <v-sheet color="background">
     <v-row>
       <v-spacer></v-spacer>
@@ -18,7 +16,14 @@
       key="custom-card"
       @after-leave="nextTransition('default-card')"
     >
-      <CardCover :card="defaultCard" mode="normal" />
+      <CardCover
+        :card="{
+          ...card,
+          coverImage: '',
+          avatarImage: '',
+        }"
+        mode="normal"
+      />
     </v-scale-transition>
     <v-scale-transition
       v-show="showDefaultCard"
@@ -77,7 +82,8 @@ const nextTransition = (key: string) => {
     showCustomCard.value = true;
   }
 };
-
+const onboard = useOnboardingStore();
+const { card } = storeToRefs(onboard);
 const defaultCard = reactive<CardDTO>({
   label: "Personal",
   firstName: "Mattew",

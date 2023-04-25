@@ -1,10 +1,28 @@
 import { ISignupDTO } from "~/api/dtos/signup.dto";
+import { FieldType } from "~/pages/onboarding/index.vue";
+import { Card } from "./card-editor.store";
 
 export const useOnboardingStore = defineStore("onboarding", () => {
   const step = ref(0);
   const errorMessage = ref("");
   const showAlert = ref(false);
   const loading = ref(false);
+  const selectedCardField = ref<FieldType>("name");
+  const showCardFieldModal = ref(false);
+
+  const card = reactive<Card>({
+    firstName: "",
+    lastName: "",
+    company: "",
+    jobTitle: "",
+    label: "Personal",
+    color: Colors.black,
+    avatarImage: "",
+    coverImage: "",
+    links: [],
+    useNativeIcons: false,
+  });
+
   const accountForm = reactive({
     email: "",
     password: "",
@@ -49,7 +67,10 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     showAlert,
     errorMessage,
     loading,
+    selectedCardField,
+    showCardFieldModal,
     createAccount,
     processForm,
+    card,
   };
 });
