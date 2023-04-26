@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" class="mt-16">
     <v-col cols="3">
-      <CardCover :card="card!"  :mini="false"/>
+      <CardCover :card="card!" mode="extended" :can-drag="false" />
     </v-col>
   </v-row>
 </template>

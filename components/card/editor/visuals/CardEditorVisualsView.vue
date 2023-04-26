@@ -29,7 +29,7 @@
     <template #label>
       <p style="font-size: 15px" class="mr-2">Use native link icons</p>
       <v-tooltip
-      location="bottom"
+        location="bottom"
         text="Enable this option to display social links with their native styles."
       >
         <template #activator="{ props }">
@@ -55,20 +55,19 @@ const imagePicked = (image: string) => {
 // in the card editor. This is the list of available slots.
 const imageSlots = reactive([
   {
-    image: computed(() => editorStore.coverImagePreview),
+    image: computed(() => editorStore.card.coverImage),
     title: "Cover Photo",
     onClick: () => {
       imageEditor.imageSlot = ImageType.Cover;
     },
     onRemoveImage: () => {
-      editorStore.card.coverImage = null;
-      editorStore.coverImagePreview = "";
+      editorStore.card.coverImage = "";
     },
     flex: 4,
     margin: "pa-0 mr-7",
   },
   {
-    image: computed(() => editorStore.avatarImagePreview),
+    image: computed(() => editorStore.card.avatarImage),
     title: "Profile Picture",
     rounded: true,
     onClick: () => {
@@ -77,8 +76,8 @@ const imageSlots = reactive([
     flex: 3,
     margin: "pa-0 mr-5",
     onRemoveImage: () => {
-      editorStore.card.avatarImage = null;
-      editorStore.avatarImagePreview = "";
+      editorStore.card.avatarImage = "";
+      // editorStore.avatarImagePreview = "";
     },
   },
   {

@@ -2,7 +2,7 @@
   <v-row class="mb-1">
     <v-col cols="2" class="pa-0 pt-2">
       <v-btn @click="onCancel" class="elevation-0">
-        <Icon name="mdi-arrow-left"/>
+        <Icon name="mdi-arrow-left" />
         <v-tooltip text="Cancel" location="bottom" activator="parent" />
       </v-btn>
     </v-col>
@@ -11,7 +11,7 @@
     </v-col>
     <v-col cols="2" class="pa-0 pt-2">
       <v-btn @click="onCrop" class="elevation-0">
-        <Icon name="mdi-check"/>
+        <Icon name="mdi-check" />
         <v-tooltip text="Save changes" location="bottom" activator="parent" />
       </v-btn>
     </v-col>
@@ -36,12 +36,12 @@ const onCrop = () => {
     if (!blob) return;
     switch (image.imageSlot) {
       case ImageType.Cover:
-        editor.card.coverImage = blob;
-        editor.coverImagePreview = URL.createObjectURL(blob);
+        editor.coverImageBlob = blob;
+        editor.card.coverImage = URL.createObjectURL(blob);
         break;
       case ImageType.Avatar:
-        editor.card.avatarImage = blob;
-        editor.avatarImagePreview = URL.createObjectURL(blob);
+        editor.avatarImageBlob = blob;
+        editor.card.avatarImage = URL.createObjectURL(blob);
         break;
     }
   });

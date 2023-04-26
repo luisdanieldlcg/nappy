@@ -37,10 +37,7 @@ const tryDisplayImage = computed(() => {
     props.image != undefined && props.image.length > 0 && !failedToLoad.value
   );
 });
-const onError = () => {
-  console.log("er");
-  failedToLoad.value = true;
-};
+
 const failedToLoad = ref(false);
 const innerSize = computed(() => props.size - 10);
 </script>

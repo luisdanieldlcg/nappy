@@ -16,7 +16,7 @@
     </DividedGrid>
     <DividedGrid v-else>
       <template #left>
-        <CardCover :card="cardMapper" mode="normal" />
+        <CardCover :card="card" mode="normal" :can-drag="true" />
       </template>
       <template #right>
         <CardEditorTabs />
@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { Card } from "~~/stores/card-editor.store";
+
 const props = defineProps<{
   card: Card;
 }>();
@@ -37,14 +38,36 @@ onMounted(() => {
 onUnmounted(() => {
   editor.onEditorClosed();
 });
-const { isEditingImage, card, coverImagePreview, avatarImagePreview } =
-  storeToRefs(editor);
 
-const cardMapper = computed(() => {
-  return {
-    ...card.value,
-    coverImage: coverImagePreview.value,
-    avatarImage: avatarImagePreview.value,
-  };
-});
+const { isEditingImage, card } = storeToRefs(editor);
+
+// const cardMapper = computed(() => {
+//   return {
+//     ...card.value,
+//     // coverImage: coverImagePreview.value,
+//     // avatarImage: avatarImagePreview.value,
+//   };
+// });
+
+// TODO: find a better way to sync the mapper with the store
+// computed properties work but they are not writable
+// writable computed properties did not work, it did not want to call the setter
+// so we are using 2 watchers for now
+// watch(
+//   () => cardMapper,
+//   (value) => {
+//     console.log("updating store")
+//     editor.setCard(value);
+//   },
+//   { deep: true }
+// );
+
+// watch(
+//   () => editor.card,
+//   (value) => {
+//     console.log("")
+//     Object.assign(cardMapper, value);
+//   },
+//   { deep: true }
+// );
 </script>

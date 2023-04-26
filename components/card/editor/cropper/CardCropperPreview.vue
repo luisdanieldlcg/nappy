@@ -1,5 +1,5 @@
 <template>
-  <CardCover :card="cardObj" mode="normal">
+  <CardCover :card="card" mode="normal" :can-drag="false">
     <template #header v-if="imageSlot === ImageType.Cover">
       <Preview
         :width="320"
@@ -26,15 +26,5 @@
 <script setup lang="ts">
 import { Preview } from "vue-advanced-cropper";
 const { preview, imageSlot } = storeToRefs(useImageEditor());
-const { card, coverImagePreview, avatarImagePreview } = storeToRefs(
-  useCardEditorStore()
-);
-
-const cardObj = computed(() => {
-  return {
-    ...card.value,
-    coverImage: coverImagePreview.value,
-    avatarImage: avatarImagePreview.value,
-  };
-});
+const { card } = storeToRefs(useCardEditorStore());
 </script>

@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   image: {
     type: String,
     deafult: undefined,

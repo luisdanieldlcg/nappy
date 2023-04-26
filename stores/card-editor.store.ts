@@ -10,8 +10,8 @@ export type Card = {
   company: string;
   jobTitle: string;
   label: string;
-  coverImage: Blob | string | null;
-  avatarImage: Blob | string | null;
+  coverImage: string;
+  avatarImage: string;
   color: string;
   links: LinkDTO[];
   useNativeIcons: boolean;
@@ -23,18 +23,21 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     company: "",
     jobTitle: "",
     label: "Work",
-    coverImage: null,
-    avatarImage: null,
+    coverImage: "",
+    avatarImage: "",
     color: Colors.greyLight,
     links: [],
     useNativeIcons: false,
   };
-  const coverImagePreview = ref("");
-  const avatarImagePreview = ref("");
 
   const card = reactive<Card>({
     ...defaultCard,
   });
+
+  // Multipart form receives a Blob, so we need to store it.
+  const avatarImageBlob = ref<Blob | null>(null);
+  const coverImageBlob = ref<Blob | null>(null);
+
   // Controls the view of the card editor.
   const view = ref(0);
 
@@ -43,7 +46,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
   const imageDropDialog = ref(false);
 
   const removeCoverImage = () => {
-    card.coverImage = null;
+    card.coverImage = "";
   };
 
   const createForm = () => {
@@ -53,6 +56,14 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
         form.append(key, JSON.stringify(value));
         return;
       }
+      // send coverimage and avatarimage as blobs
+      if (key === "coverImage" && coverImageBlob.value) {
+        form.append(key, coverImageBlob.value);
+        return;
+      }
+      if (key === "avatarImage" && avatarImageBlob.value) {
+        form.append(key, avatarImageBlob.value);
+      }
       form.append(key, value as string | Blob);
     });
     return form;
@@ -60,8 +71,6 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
 
   const setCard = (newCard: Card) => {
     Object.assign(card, newCard);
-    coverImagePreview.value = card.coverImage as string;
-    avatarImagePreview.value = card.avatarImage as string;
   };
 
   // Called when the editor is closed.
@@ -80,8 +89,8 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
     card,
     isEditingImage,
     imageDropDialog,
-    coverImagePreview,
-    avatarImagePreview,
+    avatarImageBlob,
+    coverImageBlob,
     createForm,
     removeCoverImage,
     setCard,

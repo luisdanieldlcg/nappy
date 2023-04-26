@@ -16,14 +16,11 @@
       </template>
     </div>
   </v-card-text>
-  <v-list v-if="!small" nav class="pa-4 ml-2">
-    <LinkItem
-      v-for="link in card.links"
-      :link="link"
-      :color="card.color"
-      :useNativeIcons="card.useNativeIcons"
-    />
-  </v-list>
+  <template v-if="!small">
+    <div class="mt-2">
+      <ReorderableLinks v-if="!small" :card="card" :can-drag="canDrag" />
+    </div>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +29,7 @@ import { Card } from "~~/stores/card-editor.store";
 const props = defineProps<{
   card: Card;
   small: boolean;
+  canDrag: boolean;
 }>();
 
 const classes = computed(() => {

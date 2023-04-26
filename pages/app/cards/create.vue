@@ -30,8 +30,8 @@ const dto = reactive<Card>({
   jobTitle: "",
   company: "",
   color: Colors.greyLight,
-  avatarImage: null,
-  coverImage: null,
+  avatarImage: '',
+  coverImage: '',
   links: [],
   useNativeIcons: false,
 });

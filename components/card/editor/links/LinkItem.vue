@@ -1,16 +1,11 @@
 <template>
   <v-list-item :key="link.title">
     <template #title>
-      <v-list-item-title
-        style="font-size: 14px"
-        v-text="link.title"
-        class="text-capitalize"
-      />
+      <v-list-item-title style="font-size: 14px" v-text="link.title" />
     </template>
     <template #subtitle>
-      <p class="text-capitalize">{{ subtitleDisplay }}</p>
+      <p style="font-size: 13px">{{ subtitleDisplay }}</p>
     </template>
-
     <template #prepend>
       <v-avatar :color="useNativeIcons ? undefined : color">
         <Icon
@@ -25,6 +20,9 @@
         />
       </v-avatar>
     </template>
+    <template #append>
+      <slot name="append"></slot>
+    </template>
   </v-list-item>
 </template>
 
@@ -32,7 +30,7 @@
 const props = defineProps<{
   link: {
     title: string;
-    subtitle: string;
+    subtitle?: string;
     type: string;
   };
   color: string;
@@ -40,6 +38,7 @@ const props = defineProps<{
 }>();
 
 const subtitleDisplay = computed(() => {
+  if (!props.link.subtitle) return "";
   return (
     props.link.subtitle.charAt(0).toUpperCase() +
     props.link.subtitle.slice(1).toLowerCase()

@@ -18,7 +18,7 @@
       :image="card.avatarImage"
       :size="avatarSize"
     />
-    <CardCoverContent :card="card" :small="isMini" />
+    <CardCoverContent :card="card" :small="isMini" :can-drag="canDrag" />
     <slot name="actions" />
   </v-card>
 </template>
@@ -28,7 +28,7 @@ import { LinkDTO } from "~~/api/dtos/card.dto";
 
 type Mode = "mini" | "normal" | "extended";
 
-type CardPreview = {
+export type CardPreview = {
   color: string;
   firstName: string;
   lastName: string;
@@ -42,6 +42,7 @@ type CardPreview = {
 };
 const props = defineProps<{
   card: CardPreview;
+  canDrag: boolean;
   mode: Mode;
 }>();
 

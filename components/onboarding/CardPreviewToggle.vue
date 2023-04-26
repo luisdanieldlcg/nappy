@@ -16,21 +16,14 @@
       key="custom-card"
       @after-leave="nextTransition('default-card')"
     >
-      <CardCover
-        :card="{
-          ...card,
-          coverImage: '',
-          avatarImage: '',
-        }"
-        mode="normal"
-      />
+      <CardCover :can-drag="true" :card="card" mode="normal" />
     </v-scale-transition>
     <v-scale-transition
       v-show="showDefaultCard"
       key="default-card"
       @after-leave="nextTransition('custom-card')"
     >
-      <CardCover :card="defaultCard" mode="extended">
+      <CardCover :card="defaultCard" mode="extended" :can-drag="false">
         <template #header>
           <img src="~/assets/images/beautiful-garden.jpg" height="255" />
         </template>
@@ -53,35 +46,6 @@
 
 <script setup lang="ts">
 import { CardDTO } from "~/api/dtos/card.dto";
-
-// The goal is to have a smooth transition between the default card and the custom card
-// The card that will appear first is the default card, then the custom card will appear
-
-const showDefaultCard = ref(true);
-const showCustomCard = ref(false);
-
-// Now we need to swap the transitions, but only after one has finished,
-// thus we use the after-leave event
-
-const startLeaving = () => {
-  // This function will be called in the button to trigger the transition
-  // Now we need to know which card is currently showing to reset the transition.
-  if (showDefaultCard.value) {
-    showDefaultCard.value = false;
-  }
-  if (showCustomCard.value) {
-    showCustomCard.value = false;
-  }
-};
-
-const nextTransition = (key: string) => {
-  if (key === "default-card") {
-    showDefaultCard.value = true;
-  }
-  if (key === "custom-card") {
-    showCustomCard.value = true;
-  }
-};
 const onboard = useOnboardingStore();
 const { card } = storeToRefs(onboard);
 const defaultCard = reactive<CardDTO>({
@@ -115,6 +79,41 @@ const defaultCard = reactive<CardDTO>({
   ],
   useNativeIcons: false,
   id: "",
+});
+// The goal is to have a smooth transition between the default card and the custom card
+// The card that will appear first is the default card, then the custom card will appear
+
+const showDefaultCard = ref(true);
+const showCustomCard = ref(false);
+
+// Now we need to swap the transitions, but only after one has finished,
+// thus we use the after-leave event
+
+const startLeaving = () => {
+  // This function will be called in the button to trigger the transition
+  // Now we need to know which card is currently showing to reset the transition.
+  if (showDefaultCard.value) {
+    showDefaultCard.value = false;
+  }
+  if (showCustomCard.value) {
+    showCustomCard.value = false;
+  }
+};
+
+const nextTransition = (key: string) => {
+  if (key === "default-card") {
+    showDefaultCard.value = true;
+  }
+  if (key === "custom-card") {
+    showCustomCard.value = true;
+  }
+};
+
+const stopHandle = watchEffect(() => {
+  if (onboard.step === 1) {
+    startLeaving();
+    stopHandle();
+  }
 });
 </script>
 
