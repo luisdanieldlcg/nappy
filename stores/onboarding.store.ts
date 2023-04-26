@@ -23,6 +23,18 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     useNativeIcons: false,
   });
 
+  const cardBeforeEdit = reactive<Card>({
+    label: "Work",
+    firstName: "Daniel",
+    lastName: "dlc",
+    jobTitle: "",
+    company: "",
+    color: Colors.greyLight,
+    avatarImage: null,
+    coverImage: null,
+    links: [],
+    useNativeIcons: false,
+  });
   const accountForm = reactive({
     email: "",
     password: "",
@@ -69,6 +81,7 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     loading,
     selectedCardField,
     showCardFieldModal,
+    cardBeforeEdit,
     createAccount,
     processForm,
     card,

@@ -40,20 +40,14 @@
 </template>
 
 <script setup lang="ts">
-import "maz-ui/css/main.css";
+import { Result } from "maz-ui/components/MazPhoneNumberInput";
 
-import MazPhoneNumberInput, {
-  Result,
-} from "maz-ui/components/MazPhoneNumberInput";
-
-import { CardLink } from "~~/api/dtos/card.dto";
+import { linksNoURL, mobileLinks } from "~~/api/dtos/card.dto";
 const editor = useLinkEditorStore();
 const { linkPreview } = storeToRefs(editor);
 
-const canHandlePhone = computed(
-  () =>
-    editor.linkPreview.type === "phone" ||
-    editor.linkPreview.type === "whatsapp"
+const canHandlePhone = computed(() =>
+  mobileLinks.includes(editor.linkPreview.type)
 );
 const phoneNumberResult = ref<Result>();
 
@@ -62,10 +56,7 @@ const onPhoneNumberUpdate = (event: any) => {
   editor.isValidLink = event.isValid;
 };
 
-// This array contains the links that do not handle an URL
-const noURL: CardLink[] = ["phone", "email", "whatsapp"];
-
 const canHandleURL = computed(() => {
-  return !noURL.includes(editor.linkPreview.type);
+  return !linksNoURL.includes(editor.linkPreview.type);
 });
 </script>

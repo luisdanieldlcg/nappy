@@ -18,10 +18,7 @@
           autocomplete="off"
           @submit.prevent
         >
-          <OnboardingDialog
-            v-model="onboarding.showCardFieldModal"
-            :selected="onboarding.selectedCardField"
-          />
+          <component :is="dialog" v-model="onboarding.showCardFieldModal" />
           <v-snackbar v-model="snackbar" color="black" class="elevation-0">
             <p>
               {{ onboarding.errorMessage }}
@@ -65,6 +62,14 @@ const form = ref<HTMLFormElement | null>(null);
 const snackbar = ref(false);
 const isFormValid = ref(false);
 const onboarding = useOnboardingStore();
+const personalDetails = ["name", "job", "company"];
+
+const dialog = computed(() => {
+  if (personalDetails.includes(onboarding.selectedCardField)) {
+    return resolveComponent("PersonalDetailsDialog");
+  }
+  return resolveComponent("LinksDialog");
+});
 
 const onNext = async (nextCallback: () => void) => {
   if (isFormValid.value) {
