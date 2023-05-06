@@ -18,7 +18,11 @@
           autocomplete="off"
           @submit.prevent
         >
-          <component :is="dialog" v-model="onboarding.showCardFieldModal" />
+          <component
+            :is="dialog"
+            :is-editing="onboarding.linkModalRequest.isEditing"
+            v-model="onboarding.linkModalRequest.show"
+          />
           <v-snackbar v-model="snackbar" color="black" class="elevation-0">
             <p>
               {{ onboarding.errorMessage }}
@@ -65,7 +69,7 @@ const onboarding = useOnboardingStore();
 const personalDetails = ["name", "job", "company"];
 
 const dialog = computed(() => {
-  if (personalDetails.includes(onboarding.selectedCardField)) {
+  if (personalDetails.includes(onboarding.linkModalRequest.field)) {
     return resolveComponent("PersonalDetailsDialog");
   }
   return resolveComponent("LinksDialog");

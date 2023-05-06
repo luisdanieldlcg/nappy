@@ -36,12 +36,7 @@
         >
           <CardCover :card="card" mode="mini" :can-drag="false">
             <template #actions>
-              <CardCoverMenu
-                :card="{
-                  ...card,
-                }"
-                @menu-clicked="selectCard"
-              />
+              <CardCoverMenu :card="card" @menu-clicked="selectCard" />
             </template>
           </CardCover>
         </v-col>

@@ -15,7 +15,7 @@
     <h3 class="text-grey-subtitle py-6">Add your links</h3>
     <v-row justify="center">
       <v-col cols="7">
-        <BusinessCardLinks center-title @field-click="selectItem"/>
+        <BusinessCardLinks center-title @field-click="selectItem" />
       </v-col>
     </v-row>
   </div>
@@ -47,7 +47,10 @@ const personalDetailsFields: Field[] = [
 ];
 const onboarding = useOnboardingStore();
 const selectItem = (item: FieldType) => {
-  onboarding.selectedCardField = item;
-  onboarding.showCardFieldModal = true;
+  onboarding.updateLinkModalReq({
+    field: item,
+    index: -1,
+    isEditing: false,
+  });
 };
 </script>

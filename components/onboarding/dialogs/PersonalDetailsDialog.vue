@@ -37,18 +37,18 @@
 
 <script setup lang="ts">
 const onboarding = useOnboardingStore();
-const title = computed(() => "Enter your " + onboarding.selectedCardField);
-const isNameField = computed(() => onboarding.selectedCardField === "name");
-const isJobField = computed(() => onboarding.selectedCardField === "job");
+const title = computed(() => "Enter your " + onboarding.linkModalRequest.field);
+const isNameField = computed(
+  () => onboarding.linkModalRequest.field === "name"
+);
+const isJobField = computed(() => onboarding.linkModalRequest.field === "job");
 const isCompanyField = computed(() => {
-  return onboarding.selectedCardField === "company";
+  return onboarding.linkModalRequest.field === "company";
 });
+
 const onVisibilityChanged = (visible: boolean) => {
   if (visible) {
-    Object.assign(
-      onboarding.cardBeforeEdit,
-      JSON.parse(JSON.stringify(onboarding.card))
-    );
+    Object.assign(onboarding.cardBeforeEdit, onboarding.card);
   }
 };
 const onCancel = () => {

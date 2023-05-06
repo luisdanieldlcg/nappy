@@ -18,14 +18,21 @@
       :image="card.avatarImage"
       :size="avatarSize"
     />
-    <CardCoverContent :card="card" :small="isMini" :can-drag="canDrag" />
+    <CardCoverContent
+      :card="card"
+      :small="isMini"
+      :can-drag="canDrag"
+      @link-click="(link, index) => $emit('link-click', link, index)"
+    />
     <slot name="actions" />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { LinkDTO } from "~~/api/dtos/card.dto";
-
+defineEmits<{
+  (event: "link-click", item: LinkDTO, index: number): void;
+}>();
 type Mode = "mini" | "normal" | "extended";
 
 export type CardPreview = {

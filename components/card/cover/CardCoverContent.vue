@@ -18,18 +18,28 @@
   </v-card-text>
   <template v-if="!small">
     <div class="mt-2">
-      <ReorderableLinks v-if="!small" :card="card" :can-drag="canDrag" />
+      <ReorderableLinks
+        v-if="!small"
+        :card="card"
+        :can-drag="canDrag"
+        @click="(link, index) => $emit('link-click', link, index)"
+      />
     </div>
   </template>
 </template>
 
 <script setup lang="ts">
+import { LinkDTO } from "~/api/dtos/card.dto";
 import { Card } from "~~/stores/card-editor.store";
 
 const props = defineProps<{
   card: Card;
   small: boolean;
   canDrag: boolean;
+}>();
+
+defineEmits<{
+  (event: "link-click", item: LinkDTO, index: number): void;
 }>();
 
 const classes = computed(() => {

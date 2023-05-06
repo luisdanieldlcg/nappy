@@ -11,12 +11,14 @@
                 }
               : {}
           "
-          @mouseover="updateHoverState(true, index)"
-          @mouseleave="updateHoverState(false, index)"
           :border="canDrag && hover.value && hover.index === index"
           :link="element"
           :color="card.color"
           :use-native-icons="card.useNativeIcons"
+          @click="$emit('click', element, index as number)"
+          @mouseover="updateHoverState(true, index)"
+          @mouseleave="updateHoverState(false, index)"
+          :ripple="false"
         >
           <template #append>
             <slot
@@ -39,6 +41,9 @@ import { Card } from "~/stores/card-editor.store";
 const props = defineProps<{
   card: Card;
   canDrag: boolean;
+}>();
+defineEmits<{
+  (event: "click", item: LinkDTO, index: number): void;
 }>();
 const updateHoverState = (value: boolean, index: number) => {
   hover.value = {

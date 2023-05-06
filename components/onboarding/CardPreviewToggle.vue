@@ -1,22 +1,29 @@
 <template>
   <v-sheet color="background">
-    <v-row>
-      <v-spacer></v-spacer>
-      <p style="font-size: 13px">Live preview</p>
-      <v-spacer></v-spacer>
-      <Icon
-        name="system-uicons:swap"
-        class="mr-10"
-        @click="startLeaving"
-        style="cursor: pointer"
-      />
+    <v-row align="center" v-if="onboard.step === 1">
+      <v-col cols="4" offset="4">
+        <p>{{ title }}</p>
+      </v-col>
+      <v-col cols="4">
+        <Icon
+          name="icon-park-outline:preview-open"
+          class="mr-10"
+          @click="startLeaving"
+          style="cursor: pointer"
+        />
+      </v-col>
     </v-row>
     <v-scale-transition
       v-show="showCustomCard"
       key="custom-card"
       @after-leave="nextTransition('default-card')"
     >
-      <CardCover :can-drag="true" :card="card" mode="normal" />
+      <CardCover
+        :can-drag="true"
+        :card="card"
+        mode="normal"
+        @link-click="onLinkClicked"
+      />
     </v-scale-transition>
     <v-scale-transition
       v-show="showDefaultCard"
@@ -45,9 +52,25 @@
 </template>
 
 <script setup lang="ts">
-import { CardDTO } from "~/api/dtos/card.dto";
+import { CardDTO, LinkDTO } from "~/api/dtos/card.dto";
+// The goal is to have a smooth transition between the default card and the custom card
+// The card that will appear first is the default card, then the custom card will appear
+const showDefaultCard = ref(true);
+const showCustomCard = ref(false);
 const onboard = useOnboardingStore();
+
 const { card } = storeToRefs(onboard);
+const title = computed(() => {
+  return showDefaultCard.value ? "Demo preview" : "Live preview";
+});
+
+const onLinkClicked = (item: LinkDTO, index: number) => {
+  onboard.updateLinkModalReq({
+    field: item.type,
+    index,
+    isEditing: true,
+  });
+};
 const defaultCard = reactive<CardDTO>({
   label: "Personal",
   firstName: "Mattew",
@@ -80,11 +103,6 @@ const defaultCard = reactive<CardDTO>({
   useNativeIcons: false,
   id: "",
 });
-// The goal is to have a smooth transition between the default card and the custom card
-// The card that will appear first is the default card, then the custom card will appear
-
-const showDefaultCard = ref(true);
-const showCustomCard = ref(false);
 
 // Now we need to swap the transitions, but only after one has finished,
 // thus we use the after-leave event
