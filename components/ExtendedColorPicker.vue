@@ -1,32 +1,37 @@
 <template>
-  <v-row >
+  <v-row justify="center">
     <v-col cols="1" class="pa-0">
       <ColorCard
         :multi-color="true"
         @click="openColorPicker"
-        :outline="!availableColors.includes(store.card.color)"
+        :outline="!availableColors.includes(modelValue)"
       />
     </v-col>
     <v-col v-for="color in availableColors" cols="1" class="pa-0">
       <ColorCard
         :color="color"
-        @click="pickColor(color)"
-        :outline="store.card.color === color"
+        @click="$emit('update:modelValue', color)"
+        :outline="modelValue === color"
       />
     </v-col>
   </v-row>
   <v-dialog v-model="showColorPicker" class="text-center">
     <v-color-picker
       show-swatches
-      v-model="store.card.color"
+      :model-value="modelValue"
+      @update:model-value="(selection) => $emit('update:modelValue', selection)"
       class="mx-auto"
     ></v-color-picker>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-// I need to remove the v-dialog overlay from the color picker
-const store = useCardEditorStore();
+defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+});
 
 const showColorPicker = ref(false);
 const availableColors = [
@@ -42,9 +47,5 @@ const availableColors = [
 
 const openColorPicker = () => {
   showColorPicker.value = true;
-};
-
-const pickColor = (selection: string) => {
-  store.card.color = selection;
 };
 </script>

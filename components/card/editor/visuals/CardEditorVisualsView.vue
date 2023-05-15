@@ -20,7 +20,7 @@
     title="Pick your favorite theme"
     icon="mingcute:color-picker-fill"
   />
-  <CardEditorColorPicker />
+  <ExtendedColorPicker v-model="editorStore.card.color" />
   <v-switch
     class="ml-5 d-inline-block"
     color="black"

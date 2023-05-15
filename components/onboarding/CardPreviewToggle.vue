@@ -1,53 +1,57 @@
 <template>
   <v-sheet color="background">
-    <v-row align="center" v-if="onboard.step === 1">
-      <v-col cols="4" offset="4">
+    <v-row align="center" justify="center" v-if="onboard.step === 1">
+      <v-col :cols="showCustomCard ? 2 : 4" offset="3" class="pb-0">
         <p>{{ title }}</p>
       </v-col>
-      <v-col cols="4">
+      <v-col :cols="3" class="pb-0 pl-0">
         <Icon
           name="icon-park-outline:preview-open"
-          class="mr-10"
           @click="startLeaving"
           style="cursor: pointer"
         />
       </v-col>
     </v-row>
-    <v-scale-transition
-      v-show="showCustomCard"
-      key="custom-card"
-      @after-leave="nextTransition('default-card')"
-    >
-      <CardCover
-        :can-drag="true"
-        :card="card"
-        mode="normal"
-        @link-click="onLinkClicked"
-      />
-    </v-scale-transition>
-    <v-scale-transition
-      v-show="showDefaultCard"
-      key="default-card"
-      @after-leave="nextTransition('custom-card')"
-    >
-      <CardCover :card="defaultCard" mode="extended" :can-drag="false">
-        <template #header>
-          <img src="~/assets/images/beautiful-garden.jpg" height="255" />
-        </template>
-        <template #avatar>
-          <CardCoverAvatar :size="130" class="mb-4">
-            <v-avatar size="120" class="card-shadow-light">
-              <img
-                src="~/assets/images/business-man.png"
-                width="200"
-                height="170"
-                class="mt-8"
-              />
-            </v-avatar>
-          </CardCoverAvatar>
-        </template>
-      </CardCover>
-    </v-scale-transition>
+    <v-row justify="center">
+      <v-scale-transition
+        v-show="showCustomCard"
+        key="custom-card"
+        @after-leave="nextTransition('default-card')"
+      >
+        <CardCover
+          :can-drag="true"
+          :card="card"
+          mode="normal"
+          @link-click="onLinkClicked"
+        />
+      </v-scale-transition>
+      <v-scale-transition
+        v-show="showDefaultCard"
+        key="default-card"
+        @after-leave="nextTransition('custom-card')"
+      >
+        <CardCover :card="defaultCard" mode="extended" :can-drag="false">
+          <template #header>
+            <img src="~/assets/images/beautiful-garden.jpg" height="255" />
+          </template>
+          <template #avatar>
+            <CardCoverAvatar :size="130" class="mb-4">
+              <v-avatar size="120" class="card-shadow-light">
+                <img
+                  src="~/assets/images/business-man.png"
+                  width="200"
+                  height="170"
+                  class="mt-8"
+                />
+              </v-avatar>
+            </CardCoverAvatar>
+          </template>
+        </CardCover>
+      </v-scale-transition>
+      <v-col cols="8" v-if="showCustomCard">
+        <ExtendedColorPicker v-model="card.color" />
+      </v-col>
+    </v-row>
   </v-sheet>
 </template>
 
