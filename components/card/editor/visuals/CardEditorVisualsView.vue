@@ -49,6 +49,7 @@ const imageEditor = useImageEditor();
 const editorStore = useCardEditorStore();
 const imagePicked = (image: string) => {
   imageEditor.onOpen(image);
+  editorStore.isEditingImage = true;
 };
 
 // The image slots are the images that can be edited and appended to the card

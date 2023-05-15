@@ -1,11 +1,15 @@
 <template>
-  <CardCropperContainer>
+  <CardCropperContainer
+    @cancel="$emit('cancel')"
+    @crop="(blob) => $emit('crop', blob)"
+  >
     <cropper
       :src="imageEditorStore.image"
       style="position: relative"
       ref="imageCropper"
       class="cropper"
       background-class="cropper-background"
+      foreground-class="cropper-foreground"
       image-restriction="stencil"
       :stencil-component="stencilComponent"
       :stencil-size="{
@@ -51,6 +55,11 @@ const stencilComponent = computed(() => {
   }
   return CircleStencil;
 });
+
+defineEmits<{
+  (event: "cancel"): void;
+  (event: "crop", blob: Blob): void;
+}>();
 
 // TODO: bind this to the card width and height
 const aspectRatio = computed(() => {
@@ -145,5 +154,8 @@ const cropperButtons = [
 
 .cropper-background {
   background: none;
+}
+.cropper-foreground {
+  width: 1000px !important;
 }
 </style>

@@ -25,6 +25,9 @@
 
 <script setup lang="ts">
 import { Preview } from "vue-advanced-cropper";
+import { Card } from "~/stores/card-editor.store";
 const { preview, imageSlot } = storeToRefs(useImageEditor());
-const { card } = storeToRefs(useCardEditorStore());
+defineProps<{
+  card: Card;
+}>();
 </script>

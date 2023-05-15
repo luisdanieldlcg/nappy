@@ -13,6 +13,7 @@ export const useOnboardingStore = defineStore("onboarding", () => {
   const errorMessage = ref("");
   const showAlert = ref(false);
   const loading = ref(false);
+  const editingImage = ref(false);
   const linkModalRequest = ref<LinkModalReq>({
     field: "name",
     show: false,
@@ -111,6 +112,7 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     cardBeforeEdit,
     card,
     linkModalRequest,
+    editingImage,
     createAccount,
     processForm,
     updateLinkModalReq,

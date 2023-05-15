@@ -21,29 +21,18 @@
 </template>
 
 <script setup lang="ts">
-import { useCardEditorStore } from "~~/stores/card-editor.store";
-const editor = useCardEditorStore();
 const image = useImageEditor();
-
+const emit = defineEmits<{
+  (event: "cancel"): void;
+  (event: "crop", blob: Blob): void;
+}>();
 const onCancel = () => {
-  editor.isEditingImage = false;
-  editor.view = 1;
+  emit("cancel");
 };
 const onCrop = () => {
-  editor.isEditingImage = false;
-  editor.view = 1;
   image.preview?.canvas?.toBlob((blob) => {
     if (!blob) return;
-    switch (image.imageSlot) {
-      case ImageType.Cover:
-        editor.coverImageBlob = blob;
-        editor.card.coverImage = URL.createObjectURL(blob);
-        break;
-      case ImageType.Avatar:
-        editor.avatarImageBlob = blob;
-        editor.card.avatarImage = URL.createObjectURL(blob);
-        break;
-    }
+    emit("crop", blob);
   });
 };
 </script>

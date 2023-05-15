@@ -1,34 +1,59 @@
 <template>
-  <v-sheet color="background">
-    <v-row align="center" justify="center" v-if="onboard.step === 1">
-      <v-col :cols="showCustomCard ? 2 : 4" offset="3" class="pb-0">
-        <p>{{ title }}</p>
-      </v-col>
-      <v-col :cols="3" class="pb-0 pl-0">
-        <Icon
-          name="icon-park-outline:preview-open"
-          @click="startLeaving"
-          style="cursor: pointer"
-        />
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-scale-transition
-        v-show="showCustomCard"
-        key="custom-card"
-        @after-leave="nextTransition('default-card')"
-      >
-        <CardCover
-          :can-drag="true"
-          :card="card"
-          mode="normal"
-          @link-click="onLinkClicked"
-        />
-      </v-scale-transition>
+  <div>
+    <v-sheet color="background">
+      <v-row align="center" justify="center" v-if="showTitle">
+        <v-col :cols="showCustomCard ? 2 : 4" offset="3" class="pb-0">
+          <p
+            class="font-weight-bold text-grey-subtitle"
+            style="font-size: 17px"
+          >
+            {{ title }}
+          </p>
+        </v-col>
+        <v-col :cols="3" class="pb-0 pl-0">
+          <Icon
+            name="icon-park-outline:preview-open"
+            color="#313131"
+            @click="startLeaving"
+            style="cursor: pointer"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row justify="center">
+        <v-scale-transition
+          :key="PREVIEW_CARD_KEY"
+          v-show="showPreviewCard"
+          @after-leave="handleCardPreviewLeave"
+        >
+          <CardCropperPreview :card="card" v-if="onboard.editingImage" />
+        </v-scale-transition>
+
+        <v-scale-transition
+          v-show="showCustomCard"
+          :key="CUSTOM_CARD_KEY"
+          @after-leave="handleCustomCardLeave"
+        >
+          <CardCover
+            v-if="!onboard.editingImage"
+            :can-drag="true"
+            :card="card"
+            mode="normal"
+            @link-click="onLinkClicked"
+            @avatar-clicked="onAvatarClicked"
+            @background-clicked="onBackgroundClicked"
+          />
+        </v-scale-transition>
+
+        <v-col cols="7" v-if="showCustomCard" class="ml-16">
+          <ExtendedColorPicker v-model="card.color" />
+        </v-col>
+      </v-row>
+
       <v-scale-transition
         v-show="showDefaultCard"
-        key="default-card"
-        @after-leave="nextTransition('custom-card')"
+        :key="CUSTOM_CARD_KEY"
+        @after-leave="nextTransition(CUSTOM_CARD_KEY)"
       >
         <CardCover :card="defaultCard" mode="extended" :can-drag="false">
           <template #header>
@@ -48,11 +73,9 @@
           </template>
         </CardCover>
       </v-scale-transition>
-      <v-col cols="8" v-if="showCustomCard">
-        <ExtendedColorPicker v-model="card.color" />
-      </v-col>
-    </v-row>
-  </v-sheet>
+    </v-sheet>
+    <ImageDropDialog v-model="imageDrop" @picked="imagePicked" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -61,12 +84,50 @@ import { CardDTO, LinkDTO } from "~/api/dtos/card.dto";
 // The card that will appear first is the default card, then the custom card will appear
 const showDefaultCard = ref(true);
 const showCustomCard = ref(false);
+const showPreviewCard = ref(false);
+
+const DEFAULT_CARD_KEY = "default-card";
+const CUSTOM_CARD_KEY = "custom-card";
+const PREVIEW_CARD_KEY = "preview-card";
+
 const onboard = useOnboardingStore();
 
 const { card } = storeToRefs(onboard);
 const title = computed(() => {
   return showDefaultCard.value ? "Demo preview" : "Live preview";
 });
+
+const showTitle = computed(() => {
+  return onboard.step === 1 && !onboard.editingImage;
+});
+const imageDrop = ref(false);
+const imageEditor = useImageEditor();
+
+const handleCardPreviewLeave = () => {
+  return nextTransition(CUSTOM_CARD_KEY);
+};
+const handleCustomCardLeave = () => {
+  // Only show the default card if the user is not editing an image
+  if (!onboard.editingImage) {
+    return nextTransition(DEFAULT_CARD_KEY);
+  } else {
+    return nextTransition(PREVIEW_CARD_KEY);
+  }
+};
+
+const onAvatarClicked = () => {
+  imageDrop.value = true;
+  imageEditor.imageSlot = ImageType.Avatar;
+};
+const onBackgroundClicked = () => {
+  imageDrop.value = true;
+  imageEditor.imageSlot = ImageType.Cover;
+};
+
+const imagePicked = (image: string) => {
+  onboard.editingImage = true;
+  imageEditor.onOpen(image);
+};
 
 const onLinkClicked = (item: LinkDTO, index: number) => {
   onboard.updateLinkModalReq({
@@ -120,14 +181,26 @@ const startLeaving = () => {
   if (showCustomCard.value) {
     showCustomCard.value = false;
   }
+  if (showPreviewCard.value) {
+    showPreviewCard.value = false;
+  }
 };
 
 const nextTransition = (key: string) => {
-  if (key === "default-card") {
+  if (key === DEFAULT_CARD_KEY) {
     showDefaultCard.value = true;
+    showCustomCard.value = false;
+    showPreviewCard.value = false;
   }
-  if (key === "custom-card") {
+  if (key === CUSTOM_CARD_KEY) {
     showCustomCard.value = true;
+    showDefaultCard.value = false;
+    showPreviewCard.value = false;
+  }
+  if (key === PREVIEW_CARD_KEY) {
+    showPreviewCard.value = true;
+    showDefaultCard.value = false;
+    showCustomCard.value = false;
   }
 };
 

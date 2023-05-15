@@ -8,10 +8,10 @@
   >
     <DividedGrid v-if="isEditingImage">
       <template #left>
-        <CardCropperPreview />
+        <CardCropperPreview :card="card" />
       </template>
       <template #right>
-        <CardCropper />
+        <CardCropper @cancel="cancelCrop" @crop="cropImage" />
       </template>
     </DividedGrid>
     <DividedGrid v-else>
@@ -41,33 +41,24 @@ onUnmounted(() => {
 
 const { isEditingImage, card } = storeToRefs(editor);
 
-// const cardMapper = computed(() => {
-//   return {
-//     ...card.value,
-//     // coverImage: coverImagePreview.value,
-//     // avatarImage: avatarImagePreview.value,
-//   };
-// });
+const cancelCrop = () => {
+  editor.isEditingImage = false;
+  editor.view = 1;
+};
 
-// TODO: find a better way to sync the mapper with the store
-// computed properties work but they are not writable
-// writable computed properties did not work, it did not want to call the setter
-// so we are using 2 watchers for now
-// watch(
-//   () => cardMapper,
-//   (value) => {
-//     console.log("updating store")
-//     editor.setCard(value);
-//   },
-//   { deep: true }
-// );
-
-// watch(
-//   () => editor.card,
-//   (value) => {
-//     console.log("")
-//     Object.assign(cardMapper, value);
-//   },
-//   { deep: true }
-// );
+const cropImage = (blob: Blob) => {
+  editor.isEditingImage = false;
+  editor.view = 1;
+  const imageEditor = useImageEditor();
+  switch (imageEditor.imageSlot) {
+    case ImageType.Cover:
+      editor.coverImageBlob = blob;
+      editor.card.coverImage = URL.createObjectURL(blob);
+      break;
+    case ImageType.Avatar:
+      editor.avatarImageBlob = blob;
+      editor.card.avatarImage = URL.createObjectURL(blob);
+      break;
+  }
+};
 </script>

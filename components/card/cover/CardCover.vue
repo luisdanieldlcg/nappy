@@ -11,12 +11,14 @@
       :image="card.coverImage"
       :fallback-color="card.color"
       :height="coverHeight"
+      @click="$emit('background-clicked')"
     />
     <slot name="avatar" />
     <CardCoverAvatar
       v-if="!$slots['avatar']"
       :image="card.avatarImage"
       :size="avatarSize"
+      @click="$emit('avatar-clicked')"
     />
     <CardCoverContent
       :card="card"
@@ -32,6 +34,8 @@
 import { LinkDTO } from "~~/api/dtos/card.dto";
 defineEmits<{
   (event: "link-click", item: LinkDTO, index: number): void;
+  (event: "background-clicked"): void;
+  (event: "avatar-clicked"): void;
 }>();
 type Mode = "mini" | "normal" | "extended";
 

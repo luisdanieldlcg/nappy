@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row>
     <v-col cols="1" class="pa-0">
       <ColorCard
         :multi-color="true"

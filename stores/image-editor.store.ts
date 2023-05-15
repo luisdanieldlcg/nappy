@@ -14,7 +14,6 @@ export const useImageEditor = defineStore("imageEditor", () => {
   };
   const onOpen = (imageToEdit: string) => {
     image.value = imageToEdit;
-    useCardEditorStore().isEditingImage = true;
   };
   const $reset = () => {
     image.value = "";
