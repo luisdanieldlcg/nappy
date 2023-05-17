@@ -2,11 +2,11 @@
   <div class="d-flex flex-column justify-center align-center">
     <v-avatar color="white" :size="size" style="position: absolute">
       <slot>
-        <v-hover>
+        <v-hover :disabled="disableHover">
           <template #="{ isHovering, props }">
             <v-avatar :size="innerSize" v-bind="props" style="cursor: pointer">
               <v-overlay
-                :model-value="isHovering"
+                :model-value="disableHover ? false : isHovering"
                 contained
                 scrim="black"
                 class="align-center justify-center"
@@ -46,6 +46,10 @@ const props = defineProps({
   image: {
     type: String,
     default: undefined,
+  },
+  disableHover: {
+    type: Boolean,
+    default: false,
   },
 });
 const tryDisplayImage = computed(() => {

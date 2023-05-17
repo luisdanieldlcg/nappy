@@ -1,4 +1,3 @@
-import { Result } from "maz-ui/components/MazPhoneNumberInput";
 import { CardLink, LinkDTO, phoneNumberLinks } from "~~/api/dtos/card.dto";
 
 // type Link = Omit<LinkDTO, "id">;

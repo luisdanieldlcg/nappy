@@ -49,7 +49,9 @@ const classes = computed(() => {
   };
 });
 const fullName = computed(() => {
-  return props.card.firstName + " " + props.card.lastName;
+  const firstName = props.card.firstName;
+  const lastName = props.card.lastName;
+  return `${firstName || ""} ${lastName || ""}`;
 });
 
 const labelMargin = computed(() => {

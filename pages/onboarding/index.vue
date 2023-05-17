@@ -40,6 +40,7 @@
           >
             <template #controls="{ nextStep, prevStep }">
               <v-btn
+                v-if="renderContinueBtn"
                 class="elevation-0"
                 color="black"
                 location="center"
@@ -74,7 +75,9 @@ const dialog = computed(() => {
   }
   return resolveComponent("LinksDialog");
 });
-
+const renderContinueBtn = computed(() => {
+  return onboarding.step < steps.length - 1 && !onboarding.editingImage;
+});
 const onNext = async (nextCallback: () => void) => {
   if (isFormValid.value) {
     // only process form if it's valid

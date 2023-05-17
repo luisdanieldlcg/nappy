@@ -56,7 +56,7 @@ export const useCardEditorStore = defineStore("cardEditor", () => {
         form.append(key, JSON.stringify(value));
         return;
       }
-      // send coverimage and avatarimage as blobs
+      // send cover image and avatar image as blobs
       if (key === "coverImage" && coverImageBlob.value) {
         form.append(key, coverImageBlob.value);
         return;

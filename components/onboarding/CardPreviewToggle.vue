@@ -36,6 +36,7 @@
         >
           <CardCover
             v-if="!onboard.editingImage"
+            :locked="!onboard.canEditCard"
             :can-drag="true"
             :card="card"
             mode="normal"
@@ -45,7 +46,11 @@
           />
         </v-scale-transition>
 
-        <v-col cols="7" v-if="showCustomCard" class="ml-16">
+        <v-col
+          cols="7"
+          v-if="showCustomCard && onboard.canEditCard"
+          class="ml-16"
+        >
           <ExtendedColorPicker v-model="card.color" />
         </v-col>
       </v-row>
@@ -116,20 +121,32 @@ const handleCustomCardLeave = () => {
 };
 
 const onAvatarClicked = () => {
+  if (!onboard.canEditCard) {
+    return undefined;
+  }
   imageDrop.value = true;
   imageEditor.imageSlot = ImageType.Avatar;
 };
 const onBackgroundClicked = () => {
+  if (!onboard.canEditCard) {
+    return undefined;
+  }
   imageDrop.value = true;
   imageEditor.imageSlot = ImageType.Cover;
 };
 
 const imagePicked = (image: string) => {
+  if (!onboard.canEditCard) {
+    return undefined;
+  }
   onboard.editingImage = true;
   imageEditor.onOpen(image);
 };
 
 const onLinkClicked = (item: LinkDTO, index: number) => {
+  if (!onboard.canEditCard) {
+    return undefined;
+  }
   onboard.updateLinkModalReq({
     field: item.type,
     index,

@@ -21,7 +21,6 @@ const header: DashPageHeader = {
   icon: "mdi-card-account-details-outline",
   canGoBack: true,
 };
-const editorStore = useCardEditorStore();
 
 const dto = reactive<Card>({
   label: "Work",
@@ -30,12 +29,14 @@ const dto = reactive<Card>({
   jobTitle: "",
   company: "",
   color: Colors.greyLight,
-  avatarImage: '',
-  coverImage: '',
+  avatarImage: "",
+  coverImage: "",
   links: [],
   useNativeIcons: false,
 });
 const cardManager = useCardStore();
+const editorStore = useCardEditorStore();
+
 const createCard = async () => {
   const form = editorStore.createForm();
   await cardManager.create(form);

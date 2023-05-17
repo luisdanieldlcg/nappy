@@ -34,6 +34,10 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     useNativeIcons: false,
   });
 
+  // Multipart form receives a Blob, so we need to store it.
+  const avatarImageBlob = ref<Blob | null>(null);
+  const coverImageBlob = ref<Blob | null>(null);
+
   // Watch for changes in the card links and update the cardBeforeEdit
   // this is so it updates the cardBeforeEdit when the user drags and drops a link
   watch(
@@ -103,6 +107,31 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     linkModalRequest.value.isEditing = opts.isEditing;
     linkModalRequest.value.index = opts.index;
   };
+
+  const canEditCard = computed(() => {
+    return step.value === 1;
+  });
+
+  const createForm = () => {
+    const form = new FormData();
+    Object.entries(card).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        form.append(key, JSON.stringify(value));
+        return;
+      }
+      // send cover image and avatar image as blobs
+      if (key === "coverImage" && coverImageBlob.value) {
+        form.append(key, coverImageBlob.value);
+        return;
+      }
+      if (key === "avatarImage" && avatarImageBlob.value) {
+        form.append(key, avatarImageBlob.value);
+      }
+      form.append(key, value as string | Blob);
+    });
+    return form;
+  };
+
   return {
     accountForm,
     step,
@@ -113,8 +142,12 @@ export const useOnboardingStore = defineStore("onboarding", () => {
     card,
     linkModalRequest,
     editingImage,
+    canEditCard,
+    coverImageBlob,
+    avatarImageBlob,
     createAccount,
     processForm,
     updateLinkModalReq,
+    createForm,
   };
 });

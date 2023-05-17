@@ -1,8 +1,9 @@
 <template>
-  <v-img style="cursor: pointer; position: relative">
-    <v-hover>
+  <v-img style="position: relative">
+    <v-hover :disabled="disableHover">
       <template #="{ isHovering, props }">
         <v-img
+          style="cursor: pointer"
           v-bind="props"
           :src="image"
           :lazy-src="image"
@@ -11,7 +12,7 @@
           @error="showBanner = true"
         >
           <v-overlay
-            :model-value="isHovering"
+            :model-value="disableHover ? false : isHovering"
             contained
             scrim="black"
             class="align-center justify-center"
@@ -48,6 +49,10 @@ defineProps({
   fallbackColor: {
     type: String,
     default: undefined,
+  },
+  disableHover: {
+    type: Boolean,
+    default: false,
   },
 });
 const showBanner = ref(false);

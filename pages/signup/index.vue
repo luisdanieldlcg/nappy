@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <AuthForm
     title="Signup"
     subtitle="Create an account to get started!"
@@ -102,4 +102,12 @@ const trySignup = async (
 .checkbox-highlight {
   color: #e60000;
 }
-</style>
+</style> -->
+
+<template></template>
+
+<script lang="ts">
+definePageMeta({
+  redirect: "/onboarding",
+});
+</script>

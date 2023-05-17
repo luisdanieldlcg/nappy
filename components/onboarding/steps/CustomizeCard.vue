@@ -4,7 +4,7 @@
     <p class="text-muted">Unleash your creativity and design a stunning card</p>
     <div v-if="onboarding.editingImage">
       <v-row justify="center">
-        <v-col cols="7">
+        <v-col cols="7" class="mt-12 ml-10">
           <CardCropper @crop="cropImage" @cancel="closeCrop" />
         </v-col>
       </v-row>
@@ -38,11 +38,14 @@ const onboarding = useOnboardingStore();
 const cropImage = (blob: Blob) => {
   closeCrop();
   const imageEditor = useImageEditor();
+
   switch (imageEditor.imageSlot) {
     case ImageType.Cover:
+      onboarding.coverImageBlob = blob;
       onboarding.card.coverImage = URL.createObjectURL(blob);
       break;
     case ImageType.Avatar:
+      onboarding.avatarImageBlob = blob;
       onboarding.card.avatarImage = URL.createObjectURL(blob);
       break;
   }

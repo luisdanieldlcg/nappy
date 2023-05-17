@@ -11,6 +11,7 @@
       :image="card.coverImage"
       :fallback-color="card.color"
       :height="coverHeight"
+      :disable-hover="locked"
       @click="$emit('background-clicked')"
     />
     <slot name="avatar" />
@@ -18,8 +19,10 @@
       v-if="!$slots['avatar']"
       :image="card.avatarImage"
       :size="avatarSize"
+      :disable-hover="locked"
       @click="$emit('avatar-clicked')"
     />
+
     <CardCoverContent
       :card="card"
       :small="isMini"
@@ -55,6 +58,7 @@ const props = defineProps<{
   card: CardPreview;
   canDrag: boolean;
   mode: Mode;
+  locked?: boolean;
 }>();
 
 const isMini = computed(() => props.mode === "mini");
