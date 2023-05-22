@@ -18,33 +18,21 @@
         label="First Name"
         density="compact"
         v-model="card.firstName"
-        variant="filled"
       />
     </v-col>
     <v-col>
-      <TextField
-        label="Last Name"
-        density="compact"
-        v-model="card.lastName"
-        variant="filled"
-      />
+      <TextField label="Last Name" density="compact" v-model="card.lastName" />
     </v-col>
   </v-row>
   <v-row class="mt-0">
     <v-col>
-      <TextField
-        label="Job Title"
-        density="compact"
-        v-model="card.jobTitle"
-        variant="filled"
-      />
+      <TextField label="Job Title" density="compact" v-model="card.jobTitle" />
     </v-col>
     <v-col>
       <TextField
         label="Company Name"
         density="compact"
         v-model="card.company"
-        variant="filled"
       />
     </v-col>
   </v-row>

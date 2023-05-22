@@ -1,4 +1,9 @@
 $border-radius: 6px;
+
+.v-field__outline__notch {
+  border-width: 0 !important;
+}
+
 .v-text-field input {
   font-size: 14px !important;
 }
