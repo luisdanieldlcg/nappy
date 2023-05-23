@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col cols="11">
       <v-card color="background" elevation="0">
-        <v-toolbar class="ml-9" color="background" density="compact">
+        <v-toolbar class="ml-11" color="background" density="compact">
           <v-tooltip location="bottom">
             <template #activator="{ props }">
               <v-avatar

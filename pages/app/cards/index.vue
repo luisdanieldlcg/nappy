@@ -17,12 +17,7 @@
       <DeleteAction v-if="cardStore.cards.length > 0" />
     </template>
     <!--Content-->
-    <v-card
-      color="background"
-      elevation="0"
-      :max-width="maxWidth"
-      class="pt-0 mt-0 pl-16"
-    >
+    <v-card color="background" elevation="0" :max-width="maxWidth">
       <CardDemo v-if="!cardStore.cards.length" />
       <v-row no-gutters>
         <v-col

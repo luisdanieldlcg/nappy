@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-7">
+  <div class="pt-7 mt-12">
     <v-container>
       <v-row justify="center">
         <v-col cols="12" sm="10" md="9" lg="5">
@@ -23,8 +23,11 @@
   <v-form ref="form" @submit.prevent="submit" autocomplete="off">
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" sm="7" md="6" lg="5" xl="4">
-          <v-card class="elevation-0" :loading="loading ? 'black' : undefined">
+        <v-col cols="12" sm="8" lg="6" xl="5">
+          <v-card
+            class="elevation-0 px-4 py-2"
+            :loading="loading ? 'black' : undefined"
+          >
             <v-card-text>
               <slot name="body"></slot>
               <v-btn
