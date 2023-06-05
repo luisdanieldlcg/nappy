@@ -3,6 +3,7 @@
     <draggable v-model="card.links" :item-key="keyHandler" v-bind="dragOptions">
       <template #item="{ element, index }">
         <LinkItem
+          class="my-2"
           :style="
             canDrag && hover.value && hover.index === index
               ? {

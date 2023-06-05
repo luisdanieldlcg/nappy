@@ -54,7 +54,6 @@
           <ExtendedColorPicker v-model="card.color" />
         </v-col>
       </v-row>
-
       <v-scale-transition
         v-show="showDefaultCard"
         :key="CUSTOM_CARD_KEY"

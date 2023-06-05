@@ -11,22 +11,20 @@
         type="email"
         v-model="email"
         hint="Enter your email to grant you access."
-        label="Email"
+        label="Enter your email"
         clearable
         required
-        autocomplete="off"
       />
       <div class="mt-6"></div>
       <TextField
         variant="solo-filled"
         flat
         v-model="password"
-        label="Password"
+        label="Enter your password"
         type="password"
         hint="Enter your password to grant you access."
         withEye
         required
-        autocomplete="new-password"
       />
     </template>
     <template #redirect>
