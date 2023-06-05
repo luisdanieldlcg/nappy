@@ -23,9 +23,9 @@
   <v-form ref="form" @submit.prevent="submit" autocomplete="off">
     <v-container>
       <v-row justify="center">
-        <v-col cols="12" sm="8" lg="6" xl="5">
+        <v-col cols="12" sm="8" lg="6" xl="4">
           <v-card
-            class="elevation-0 px-4 py-2"
+            class="elevation-0 px-6 py-3"
             :loading="loading ? 'black' : undefined"
           >
             <v-card-text>

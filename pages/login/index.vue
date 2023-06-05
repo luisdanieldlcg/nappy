@@ -6,6 +6,8 @@
   >
     <template #body>
       <TextField
+        flat
+        variant="solo-filled"
         type="email"
         v-model="email"
         hint="Enter your email to grant you access."
@@ -16,6 +18,8 @@
       />
       <div class="mt-6"></div>
       <TextField
+        variant="solo-filled"
+        flat
         v-model="password"
         label="Password"
         type="password"
@@ -60,3 +64,9 @@ const tryLogin = async (
   }
 };
 </script>
+
+<style>
+a {
+  text-decoration: none;
+}
+</style>

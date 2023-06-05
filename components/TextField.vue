@@ -1,13 +1,15 @@
 <template>
   <v-text-field
     density="comfortable"
-    color="primary"
     variant="outlined"
     :type="showText ? 'text' : 'password'"
-    :append-inner-icon="getInnerIcon"
-    @click:append-inner="showText = !showText"
     :rules="applyRules()"
   >
+    
+    <template #append-inner v-if="withEye" >
+      <Icon :name="eyeIcon" color="grey" @click="showText = !showText" style="cursor: pointer;" />
+    </template>
+ 
     <template #details>
       <slot name="details"></slot>
     </template>
@@ -41,11 +43,11 @@ const props = defineProps({
 });
 // By default show text if there is no eye property
 const showText = ref(!props.withEye);
-const getInnerIcon = computed(() => {
+const eyeIcon = computed(() => {
   if (!props.withEye) {
-    return undefined;
+    return "";
   }
-  return showText.value ? "mdi-eye" : "mdi-eye-off";
+  return showText.value ? "mdi-eye-off" : "mdi-eye";
 });
 
 if (props.mustMatch === undefined && props.type === "passwordConfirm") {

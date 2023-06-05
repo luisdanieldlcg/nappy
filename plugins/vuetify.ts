@@ -3,9 +3,8 @@ import "@mdi/font/css/materialdesignicons.css";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
-import { VVirtualScroll } from "vuetify/labs/VVirtualScroll";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
-import { ThemeDefinition } from "vuetify/lib/index";
+import { ThemeDefinition } from "vuetify/vuetify";
 
 const lightTheme: ThemeDefinition = {
   colors: {
@@ -19,7 +18,6 @@ const lightTheme: ThemeDefinition = {
     "grey-subtitle": "#35393b",
   },
 };
-
 const darkTheme: ThemeDefinition = {
   colors: {
     muted: "#6b7385",
@@ -38,7 +36,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     components: {
       ...components,
-      VVirtualScroll,
     },
     directives,
     icons: {
