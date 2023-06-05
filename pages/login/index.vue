@@ -7,6 +7,7 @@
     <template #body>
       <TextField
         flat
+        :rules="emailRules"
         variant="solo-filled"
         type="email"
         v-model="email"
@@ -17,11 +18,11 @@
       />
       <div class="mt-6"></div>
       <TextField
-        variant="solo-filled"
         flat
+        :rules="passwordRules"
+        variant="solo-filled"
         v-model="password"
         label="Enter your password"
-        type="password"
         hint="Enter your password to grant you access."
         withEye
         required
@@ -40,6 +41,7 @@
 
 <script setup lang="ts">
 import { Result } from "true-myth";
+import { emailRules, passwordRules } from "~/config/input-rules";
 import { ILoginDTO } from "~~/api/dtos/login.dto";
 import { AuthModule } from "~~/api/modules/auth.module";
 

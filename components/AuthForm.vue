@@ -14,19 +14,20 @@
     </v-container>
   </div>
 
-  <AnimatedAlert :show="showAlert" v-model="showAlert">
-    <template #default>
-      {{ errorMessage }}
-    </template>
-  </AnimatedAlert>
-
   <v-form ref="form" @submit.prevent="submit" autocomplete="off">
     <v-container>
       <v-row justify="center">
         <v-col cols="12" sm="8" lg="6" xl="4">
+          <AnimatedAlert :show="showAlert" v-model="showAlert">
+            <template #default>
+              {{ errorMessage }}
+            </template>
+          </AnimatedAlert>
+
           <v-card
             class="elevation-0 px-6 py-3"
             :loading="loading ? 'black' : undefined"
+            style="box-shadow: rgba(99, 99, 99, 0.07) 25px 15px 7px 0px !important"
           >
             <v-card-text>
               <slot name="body"></slot>
