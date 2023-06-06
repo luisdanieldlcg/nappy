@@ -18,16 +18,26 @@
     <v-container>
       <v-row justify="center">
         <v-col cols="12" sm="8" lg="6" xl="4">
-          <AnimatedAlert :show="showAlert" v-model="showAlert">
+          <v-snackbar v-model="showSnackbar" color="black">
+            {{ errorMessage }}
+            <template v-slot:actions>
+              <v-btn variant="text" @click="showSnackbar = false"> 
+                <Icon name="carbon:close" />
+              </v-btn>
+            </template>
+          </v-snackbar>
+          <!-- <AnimatedAlert :show="showAlert" v-model="showAlert">
             <template #default>
               {{ errorMessage }}
             </template>
-          </AnimatedAlert>
+          </AnimatedAlert> -->
 
           <v-card
             class="elevation-0 px-6 py-3"
             :loading="loading ? 'black' : undefined"
-            style="box-shadow: rgba(99, 99, 99, 0.07) 25px 15px 7px 0px !important"
+            style="
+              box-shadow: rgba(99, 99, 99, 0.07) 25px 15px 7px 0px !important;
+            "
           >
             <v-card-text>
               <slot name="body"></slot>
@@ -80,7 +90,7 @@ defineProps({
 const form = ref<HTMLFormElement | null>(null);
 const errorMessage = ref("");
 const loading = ref(false);
-const showAlert = ref(false);
+const showSnackbar = ref(false);
 
 const submit = async () => {
   // Fast Return if for some reason the html element is not attached
@@ -97,7 +107,7 @@ const submit = async () => {
   const updateState = (res: Result<unknown, string>) => {
     if (res.isErr) {
       errorMessage.value = res.error;
-      showAlert.value = true;
+      showSnackbar.value = true;
     }
     // We need to set loading to false here
     // because emit will not wait for the child event to finish
