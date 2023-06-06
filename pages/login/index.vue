@@ -8,7 +8,7 @@
       <TextField
         flat
         :rules="emailRules"
-        variant="solo-filled"
+        variant="filled"
         type="email"
         v-model="email"
         hint="Enter your email to grant you access."
@@ -20,7 +20,7 @@
       <TextField
         flat
         :rules="passwordRules"
-        variant="solo-filled"
+        variant="filled"
         v-model="password"
         label="Enter your password"
         hint="Enter your password to grant you access."
