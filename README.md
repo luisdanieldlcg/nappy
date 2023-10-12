@@ -1,42 +1,16 @@
-# Nuxt 3 Minimal Starter
+# Nappy - A Digital Business Card CMS
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A CMS for creating and managing digital business cards.
 
-## Setup
+## Auth
 
-Make sure to install the dependencies:
+![image](misc/login.png)
 
-```bash
-# yarn
-yarn install
+## Onboarding
 
-# npm
-npm install
+![image](misc/onboarding.png)
 
-# pnpm
-pnpm install
-```
+## Creating a card profile
 
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+![image](misc/create_profile.png)
+![image](misc/create_profile_image.png)
